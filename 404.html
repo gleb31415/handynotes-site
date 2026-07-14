@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Page not found — HandyNotes</title>
+  <meta name="robots" content="noindex">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#CC8C85">
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="centered-page">
+
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-pill__wordmark" href="/" aria-label="HandyNotes">
+      <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
+    </a>
+  </nav>
+
+  <main>
+    <div class="container centered-page__wrap">
+
+      <div id="invite-block" class="centered-page__wrap" hidden>
+        <span class="hero__logo" role="img" aria-label="HandyNotes"></span>
+        <h1 class="page-title">You've been invited</h1>
+        <p class="hero__pitch">Redirecting you to the App Store…</p>
+        <a class="badge-store" href="https://apps.apple.com/app/idAPP_STORE_ID" aria-label="Download HandyNotes on the App Store" id="store-link">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M12 7v8M8.5 11.5 12 15l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="badge-store__text">
+            <small>Download on the</small>
+            <strong>App Store</strong>
+          </span>
+        </a>
+      </div>
+
+      <div id="notfound-block" class="centered-page__wrap">
+        <span class="hero__logo" role="img" aria-label="HandyNotes"></span>
+        <h1 class="page-title">Page not found</h1>
+        <p class="hero__pitch">That page doesn't exist. Let's get you back on track.</p>
+        <a class="btn btn-fill" href="/">Go to handynotes.app</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__row">
+      <p class="foot__credit">© 2026 HandyNotes</p>
+      <ul class="foot__links">
+        <li><a href="/">handynotes.app</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>
+    if (window.location.pathname.indexOf("/i/") === 0) {
+      document.getElementById("notfound-block").hidden = true;
+      document.getElementById("invite-block").hidden = false;
+      setTimeout(function () {
+        window.location.href = document.getElementById("store-link").href;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

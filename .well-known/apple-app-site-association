@@ -1,0 +1,8 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      { "appIDs": ["TEAMID.com.glebnaumkin.noto5"], "paths": ["/i/*"] }
+    ]
+  }
+}
