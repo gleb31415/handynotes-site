@@ -1,13 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: stored choice, else browser language */
+    (function () {
+      var l = "en";
+      try { l = localStorage.getItem("hn-lang") || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en"); } catch (e) {}
+      document.documentElement.setAttribute("data-lang", l);
+      document.documentElement.lang = l;
+    })();
+  </script>
   <title>HandyNotes — The notes app where ink keeps up with your hand</title>
   <meta name="description" content="HandyNotes is a free handwriting notes app for iPad and iPhone. Zero-lag Metal ink engine, on-device handwriting search in 8 languages, and PDF-to-ink import. No account, no ads, no subscriptions.">
   <link rel="canonical" href="https://handynotes.app/">
-  <link rel="alternate" hreflang="en" href="https://handynotes.app/">
-  <link rel="alternate" hreflang="ru" href="https://handynotes.app/ru/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="HandyNotes">
@@ -33,23 +40,23 @@
       <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
     </a>
     <ul class="nav-pill__links">
-      <li><a href="/support/">Support</a></li>
-      <li><a href="/privacy/">Privacy</a></li>
-      <li><a href="/terms/">Terms</a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
     </ul>
-    <a class="nav-pill__lang" href="/ru/" lang="ru" hreflang="ru" title="Русская версия">RU</a>
-    <a class="btn btn-fill" href="https://apps.apple.com/app/idAPP_STORE_ID">Get the app</a>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span><span class="i18n-ru">EN</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/idAPP_STORE_ID"><span class="i18n-en">Get the app</span><span class="i18n-ru">Скачать</span></a>
   </nav>
 
   <header class="hero" id="hero">
     <div class="container">
       <div class="hero__stage">
         <span class="hero__halo" aria-hidden="true"></span>
-        <p class="hero__eyebrow hero-in" style="--i:0">Free · iPad &amp; iPhone</p>
+        <p class="hero__eyebrow hero-in" style="--i:0"><span class="i18n-en">Free · iPad &amp; iPhone</span><span class="i18n-ru">Бесплатно · iPad и iPhone</span></p>
         <span class="hero__logo" role="img" aria-label="HandyNotes"></span>
         <span class="hero__handwriting" aria-hidden="true"></span>
       </div>
-      <p class="hero__pitch hero-in" style="--i:1">The notes app where ink keeps up with your hand.</p>
+      <p class="hero__pitch hero-in" style="--i:1"><span class="i18n-en">The notes app where ink keeps up with your hand.</span><span class="i18n-ru">Приложение для заметок, где чернила успевают за рукой.</span></p>
       <div class="hero__cta hero-in" style="--i:2">
         <a class="badge-store" href="https://apps.apple.com/app/idAPP_STORE_ID" aria-label="Download HandyNotes on the App Store">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -57,13 +64,13 @@
             <path d="M12 7v8M8.5 11.5 12 15l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <span class="badge-store__text">
-            <small>Download on the</small>
+            <small><span class="i18n-en">Download on the</span><span class="i18n-ru">Загрузите в</span></small>
             <strong>App Store</strong>
           </span>
         </a>
-        <a class="btn btn-outline" href="#features">See what's inside <span class="btn__arrow">→</span></a>
+        <a class="btn btn-outline" href="#features"><span class="i18n-en">See what's inside</span><span class="i18n-ru">Что внутри</span> <span class="btn__arrow">→</span></a>
       </div>
-      <p class="hero__note hero-in" style="--i:3">Free forever · No account · No ads · No tracking</p>
+      <p class="hero__note hero-in" style="--i:3"><span class="i18n-en">Free forever · No account · No ads · No tracking</span><span class="i18n-ru">Бесплатно навсегда · Без аккаунта · Без рекламы · Без слежки</span></p>
     </div>
   </header>
 
@@ -71,23 +78,29 @@
     <section class="features container" id="features">
 
       <div class="section-head reveal">
-        <h2 class="section-head__title">Everything ink should do on a screen</h2>
+        <h2 class="section-head__title"><span class="i18n-en">Everything ink should do on a screen</span><span class="i18n-ru">Всё, что чернила должны уметь на экране</span></h2>
         <svg class="ink-underline" viewBox="0 0 180 26" aria-hidden="true">
           <path pathLength="1" d="M4 16 C 30 4, 60 24, 92 12 S 150 4, 176 14"/>
         </svg>
-        <p class="section-head__body">Four things HandyNotes takes seriously, so you don't have to think about them.</p>
+        <p class="section-head__body"><span class="i18n-en">Four things HandyNotes takes seriously, so you don't have to think about them.</span><span class="i18n-ru">Четыре вещи, к которым HandyNotes относится всерьёз — чтобы вам не пришлось о них думать.</span></p>
       </div>
 
       <article class="feature reveal" style="--i:0">
         <div class="feature__copy">
-          <p class="feature__kicker">Ink engine</p>
-          <h2 class="feature__title">Ink that keeps pace with your hand</h2>
-          <p class="feature__body">A custom Metal GPU engine renders every stroke the instant you make it — tuned for 120&nbsp;Hz ProMotion and ~240&nbsp;Hz Apple&nbsp;Pencil sampling, with full pressure, tilt, hover, and Pencil&nbsp;Pro squeeze.</p>
-          <ul class="feature__specs">
+          <p class="feature__kicker"><span class="i18n-en">Ink engine</span><span class="i18n-ru">Движок чернил</span></p>
+          <h2 class="feature__title"><span class="i18n-en">Ink that keeps pace with your hand</span><span class="i18n-ru">Чернила, которые успевают за рукой</span></h2>
+          <p class="feature__body"><span class="i18n-en">A custom Metal GPU engine renders every stroke the instant you make it — tuned for 120&nbsp;Hz ProMotion and ~240&nbsp;Hz Apple&nbsp;Pencil sampling, with full pressure, tilt, hover, and Pencil&nbsp;Pro squeeze.</span><span class="i18n-ru">Собственный GPU-движок на Metal отрисовывает каждый штрих мгновенно — настроен под 120&nbsp;Гц ProMotion и ~240&nbsp;Гц частоту опроса Apple&nbsp;Pencil, с полной поддержкой нажима, наклона, hover и сжатия Pencil&nbsp;Pro.</span></p>
+          <ul class="feature__specs i18n-en">
             <li>120 Hz ProMotion</li>
             <li>~240 Hz sampling</li>
             <li>Pressure · tilt · hover</li>
             <li>Pencil Pro squeeze</li>
+          </ul>
+          <ul class="feature__specs i18n-ru">
+            <li>120 Гц ProMotion</li>
+            <li>~240 Гц опрос пера</li>
+            <li>Нажим · наклон · hover</li>
+            <li>Сжатие Pencil Pro</li>
           </ul>
         </div>
         <div class="feature__art" aria-hidden="true">
@@ -101,12 +114,16 @@
 
       <article class="feature feature--reverse reveal" style="--i:1">
         <div class="feature__copy">
-          <p class="feature__kicker">Search</p>
-          <h2 class="feature__title">Search your own handwriting</h2>
-          <p class="feature__body">Every word is indexed on-device the moment you write it, using ML Kit Digital Ink recognition with Vision OCR as a fallback. Find anything you've ever written, without leaving your notebooks.</p>
-          <ul class="lang-strip" aria-label="Supported search languages">
+          <p class="feature__kicker"><span class="i18n-en">Search</span><span class="i18n-ru">Поиск</span></p>
+          <h2 class="feature__title"><span class="i18n-en">Search your own handwriting</span><span class="i18n-ru">Ищите по собственному почерку</span></h2>
+          <p class="feature__body"><span class="i18n-en">Every word is indexed on-device the moment you write it, using ML Kit Digital Ink recognition with Vision OCR as a fallback. Find anything you've ever written, without leaving your notebooks.</span><span class="i18n-ru">Каждое слово индексируется прямо на устройстве в момент написания — распознавание ML Kit Digital Ink с Vision OCR как запасным вариантом. Находите всё, что когда-либо писали, не выходя из тетрадей.</span></p>
+          <ul class="lang-strip i18n-en" aria-label="Supported search languages">
             <li>English</li><li>Russian</li><li>Ukrainian</li><li>Spanish</li>
             <li>French</li><li>German</li><li>Italian</li><li>Portuguese</li>
+          </ul>
+          <ul class="lang-strip i18n-ru" aria-label="Поддерживаемые языки поиска">
+            <li>Английский</li><li>Русский</li><li>Украинский</li><li>Испанский</li>
+            <li>Французский</li><li>Немецкий</li><li>Итальянский</li><li>Португальский</li>
           </ul>
         </div>
         <div class="feature__art" aria-hidden="true">
@@ -121,13 +138,18 @@
 
       <article class="feature reveal" style="--i:2">
         <div class="feature__copy">
-          <p class="feature__kicker">PDF import</p>
-          <h2 class="feature__title">Turn any PDF into editable ink</h2>
-          <p class="feature__body">Import a PDF and HandyNotes converts it into real, erasable pen strokes — automatically detecting paper ruling so lined and grid templates come through intact. Export back out as a true vector PDF whenever you're done.</p>
-          <ul class="feature__specs">
+          <p class="feature__kicker"><span class="i18n-en">PDF import</span><span class="i18n-ru">Импорт PDF</span></p>
+          <h2 class="feature__title"><span class="i18n-en">Turn any PDF into editable ink</span><span class="i18n-ru">Превратите любой PDF в редактируемые чернила</span></h2>
+          <p class="feature__body"><span class="i18n-en">Import a PDF and HandyNotes converts it into real, erasable pen strokes — automatically detecting paper ruling so lined and grid templates come through intact. Export back out as a true vector PDF whenever you're done.</span><span class="i18n-ru">Импортируйте PDF — HandyNotes преобразует его в настоящие стираемые штрихи пера, автоматически распознавая разлиновку: линейка и клетка переносятся без потерь. А когда закончите — экспортируйте обратно в настоящий векторный PDF.</span></p>
+          <ul class="feature__specs i18n-en">
             <li>Editable vector strokes</li>
             <li>Auto paper-ruling detection</li>
             <li>True-vector PDF export</li>
+          </ul>
+          <ul class="feature__specs i18n-ru">
+            <li>Редактируемые векторные штрихи</li>
+            <li>Автоопределение разлиновки</li>
+            <li>Векторный экспорт PDF</li>
           </ul>
         </div>
         <div class="feature__art" aria-hidden="true">
@@ -144,14 +166,20 @@
 
       <article class="feature feature--reverse reveal" style="--i:3">
         <div class="feature__copy">
-          <p class="feature__kicker">For students</p>
-          <h2 class="feature__title">Built for the way students actually study</h2>
-          <p class="feature__body">Geometry snapping straightens freehand lines, circles, arcs, and curves with a draggable ruler. Organize work in folders, tags, and multi-page notebooks, keep a source open in a floating reference window, and write in English or Russian — fully offline.</p>
-          <ul class="feature__specs">
+          <p class="feature__kicker"><span class="i18n-en">For students</span><span class="i18n-ru">Для учёбы</span></p>
+          <h2 class="feature__title"><span class="i18n-en">Built for the way students actually study</span><span class="i18n-ru">Сделано под то, как учатся на самом деле</span></h2>
+          <p class="feature__body"><span class="i18n-en">Geometry snapping straightens freehand lines, circles, arcs, and curves with a draggable ruler. Organize work in folders, tags, and multi-page notebooks, keep a source open in a floating reference window, and write in English or Russian — fully offline.</span><span class="i18n-ru">Геометрическая привязка выпрямляет линии, окружности, дуги и кривые, а линейку можно перетаскивать. Папки, теги и многостраничные тетради, плавающее окно с источником — и всё это офлайн, на английском и русском.</span></p>
+          <ul class="feature__specs i18n-en">
             <li>Geometry snapping</li>
             <li>Folders · tags · notebooks</li>
             <li>Floating reference window</li>
             <li>Offline · free</li>
+          </ul>
+          <ul class="feature__specs i18n-ru">
+            <li>Геометрическая привязка</li>
+            <li>Папки · теги · тетради</li>
+            <li>Плавающее окно-источник</li>
+            <li>Офлайн · бесплатно</li>
           </ul>
         </div>
         <div class="feature__art" aria-hidden="true">
@@ -169,11 +197,11 @@
 
     <section class="cta-strip container reveal">
       <div class="cta-strip__copy">
-        <h2 class="cta-strip__heading">Free, forever. On your terms.</h2>
+        <h2 class="cta-strip__heading"><span class="i18n-en">Free, forever. On your terms.</span><span class="i18n-ru">Бесплатно. Навсегда. На ваших условиях.</span></h2>
         <svg class="ink-underline" viewBox="0 0 180 26" aria-hidden="true">
           <path pathLength="1" d="M4 14 C 40 22, 80 4, 116 14 S 160 20, 176 10"/>
         </svg>
-        <p class="cta-strip__sub">No account, no subscriptions, no ads — just ink that keeps up.</p>
+        <p class="cta-strip__sub"><span class="i18n-en">No account, no subscriptions, no ads — just ink that keeps up.</span><span class="i18n-ru">Без аккаунта, подписок и рекламы — просто чернила, которые успевают.</span></p>
       </div>
       <a class="badge-store" href="https://apps.apple.com/app/idAPP_STORE_ID" aria-label="Download HandyNotes on the App Store">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -181,7 +209,7 @@
           <path d="M12 7v8M8.5 11.5 12 15l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span class="badge-store__text">
-          <small>Download on the</small>
+          <small><span class="i18n-en">Download on the</span><span class="i18n-ru">Загрузите в</span></small>
           <strong>App Store</strong>
         </span>
       </a>
@@ -194,12 +222,12 @@
         <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
       </a>
       <ul class="foot__links">
-        <li><a href="/support/">Support</a></li>
-        <li><a href="/privacy/">Privacy</a></li>
-        <li><a href="/terms/">Terms</a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
         <li><a href="https://t.me/GNaum">Telegram</a></li>
       </ul>
-      <p class="foot__credit">© 2026 HandyNotes. Built by one developer.</p>
+      <p class="foot__credit"><span class="i18n-en">© 2026 HandyNotes. Built by one developer.</span><span class="i18n-ru">© 2026 HandyNotes. Сделано одним разработчиком.</span></p>
     </div>
   </footer>
 

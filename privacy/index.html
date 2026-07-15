@@ -1,13 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: stored choice, else browser language */
+    (function () {
+      var l = "en";
+      try { l = localStorage.getItem("hn-lang") || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en"); } catch (e) {}
+      document.documentElement.setAttribute("data-lang", l);
+      document.documentElement.lang = l;
+    })();
+  </script>
   <title>Privacy Policy — HandyNotes</title>
   <meta name="description" content="HandyNotes privacy policy. Your notes stay on your device by default. Nothing is uploaded without your explicit consent.">
   <link rel="canonical" href="https://handynotes.app/privacy/">
-  <link rel="alternate" hreflang="en" href="https://handynotes.app/privacy/">
-  <link rel="alternate" hreflang="ru" href="https://handynotes.app/ru/privacy/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="HandyNotes">
@@ -27,26 +34,23 @@
       <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
     </a>
     <ul class="nav-pill__links">
-      <li><a href="/support/">Support</a></li>
-      <li><a href="/privacy/">Privacy</a></li>
-      <li><a href="/terms/">Terms</a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
     </ul>
-    <a class="nav-pill__lang" href="/ru/privacy/" lang="ru" hreflang="ru" title="Русская версия">RU</a>
-    <a class="btn btn-fill" href="https://apps.apple.com/app/idAPP_STORE_ID">Get the app</a>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span><span class="i18n-ru">EN</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/idAPP_STORE_ID"><span class="i18n-en">Get the app</span><span class="i18n-ru">Скачать</span></a>
   </nav>
 
   <main class="doc container">
     <header class="doc__header">
-      <h1 class="doc__title">Privacy Policy</h1>
-      <p class="doc__meta">Effective date: July 14, 2026</p>
+      <h1 class="doc__title"><span class="i18n-en">Privacy Policy</span><span class="i18n-ru">Политика конфиденциальности</span></h1>
+      <p class="doc__meta"><span class="i18n-en">Effective date: July 14, 2026</span><span class="i18n-ru">Дата вступления в силу: 14 июля 2026</span></p>
     </header>
 
-    <div class="doc__body">
+    <div class="doc__body i18n-en">
       <div class="callout">
         <p><strong>TL;DR:</strong> Your notes never leave your device. Nothing is uploaded without your explicit consent.</p>
-      </div>
-      <div class="callout callout--ru">
-        <p><strong>Кратко:</strong> Ваши заметки никогда не покидают устройство. Ничего не отправляется без вашего явного согласия.</p>
       </div>
 
       <section>
@@ -109,6 +113,72 @@
         <p>Questions about this policy can go to the same places as support: <a href="https://t.me/GNaum">Telegram</a> or <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a>.</p>
       </section>
     </div>
+
+    <div class="doc__body i18n-ru">
+      <div class="callout">
+        <p><strong>Кратко:</strong> Ваши заметки никогда не покидают устройство. Ничего не отправляется без вашего явного согласия.</p>
+      </div>
+
+      <section>
+        <h2>Что остаётся на вашем устройстве</h2>
+        <p>По умолчанию на устройстве остаётся <strong>всё</strong>: тетради, штрихи, изображения, поисковый индекс, построенный по вашему почерку, и настройки пера. В HandyNotes нет аккаунтов, слежки, рекламы и каких-либо сторонних аналитических SDK.</p>
+      </section>
+
+      <section>
+        <h2>Дата рождения</h2>
+        <p>HandyNotes один раз спрашивает дату рождения при онбординге. Она используется <strong>только локально на устройстве</strong> — чтобы подтвердить, что вам 18 или больше, прежде чем вы сможете включить исследовательский донат, описанный ниже. Дата рождения никогда никуда не отправляется.</p>
+      </section>
+
+      <section>
+        <h2>По желанию: донат почерка для исследований</h2>
+        <p>Вы можете передавать образцы своего почерка в открытый исследовательский датасет. По умолчанию это выключено и требует явного двухшагового согласия: вы включаете функцию, а затем просматриваете и одобряете каждый отдельный образец перед отправкой.</p>
+        <p>Если вы согласились, отправленный образец включает:</p>
+        <ul>
+          <li>Траектории штрихов на уровне слов — координаты x/y, время, нажим, наклон и азимут, записанные во время письма</li>
+          <li>Распознанный текст и язык</li>
+          <li>Какой движок распознавания дал результат и его уверенность</li>
+          <li>Размеры холста и тип указателя (палец или Apple Pencil)</li>
+          <li>Версию приложения и версию текста согласия, который вы приняли</li>
+        </ul>
+        <p>Образцы идентифицируются только случайным ID, созданным на вашем устройстве («writer ID») — никогда не именем, почтой или датой рождения. Согласие можно отозвать в любой момент в профиле — сбор новых образцов прекращается немедленно. Также можно запросить удаление всего отправленного — см. <a href="#deletion-ru">Запросы на удаление данных</a> ниже.</p>
+        <p>Переданные данные публикуются для исследовательских целей под лицензией <strong>CC BY 4.0</strong>.</p>
+      </section>
+
+      <section>
+        <h2>По желанию: обратная связь в приложении</h2>
+        <p>Если вы используете <strong>Настройки → Отправить отзыв</strong>, HandyNotes отправляет ваше сообщение, приложенные скриншоты и, по желанию, адрес почты для ответа. Эти данные хранятся отдельно от исследовательских донатов и намеренно <strong>не</strong> связываются с вашим writer ID.</p>
+      </section>
+
+      <section>
+        <h2>Кто обрабатывает эти данные</h2>
+        <p>Описанные выше необязательные данные (исследовательские донаты и обратная связь) передаются по HTTPS в <strong>Supabase</strong> — там размещены бэкенд и база данных HandyNotes. Никакая другая третья сторона эти данные не получает.</p>
+      </section>
+
+      <section>
+        <h2>Резервная копия в iCloud</h2>
+        <p>Если вы включите резервное копирование, HandyNotes скопирует библиотеку в ваш личный контейнер iCloud Drive — аккаунт iCloud, в который уже вошло ваше устройство. Эта копия принадлежит вам: она хранится в вашем iCloud, и я её никогда не вижу.</p>
+      </section>
+
+      <section id="deletion-ru">
+        <h2>Запросы на удаление данных</h2>
+        <p>Чтобы запросить удаление любых отправленных данных, напишите мне в <a href="https://t.me/GNaum">Telegram</a> или на <a href="mailto:gnaumkin213@gmail.com">почту</a>. Если речь об исследовательских донатах — укажите, пожалуйста, свой writer ID: он есть в настройках.</p>
+      </section>
+
+      <section>
+        <h2>Дети</h2>
+        <p>HandyNotes сознательно не собирает персональные данные детей. Исследовательский донат почерка доступен только пользователям, подтвердившим, что им 18 или больше — проверка выполняется локально по введённой дате рождения.</p>
+      </section>
+
+      <section>
+        <h2>Изменения этой политики</h2>
+        <p>Если политика изменится, обновление будет опубликовано на этой странице с новой датой вступления в силу.</p>
+      </section>
+
+      <section>
+        <h2>Контакты</h2>
+        <p>Вопросы по этой политике — туда же, куда и вопросы поддержки: <a href="https://t.me/GNaum">Telegram</a> или <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a>.</p>
+      </section>
+    </div>
   </main>
 
   <footer class="foot">
@@ -117,12 +187,12 @@
         <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
       </a>
       <ul class="foot__links">
-        <li><a href="/support/">Support</a></li>
-        <li><a href="/privacy/">Privacy</a></li>
-        <li><a href="/terms/">Terms</a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
         <li><a href="https://t.me/GNaum">Telegram</a></li>
       </ul>
-      <p class="foot__credit">© 2026 HandyNotes. Built by one developer.</p>
+      <p class="foot__credit"><span class="i18n-en">© 2026 HandyNotes. Built by one developer.</span><span class="i18n-ru">© 2026 HandyNotes. Сделано одним разработчиком.</span></p>
     </div>
   </footer>
 

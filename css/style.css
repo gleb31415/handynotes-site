@@ -175,12 +175,17 @@ a:hover > .logo-mark { background-color: var(--color-accent); }
 
 .nav-pill .btn { padding: 0.5rem 1rem; font-size: var(--text-sm); }
 
-/* language switcher — a small round chip next to the store button */
+/* language toggle — a small round chip next to the store button; the chip
+   shows the language you'd switch TO (RU while English is active, EN while
+   Russian is active) via the same i18n show/hide rules as the page copy */
 .nav-pill__lang {
   font-size: var(--text-xs);
   font-weight: 700;
   letter-spacing: 0.06em;
+  font-family: inherit;
   color: var(--color-muted);
+  background: none;
+  cursor: pointer;
   padding: 0.45rem 0.7rem;
   border-radius: var(--radius-pill);
   border: var(--rule-hair) solid var(--glass-border);
@@ -188,10 +193,15 @@ a:hover > .logo-mark { background-color: var(--color-accent); }
 }
 .nav-pill__lang:hover { color: var(--color-ink); border-color: var(--color-accent-soft); }
 
-/* three text links + language chip don't fit narrow phones — the links move
-   to the footer there; the chip and store button stay */
+/* JS language switch: one page, two texts — only the inactive language is
+   hidden, so the layout is byte-identical between EN and RU */
+html[data-lang="en"] .i18n-ru { display: none !important; }
+html[data-lang="ru"] .i18n-en { display: none !important; }
+
+/* narrow phones: the pill wraps to a second row instead of hiding buttons */
 @media (max-width: 34rem) {
-  .nav-pill__links { display: none; }
+  .nav-pill { flex-wrap: wrap; justify-content: center; row-gap: 0.4rem; }
+  .nav-pill__links { gap: var(--space-md); }
 }
 
 @media (max-width: 26rem) {

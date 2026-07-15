@@ -1,13 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: stored choice, else browser language */
+    (function () {
+      var l = "en";
+      try { l = localStorage.getItem("hn-lang") || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en"); } catch (e) {}
+      document.documentElement.setAttribute("data-lang", l);
+      document.documentElement.lang = l;
+    })();
+  </script>
   <title>Terms of Use — HandyNotes</title>
   <meta name="description" content="HandyNotes terms of use — plain, short, and human-readable.">
   <link rel="canonical" href="https://handynotes.app/terms/">
-  <link rel="alternate" hreflang="en" href="https://handynotes.app/terms/">
-  <link rel="alternate" hreflang="ru" href="https://handynotes.app/ru/terms/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="HandyNotes">
@@ -27,21 +34,21 @@
       <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
     </a>
     <ul class="nav-pill__links">
-      <li><a href="/support/">Support</a></li>
-      <li><a href="/privacy/">Privacy</a></li>
-      <li><a href="/terms/">Terms</a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
     </ul>
-    <a class="nav-pill__lang" href="/ru/terms/" lang="ru" hreflang="ru" title="Русская версия">RU</a>
-    <a class="btn btn-fill" href="https://apps.apple.com/app/idAPP_STORE_ID">Get the app</a>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span><span class="i18n-ru">EN</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/idAPP_STORE_ID"><span class="i18n-en">Get the app</span><span class="i18n-ru">Скачать</span></a>
   </nav>
 
   <main class="doc container">
     <header class="doc__header">
-      <h1 class="doc__title">Terms of Use</h1>
-      <p class="doc__meta">Effective date: July 14, 2026</p>
+      <h1 class="doc__title"><span class="i18n-en">Terms of Use</span><span class="i18n-ru">Условия использования</span></h1>
+      <p class="doc__meta"><span class="i18n-en">Effective date: July 14, 2026</span><span class="i18n-ru">Дата вступления в силу: 14 июля 2026</span></p>
     </header>
 
-    <div class="doc__body">
+    <div class="doc__body i18n-en">
       <section>
         <h2>The short version</h2>
         <p>HandyNotes is provided free of charge, as-is. You own your notes. If you choose to donate handwriting samples for research, you're licensing those specific samples to the project — nothing else. There's no warranty, and by using the app you accept the usual limits on liability.</p>
@@ -87,6 +94,53 @@
         <p>Questions about these terms can go to <a href="https://t.me/GNaum">Telegram</a> or <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a> — the same places as support.</p>
       </section>
     </div>
+
+    <div class="doc__body i18n-ru">
+      <section>
+        <h2>Коротко</h2>
+        <p>HandyNotes предоставляется бесплатно и «как есть». Ваши заметки принадлежат вам. Если вы решите передать образцы почерка для исследований, вы лицензируете проекту только эти конкретные образцы — и ничего больше. Гарантий нет, и, используя приложение, вы принимаете обычные ограничения ответственности.</p>
+      </section>
+
+      <section>
+        <h2>Приложение</h2>
+        <p>HandyNotes предоставляется <strong>бесплатно</strong> и <strong>«как есть»</strong>, без каких-либо гарантий, явных или подразумеваемых — включая, помимо прочего, гарантии товарной пригодности, соответствия конкретной цели и ненарушения прав. Я добросовестно стараюсь, чтобы всё работало хорошо, но не могу гарантировать бесперебойную, безошибочную работу или пригодность для любых задач.</p>
+      </section>
+
+      <section>
+        <h2>Ваши заметки</h2>
+        <p>Всё, что вы создаёте в HandyNotes, принадлежит вам — тетради, штрихи, изображения и любой импортированный контент. Ничего из написанного никуда не отправляется, если вы явно не включите исследовательский донат, описанный в <a href="/privacy/">Политике конфиденциальности</a>.</p>
+      </section>
+
+      <section>
+        <h2>Исследовательские донаты</h2>
+        <p>Если вы включаете передачу образцов почерка, вы предоставляете лицензию на использование, воспроизведение и публикацию этих конкретных образцов на условиях <strong>Creative Commons Attribution 4.0 (CC&nbsp;BY&nbsp;4.0)</strong> — с момента загрузки каждого образца. Лицензия распространяется только на образцы, которые вы сами решили отправить, — не на тетради и не на какой-либо другой контент.</p>
+      </section>
+
+      <section>
+        <h2>Отсутствие гарантий</h2>
+        <p>HandyNotes предлагается без каких-либо гарантий. Используйте на своё усмотрение и держите собственные резервные копии всего важного — как работает резервное копирование в iCloud, описано на странице <a href="/support/">Поддержки</a>.</p>
+      </section>
+
+      <section>
+        <h2>Ограничение ответственности</h2>
+        <p>В максимальной степени, допускаемой законом, HandyNotes и его разработчик не несут ответственности за любые косвенные, случайные, особые или последующие убытки, возникшие из использования приложения, включая потерю данных, потерю заметок или любые иные потери — даже если о возможности таких убытков было известно.</p>
+      </section>
+
+      <section>
+        <h2>Применимое право</h2>
+        <p>Настоящие условия регулируются законодательством <strong>GOVERNING_LAW</strong> без учёта его коллизионных норм.</p>
+      </section>
+
+      <section>
+        <h2>Изменения условий</h2>
+        <p>Если условия изменятся, обновление будет опубликовано на этой странице с новой датой вступления в силу.</p>
+      </section>
+
+      <section>
+        <h2>Контакты</h2>
+        <p>Вопросы по условиям — в <a href="https://t.me/GNaum">Telegram</a> или на <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a>, туда же, куда и вопросы поддержки.</p>
+      </section>
+    </div>
   </main>
 
   <footer class="foot">
@@ -95,12 +149,12 @@
         <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
       </a>
       <ul class="foot__links">
-        <li><a href="/support/">Support</a></li>
-        <li><a href="/privacy/">Privacy</a></li>
-        <li><a href="/terms/">Terms</a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
         <li><a href="https://t.me/GNaum">Telegram</a></li>
       </ul>
-      <p class="foot__credit">© 2026 HandyNotes. Built by one developer.</p>
+      <p class="foot__credit"><span class="i18n-en">© 2026 HandyNotes. Built by one developer.</span><span class="i18n-ru">© 2026 HandyNotes. Сделано одним разработчиком.</span></p>
     </div>
   </footer>
 
