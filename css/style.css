@@ -686,6 +686,9 @@ svg .pop {
   letter-spacing: -0.02em;
 }
 
+/* nudge the title + lede down so they sit lower against the portrait */
+.doc__intro-copy { padding-top: 30px; }
+
 .doc__meta {
   margin-top: var(--space-sm);
   font-size: var(--text-sm);
