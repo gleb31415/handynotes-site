@@ -371,11 +371,8 @@ a:hover > .logo-mark { background-color: var(--color-accent); }
   stroke-width: 4;
   stroke-linecap: round;
   stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 800ms var(--ease-out) 250ms;
+  stroke-dashoffset: 0;
 }
-.reveal.is-visible .ink-underline path,
-.is-visible > .ink-underline path { stroke-dashoffset: 0; }
 
 .hero__pitch {
   margin-top: var(--space-lg);
@@ -404,23 +401,13 @@ a:hover > .logo-mark { background-color: var(--color-accent); }
 
 svg .draw {
   stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1000ms var(--ease-out);
+  stroke-dashoffset: 0;
 }
-svg .draw-d1 { transition-delay: 160ms; }
-svg .draw-d2 { transition-delay: 340ms; }
-svg .draw-d3 { transition-delay: 520ms; }
 
 svg .pop {
   transform-box: fill-box;
   transform-origin: center;
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 360ms var(--ease-out) 760ms, opacity 300ms var(--ease-out) 760ms;
 }
-
-.reveal.is-visible svg .draw { stroke-dashoffset: 0; }
-.reveal.is-visible svg .pop { transform: scale(1); opacity: 1; }
 
 /* ---------------------------------- features (alternating split, richer rhythm) ---------------------------------- */
 
@@ -574,18 +561,7 @@ svg .pop {
   .lang-strip li:hover { transform: translateY(-2px); border-color: var(--color-accent); color: var(--color-accent); }
 }
 
-/* reveal (one-shot, IntersectionObserver-driven) */
-.reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  will-change: opacity, transform;
-}
-.reveal.is-visible {
-  animation: reveal var(--dur-long) var(--ease-out) forwards;
-  animation-delay: calc(var(--i, 0) * 45ms);
-  will-change: auto;
-}
-@keyframes reveal { to { opacity: 1; transform: none; } }
+/* scroll-reveal removed — .reveal elements are simply always visible */
 
 /* ---------------------------------- CTA strip ---------------------------------- */
 
@@ -844,8 +820,5 @@ svg .pop {
   }
   .hero__logo, .hero-in, .hero__halo, .hero__handwriting { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
   .ink-underline path { animation: none !important; transition: none !important; stroke-dashoffset: 0 !important; }
-  .reveal.is-visible { animation: none; opacity: 1; transform: none; }
-  svg .draw { stroke-dashoffset: 0 !important; transition: none !important; }
-  svg .pop { transform: scale(1) !important; opacity: 1 !important; transition: none !important; }
   .feature__art:hover, .nav-pill.is-compact { transform: none; }
 }
