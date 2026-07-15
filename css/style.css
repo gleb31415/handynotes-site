@@ -107,28 +107,6 @@ a { color: inherit; text-decoration: none; }
 
 a:hover > .logo-mark { background-color: var(--color-accent); }
 
-/* Nav brand: the monogram is drawn 200% bigger via transform only — its
-   layout box (and therefore every other element in the pill) stays exactly
-   where it was; the enlarged artwork intentionally overlaps the pill. */
-.nav-pill .logo-mark--sm {
-  transform: scale(3);
-  transform-origin: center;
-}
-
-/* The hand-drawn wordmark (logo.svg) as the brand "text" next to the icon.
-   Absolutely positioned so it adds zero layout footprint — nav links and the
-   store button keep their exact places. */
-.nav-pill .nav-pill__wordmark { position: relative; }
-
-.nav-pill .logo-mark--nav-text {
-  position: absolute;
-  left: 4.25rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 11rem;
-  pointer-events: none;
-}
-
 .portrait-mark {
   width: 13rem;
   aspect-ratio: 1122 / 1402;
@@ -357,12 +335,13 @@ a:hover > .logo-mark { background-color: var(--color-accent); }
 
 .hero__handwriting {
   display: block;
-  width: min(16rem, 46vw);
+  /* logo.svg, 300% bigger than the old handwriting flourish (16rem) */
+  width: min(48rem, 92vw);
   aspect-ratio: 1536 / 1024;
   margin-top: var(--space-md);
   background-color: var(--color-accent);
-  -webkit-mask-image: url("/images/handwriting.svg");
-  mask-image: url("/images/handwriting.svg");
+  -webkit-mask-image: url("/images/logo.svg");
+  mask-image: url("/images/logo.svg");
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;
@@ -372,50 +351,6 @@ a:hover > .logo-mark { background-color: var(--color-accent); }
   opacity: 0;
   animation: hero-rise var(--dur-long) var(--ease-out) forwards;
   animation-delay: 1050ms;   /* lands as the logo finishes settling, like the app's 1.7s flourish */
-}
-
-/* ---------------------------------- live ink — scribble on the hero ---------------------------------- */
-
-.hero__ink {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;   /* events land on .hero itself; canvas is pure output */
-}
-
-.hero.is-inking, .hero.is-inking * { user-select: none; -webkit-user-select: none; }
-
-.hero__hint {
-  position: absolute;
-  right: clamp(1rem, 7vw, 6rem);
-  top: clamp(4.5rem, 11vw, 8.5rem);
-  display: none;
-  transform: rotate(-4deg);
-  font-family: var(--font-script);
-  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
-  color: var(--color-accent);
-  pointer-events: none;
-  opacity: 0;
-  animation: hero-rise var(--dur-long) var(--ease-out) forwards;
-  animation-delay: 1600ms;
-  transition: opacity 600ms var(--ease-out);
-}
-.hero__hint svg {
-  width: 3.25rem;
-  margin: 0.25rem auto 0;
-  overflow: visible;
-}
-.hero__hint svg path {
-  fill: none;
-  stroke: var(--color-accent);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.hero__hint.is-done { opacity: 0 !important; }
-
-@media (hover: hover) and (pointer: fine) {
-  .hero__hint { display: block; }
 }
 
 /* ---------------------------------- ink-underline (self-drawing swash for section heads) ---------------------------------- */
@@ -898,7 +833,6 @@ svg .pop {
   }
   .hero__logo, .hero-in, .hero__halo, .hero__handwriting { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
   .ink-underline path { animation: none !important; transition: none !important; stroke-dashoffset: 0 !important; }
-  .hero__hint { display: none !important; }
   .reveal.is-visible { animation: none; opacity: 1; transform: none; }
   svg .draw { stroke-dashoffset: 0 !important; transition: none !important; }
   svg .pop { transform: scale(1) !important; opacity: 1 !important; transition: none !important; }
