@@ -21,11 +21,27 @@
   как в Swift), ярусы монотонны, минимальный разрыв повтора ≥ 75, порядок
   детерминирован по `writer_id`.
 
-## Где это живёт
+## Где это живёт и как попадает в прод
 
-`Noto2/web/handwriting/` — подпапка сайта handynotes.app, поэтому приложение
-уезжает в прод вместе с сайтом: **https://handynotes.app/handwriting/**. Все
-пути внутри относительные, никакой отдельной настройки хостинга не нужно.
+Прод — **https://handynotes.app/handwriting/**, и это GitHub Pages, а не
+Cloudflare: сайт публикуется из **отдельного публичного репозитория**
+`gleb31415/handynotes-site` (в нём лежит содержимое `Noto2/web/` в корне, плюс
+`CNAME`). Этот репозиторий приватный, а Pages не публикует приватные репо на
+бесплатном плане — отсюда и разделение.
+
+`Noto2/web/handwriting/` здесь — **источник правды**; в сайтовом репозитории
+лежит его копия. После изменений выкатка — обычное копирование:
+
+```bash
+git -C /path/to/handynotes-site pull
+rsync -a --delete Noto2/web/handwriting/ /path/to/handynotes-site/handwriting/
+git -C /path/to/handynotes-site add handwriting && \
+git -C /path/to/handynotes-site commit -m "..." && \
+git -C /path/to/handynotes-site push
+```
+
+Pages пересобирается сам, обычно за полминуты. Все пути внутри приложения
+относительные, поэтому подпапка ничего не ломает.
 
 Ссылки с сайта на него нет и не должно быть: это внутренний инструмент сбора,
 он закрыт `Disallow` в `robots.txt` и `noindex` в своём `<head>`, и раздаётся
