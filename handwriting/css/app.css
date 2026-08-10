@@ -336,6 +336,18 @@ li { margin-bottom: 6px; }
 }
 .sheet-hint.is-hidden { opacity: 0; }
 
+/* Сколько точек реально пришло от пера — цифра, которая зависит от браузера
+   и стилуса, поэтому её меряют, а не обещают. */
+.ink-stats {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(20, 26, 40, 0.32);
+  pointer-events: none;
+}
+
 .controls {
   display: flex;
   align-items: center;

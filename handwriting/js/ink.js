@@ -6,8 +6,21 @@
 // concern that reads the same array — what is drawn never feeds back into what
 // is stored.
 //
+// The semantics deliberately mirror HandwritingPromptCanvas.swift, so a word
+// written in a browser and the same word written on the iPad differ only in
+// what the two devices actually reported:
+//
+//   * a sample's coordinate space is frozen at its FIRST point (`captureSize`)
+//     and is what canvas_w/h and baseline_y describe. A box that changes size
+//     mid-word — a rotated tablet, an on-screen keyboard — moves the drawing
+//     through a display-only similarity transform and never rewrites a
+//     recorded coordinate;
+//   * coalesced events are recorded on move AND on pen lift, so the end of a
+//     fast stroke is not truncated;
+//   * angles are recorded for a pen and left at 0 for anything else.
+//
 // A point is [x, y, t, p, altitude, azimuth]:
-//   x, y     — CSS pixels inside the sheet, Y down (units of canvas_w/canvas_h)
+//   x, y     — CSS pixels in capture space, Y down (units of canvas_w/canvas_h)
 //   t        — ms since the first point of the sample, monotonic
 //   p        — raw pressure 0..1 (0 when the device reports none)
 //   altitude — pen altitude in radians (0 when unavailable)
@@ -17,6 +30,9 @@
 /// is what `baseline_y` reports, so it is the one number that must stay put.
 const GUIDES = { ascender: 0.20, xHeight: 0.46, baseline: 0.72, descender: 0.90 };
 
+/// Breathing room kept between shrunk-to-fit ink and the edge of the sheet.
+const FIT_MARGIN = 8;
+
 const TAU = Math.PI * 2;
 
 function round(value, digits) {
@@ -25,7 +41,8 @@ function round(value, digits) {
 }
 
 /// Pen angles, preferring the modern spherical fields and falling back to the
-/// tilt pair. Non-pen pointers report nothing, which the schema stores as 0.
+/// tilt pair. Non-pen pointers report nothing, which the schema stores as 0 —
+/// the same rule as `touch.type == .pencil` on iOS.
 function anglesFor(event) {
   if (event.pointerType !== 'pen') return [0, 0];
   if (typeof event.altitudeAngle === 'number' && typeof event.azimuthAngle === 'number') {
@@ -52,8 +69,14 @@ export class InkSheet {
     this.onTouchRejected = onTouchRejected;
 
     this.strokes = [];
+    /// Current CSS size of the sheet.
     this.width = 0;
     this.height = 0;
+    /// The size the current sample STARTED in — the space its points live in.
+    this.captureWidth = 0;
+    this.captureHeight = 0;
+    /// Capture space → current bounds. Display only; never magnifies.
+    this.display = { scale: 1, tx: 0, ty: 0 };
     this.dpr = 1;
     /// Set at the sample's first point and held until the sheet is cleared, so
     /// every point of one word shares a single time origin.
@@ -71,39 +94,85 @@ export class InkSheet {
 
   // MARK: Geometry
 
-  get baselineY() { return this.height * GUIDES.baseline; }
+  /// Baseline in the given height — used both for the drawn guide (current
+  /// bounds) and for the reported `baseline_y` (capture space).
+  static baselineIn(height) { return height * GUIDES.baseline; }
 
   get isEmpty() { return this.strokes.length === 0; }
 
   get pointCount() { return this.strokes.reduce((n, s) => n + s.points.length, 0); }
 
-  /// Matches the backing store to the element's CSS box. Ink already on the
-  /// sheet is rescaled with it — a writer who rotates the tablet mid-word
-  /// keeps their word instead of losing it.
+  /// Points per second over the word so far — the honest, per-device answer to
+  /// "how densely does this browser sample the pen".
+  get sampleRate() {
+    if (this.lastT <= 0) return 0;
+    return Math.round((this.pointCount / this.lastT) * 1000);
+  }
+
+  /// Matches the backing store to the element's CSS box. Recorded points are
+  /// never touched: only the display transform is recomputed.
   resize() {
     const rect = this.canvas.getBoundingClientRect();
     const width = Math.max(1, Math.round(rect.width));
     const height = Math.max(1, Math.round(rect.height));
-    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    // The backing store is capped — a 4× buffer costs memory and buys nothing
+    // on a sheet this size — but `dpr` reports what the device actually is,
+    // which is what the schema asks for.
+    const dpr = window.devicePixelRatio || 1;
+    const backing = Math.min(dpr, 3);
     if (width === this.width && height === this.height && dpr === this.dpr) return;
-
-    if (this.width > 0 && this.height > 0 && !this.isEmpty) {
-      const sx = width / this.width;
-      const sy = height / this.height;
-      for (const stroke of this.strokes) {
-        for (const point of stroke.points) {
-          point[0] = round(point[0] * sx, 2);
-          point[1] = round(point[1] * sy, 2);
-        }
-      }
-    }
 
     this.width = width;
     this.height = height;
     this.dpr = dpr;
-    this.canvas.width = Math.round(width * dpr);
-    this.canvas.height = Math.round(height * dpr);
+    this.canvas.width = Math.round(width * backing);
+    this.canvas.height = Math.round(height * backing);
+    if (this.isEmpty) {
+      this.captureWidth = width;
+      this.captureHeight = height;
+      this.display = { scale: 1, tx: 0, ty: 0 };
+    } else {
+      this._refreshDisplay();
+    }
     this.redraw();
+  }
+
+  /// Display only. Never magnifies, so growing the sheet leaves existing ink at
+  /// its physical size and continuing a word is seamless; a smaller sheet
+  /// shrinks it just enough to keep every recorded point visible. One uniform
+  /// scale plus a vertical shift that keeps the ink sitting on the guide — a
+  /// similarity, so a resize can never change the shape of what was written.
+  _refreshDisplay() {
+    const box = this._inkBounds();
+    if (!box || this.captureWidth <= 0 || this.captureHeight <= 0 || this.width <= 0) {
+      this.display = { scale: 1, tx: 0, ty: 0 };
+      return;
+    }
+    const from = InkSheet.baselineIn(this.captureHeight);
+    const to = InkSheet.baselineIn(this.height);
+    let scale = 1;
+    if (box.minY < from) scale = Math.min(scale, Math.max(to - FIT_MARGIN, 1) / (from - box.minY));
+    if (box.maxY > from) scale = Math.min(scale, Math.max(this.height - to - FIT_MARGIN, 1) / (box.maxY - from));
+    if (box.maxX > 0) scale = Math.min(scale, Math.max(this.width - FIT_MARGIN, 1) / box.maxX);
+    if (!Number.isFinite(scale) || scale <= 0) {
+      this.display = { scale: 1, tx: 0, ty: 0 };
+      return;
+    }
+    // Left-anchored in x (writing runs left to right), baseline-anchored in y.
+    this.display = { scale, tx: 0, ty: to - from * scale };
+  }
+
+  _inkBounds() {
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const stroke of this.strokes) {
+      for (const p of stroke.points) {
+        if (p[0] < minX) minX = p[0];
+        if (p[0] > maxX) maxX = p[0];
+        if (p[1] < minY) minY = p[1];
+        if (p[1] > maxY) maxY = p[1];
+      }
+    }
+    return minX <= maxX ? { minX, minY, maxX, maxY } : null;
   }
 
   // MARK: Content
@@ -113,6 +182,9 @@ export class InkSheet {
     this.t0 = null;
     this.lastT = 0;
     this.pointerTypes.clear();
+    this.captureWidth = this.width;
+    this.captureHeight = this.height;
+    this.display = { scale: 1, tx: 0, ty: 0 };
     this.redraw();
     this.onChange();
   }
@@ -124,22 +196,24 @@ export class InkSheet {
       this.t0 = null;
       this.lastT = 0;
     }
+    this._refreshDisplay();
     this.redraw();
     this.onChange();
   }
 
-  /// Reinstates a checkpointed draft. Times stay as recorded: the pause while
-  /// the page was gone is not part of the writing, and a restored word simply
-  /// continues from the last recorded offset.
+  /// Reinstates a checkpointed draft, including the space it was recorded in.
+  /// Times stay as recorded: the pause while the page was gone is not part of
+  /// the writing, and a restored word continues from the last offset.
   restore(draft) {
     if (!draft || !Array.isArray(draft.strokes)) return;
     this.strokes = draft.strokes.map((s) => ({ points: s.points.map((p) => p.slice()) }));
     this.pointerTypes = new Set(draft.pointer_types ?? []);
     this.penSeen = this.pointerTypes.has('pen');
     this.lastT = draft.last_t ?? 0;
-    // A restored sample has no live clock yet; the next point re-anchors it
-    // just after the last one, so `t` stays monotonic within the word.
+    this.captureWidth = draft.canvas_w > 0 ? draft.canvas_w : this.width;
+    this.captureHeight = draft.canvas_h > 0 ? draft.canvas_h : this.height;
     this.t0 = null;
+    this._refreshDisplay();
     this.redraw();
     this.onChange();
   }
@@ -154,10 +228,10 @@ export class InkSheet {
     return {
       strokes: this.strokes.map((s) => ({ points: s.points.map((p) => p.slice()) })),
       pointer_type: pointerType,
-      canvas_w: this.width,
-      canvas_h: this.height,
+      canvas_w: this.captureWidth,
+      canvas_h: this.captureHeight,
       dpr: this.dpr,
-      baseline_y: round(this.baselineY, 2),
+      baseline_y: round(InkSheet.baselineIn(this.captureHeight), 2),
       duration_ms: Math.round(this.lastT),
     };
   }
@@ -170,18 +244,28 @@ export class InkSheet {
       strokes: this.strokes,
       pointer_types: [...this.pointerTypes],
       last_t: this.lastT,
-      canvas_w: this.width,
-      canvas_h: this.height,
+      canvas_w: this.captureWidth,
+      canvas_h: this.captureHeight,
     };
   }
 
   // MARK: Drawing
 
+  /// Sets the canvas transform to capture space: device pixels ← CSS pixels ←
+  /// the display similarity. Ink is drawn through it; guides are not.
+  _inkTransform() {
+    const backing = Math.min(this.dpr, 3);
+    const { scale, tx, ty } = this.display;
+    this.ctx.setTransform(backing * scale, 0, 0, backing * scale, backing * tx, backing * ty);
+  }
+
   redraw() {
     const { ctx } = this;
-    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    const backing = Math.min(this.dpr, 3);
+    ctx.setTransform(backing, 0, 0, backing, 0, 0);
     ctx.clearRect(0, 0, this.width, this.height);
     this._drawGuides();
+    this._inkTransform();
     for (const stroke of this.strokes) this._drawStroke(stroke, 0);
   }
 
@@ -205,7 +289,8 @@ export class InkSheet {
   }
 
   /// Draws a stroke from `fromIndex`, so a live stroke only ever paints its
-  /// new segment instead of the whole path on every pointer event.
+  /// new segment instead of the whole path on every pointer event. The caller
+  /// must have put the context in capture space.
   _drawStroke(stroke, fromIndex) {
     const { ctx } = this;
     const points = stroke.points;
@@ -213,12 +298,12 @@ export class InkSheet {
 
     ctx.save();
     ctx.strokeStyle = '#12203a';
+    ctx.fillStyle = '#12203a';
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
     if (points.length === 1) {
       const [x, y, , p] = points[0];
-      ctx.fillStyle = '#12203a';
       ctx.beginPath();
       ctx.arc(x, y, this._widthFor(p) / 2, 0, TAU);
       ctx.fill();
@@ -277,6 +362,8 @@ export class InkSheet {
     return Math.abs(stamp - now) < 5000 ? stamp : now;
   }
 
+  /// Client coordinates → capture space, through the inverse of the display
+  /// transform, so what is stored is always in the space the sample started in.
   _pointFrom(event, rect) {
     const t = this._timeFor(event);
     if (this.t0 === null) {
@@ -287,14 +374,25 @@ export class InkSheet {
     const offset = Math.max(0, Math.round(t - this.t0));
     this.lastT = Math.max(this.lastT, offset);
     const [altitude, azimuth] = anglesFor(event);
+    const { scale, tx, ty } = this.display;
     return [
-      round(event.clientX - rect.left, 2),
-      round(event.clientY - rect.top, 2),
+      round((event.clientX - rect.left - tx) / scale, 2),
+      round((event.clientY - rect.top - ty) / scale, 2),
       offset,
       round(event.pressure ?? 0, 3),
       round(altitude, 4),
       round(azimuth, 4),
     ];
+  }
+
+  /// Every coalesced sample of this event, or the event itself when the
+  /// browser has nothing finer. Without this a 240 Hz pencil is decimated to
+  /// the frame rate.
+  _samplesOf(event) {
+    const batch = typeof event.getCoalescedEvents === 'function'
+      ? event.getCoalescedEvents()
+      : [];
+    return batch.length > 0 ? batch : [event];
   }
 
   _down(event) {
@@ -314,10 +412,18 @@ export class InkSheet {
     this.activePointerID = event.pointerId;
     try { this.canvas.setPointerCapture(event.pointerId); } catch { /* not fatal */ }
 
+    if (this.isEmpty) {
+      // First point of a sample: it is recorded in THIS box, 1:1.
+      this.captureWidth = this.width;
+      this.captureHeight = this.height;
+      this.display = { scale: 1, tx: 0, ty: 0 };
+    }
+
     const rect = this.canvas.getBoundingClientRect();
     this.pointerTypes.add(event.pointerType || 'mouse');
     const stroke = { points: [this._pointFrom(event, rect)] };
     this.strokes.push(stroke);
+    this._inkTransform();
     this._drawStroke(stroke, 0);
     this.onChange();
   }
@@ -331,14 +437,11 @@ export class InkSheet {
     if (!stroke) return;
     const start = stroke.points.length;
 
-    // Coalesced events are the whole reason a 240 Hz pencil is worth capturing
-    // in a browser: without them the trajectory is decimated to frame rate.
-    const batch = typeof event.getCoalescedEvents === 'function'
-      ? event.getCoalescedEvents()
-      : [];
-    const events = batch.length > 0 ? batch : [event];
-    for (const sample of events) stroke.points.push(this._pointFrom(sample, rect));
+    for (const sample of this._samplesOf(event)) {
+      stroke.points.push(this._pointFrom(event === sample ? event : sample, rect));
+    }
 
+    this._inkTransform();
     this._drawStroke(stroke, start);
   }
 
@@ -349,8 +452,17 @@ export class InkSheet {
     this.activePointerID = null;
 
     const stroke = this.strokes[this.strokes.length - 1];
-    // A stray tap that produced a single point is still a dot the writer made
-    // (the dot of an "й", a comma), so it is kept.
+    if (stroke && event.type === 'pointerup') {
+      // The lift carries the last samples of the stroke; dropping them cuts
+      // the tail off every fast movement. iOS records them the same way.
+      const rect = this.canvas.getBoundingClientRect();
+      const start = stroke.points.length;
+      for (const sample of this._samplesOf(event)) {
+        stroke.points.push(this._pointFrom(event === sample ? event : sample, rect));
+      }
+      this._inkTransform();
+      this._drawStroke(stroke, start);
+    }
     if (stroke && stroke.points.length === 0) this.strokes.pop();
     this.onChange();
   }

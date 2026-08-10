@@ -343,6 +343,16 @@ function onInkChange() {
   el('btn-undo').disabled = empty;
   el('btn-clear').disabled = empty;
   el('sheet-hint').classList.toggle('is-hidden', !empty);
+  // How densely this particular device actually samples the pen. It is the
+  // one number that can't be promised in advance — it depends on the browser,
+  // the stylus and whether coalesced events are supported — so it is measured
+  // and shown instead.
+  const stats = el('ink-stats');
+  if (stats) {
+    const rate = state.sheet?.sampleRate ?? 0;
+    stats.textContent = empty ? '' :
+      `${state.sheet.pointCount} точек${rate > 0 ? ` · ${rate} Гц` : ''}`;
+  }
   scheduleDraftSave();
 }
 
@@ -369,20 +379,9 @@ async function restoreDraft() {
   const draft = await meta.get(`draft:${writer.writer_id}`, null);
   if (!draft || draft.order !== task.order) return;
   state.sheet.resize();
-  // The sheet may be a different size than when the draft was written (a
-  // different device, a rotated tablet); scale the ink onto the current one.
-  if (draft.canvas_w > 0 && draft.canvas_h > 0) {
-    const sx = state.sheet.width / draft.canvas_w;
-    const sy = state.sheet.height / draft.canvas_h;
-    if (sx !== 1 || sy !== 1) {
-      for (const stroke of draft.strokes) {
-        for (const point of stroke.points) {
-          point[0] = Math.round(point[0] * sx * 100) / 100;
-          point[1] = Math.round(point[1] * sy * 100) / 100;
-        }
-      }
-    }
-  }
+  // The draft carries the space it was recorded in; the sheet keeps those
+  // coordinates and fits them to the current box for display only, so a
+  // reload on a differently sized screen cannot rewrite recorded geometry.
   state.sheet.restore(draft);
   toast('Черновик слова восстановлен');
 }
