@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Noto · сбор почерка</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="description" content="Сбор рукописных образцов: задания из общего ядра, запись траекторий пера, работа офлайн, экспорт в JSON.">
+<meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14161c" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Noto сбор">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<link rel="stylesheet" href="./css/app.css">
+</head>
+<body data-screen="roster">
+
+<div id="boot"><div class="boot-spinner"></div><p>Загрузка заданий…</p></div>
+
+<!-- ───────────────────────── Ростер писателей ───────────────────────── -->
+<section class="screen" data-screen="roster">
+  <header class="topbar">
+    <h1>Сбор почерка</h1>
+    <button class="icon-btn" id="btn-settings" aria-label="Настройки">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Zm7.4-2.6.1-.9-.1-.9 1.9-1.5-1.9-3.2-2.3.8a6.9 6.9 0 0 0-1.6-.9L15 4h-3.7l-.5 2.3c-.6.2-1.1.5-1.6.9l-2.3-.8-1.9 3.2L6.9 11l-.1.9.1.9-1.9 1.5 1.9 3.2 2.3-.8c.5.4 1 .7 1.6.9l.5 2.3H15l.5-2.3c.6-.2 1.1-.5 1.6-.9l2.3.8 1.9-3.2-1.9-1.5Z"/></svg>
+    </button>
+  </header>
+
+  <div class="scroll">
+    <p class="lead">
+      Каждый человек, который пишет на этом устройстве, — отдельный писатель.
+      Задания идут из общего ядра (759 слов, около 750 заданий на человека),
+      порядок у каждого свой и не меняется при перезагрузке страницы.
+    </p>
+    <div id="writer-list" class="writer-list"></div>
+    <button class="btn primary block" id="btn-add-writer">＋ Новый писатель</button>
+    <div class="roster-stats" id="roster-stats"></div>
+  </div>
+</section>
+
+<!-- ───────────────────────── Согласие ───────────────────────── -->
+<section class="screen" data-screen="consent">
+  <header class="topbar">
+    <button class="icon-btn" id="consent-cancel" aria-label="Назад">←</button>
+    <h1>Согласие</h1>
+    <span class="topbar-spacer"></span>
+  </header>
+
+  <div class="scroll">
+    <div class="card consent-card">
+      <p class="consent-writer">Писатель: <b id="consent-writer"></b></p>
+      <h2>Что собирается</h2>
+      <ul>
+        <li>Траектория пера: координаты, время, нажим и наклон — то есть <b>как</b> написано слово.</li>
+        <li>Слово-задание, которое было показано, и техническая информация об экране.</li>
+        <li>Анонимный идентификатор писателя — случайный номер, не связанный с личностью.</li>
+      </ul>
+      <h2>Что не собирается</h2>
+      <ul>
+        <li>Имя, e-mail, телефон, местоположение, содержимое ваших заметок.</li>
+        <li>Имя писателя из списка остаётся только на этом устройстве.</li>
+      </ul>
+      <h2>Зачем</h2>
+      <p>Данные используются для обучения и оценки моделей распознавания рукописного текста.</p>
+      <p class="muted">Версия текста согласия: 0.1. Отправку на сервер можно выключить в настройках — тогда всё остаётся на устройстве, и данные можно выгрузить в JSON.</p>
+
+      <label class="check">
+        <input type="checkbox" id="consent-agree">
+        <span>Я согласен(на) на сбор и использование этих данных</span>
+      </label>
+      <button class="btn primary block" id="consent-continue" disabled>Начать писать</button>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── Письмо ───────────────────────── -->
+<section class="screen write" data-screen="write">
+  <header class="topbar">
+    <button class="icon-btn" id="btn-back" aria-label="К списку писателей">←</button>
+    <div class="write-meta">
+      <span class="writer-chip" id="write-writer"></span>
+      <span class="counter" id="write-counter"></span>
+    </div>
+    <button class="sync-chip" id="sync-chip" data-tone="ok" title="Отправить сейчас"></button>
+  </header>
+
+  <div class="progress-rail"><span id="progress-fill"></span></div>
+  <div class="stage-label" id="stage-label"></div>
+
+  <div class="prompt">
+    <div class="prompt-word" id="prompt-word"></div>
+    <div class="prompt-hint" id="prompt-hint"></div>
+  </div>
+
+  <div class="sheet-wrap" id="sheet-wrap">
+    <canvas id="ink"></canvas>
+    <div class="sheet-hint" id="sheet-hint">Напишите слово от руки — как пишете обычно</div>
+  </div>
+
+  <footer class="controls">
+    <button class="btn ghost" id="btn-undo" disabled>Отменить</button>
+    <button class="btn ghost" id="btn-clear" disabled>Стереть</button>
+    <span class="controls-spacer"></span>
+    <button class="btn ghost" id="btn-skip">Пропустить</button>
+    <button class="btn primary wide" id="btn-save" disabled>Готово →</button>
+  </footer>
+</section>
+
+<!-- ───────────────────────── Настройки ───────────────────────── -->
+<section class="screen" data-screen="settings">
+  <header class="topbar">
+    <button class="icon-btn" id="btn-settings-back" aria-label="Назад">←</button>
+    <h1>Настройки</h1>
+    <span class="topbar-spacer"></span>
+  </header>
+
+  <div class="scroll">
+    <div class="card">
+      <label class="switch-row">
+        <span>
+          <b>Отправлять на сервер</b>
+          <small>Выключите, чтобы собирать только на устройство и выгружать вручную в JSON.</small>
+        </span>
+        <input type="checkbox" id="opt-upload" checked>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>Данные</h2>
+      <div class="stats-grid" id="settings-stats"></div>
+      <div class="btn-row">
+        <button class="btn" id="btn-export-all">Экспорт всех в JSON</button>
+        <button class="btn" id="btn-import">Импорт JSON</button>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
+      </div>
+      <div class="btn-row">
+        <button class="btn ghost" id="btn-resend">Отправить всё заново</button>
+        <button class="btn ghost danger" id="btn-wipe">Стереть всё</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Офлайн</h2>
+      <p class="muted">
+        Страница работает без сети: задания и приложение кешируются, слова копятся
+        в браузере и уходят на сервер сами, когда сеть появится. На iPad и Android
+        можно добавить страницу на домашний экран — она откроется как приложение,
+        во весь экран.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div id="modal-root"></div>
+<div id="toast" data-tone="ok"></div>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+/* Noto · сбор почерка — весь стиль приложения.
+   Одна страница, четыре экрана, никаких зависимостей. */
+
+:root {
+  --bg: #f4f3ef;
+  --surface: #ffffff;
+  --surface-2: #faf9f6;
+  --ink: #161a22;
+  --ink-soft: #5b6270;
+  --line: rgba(20, 26, 40, 0.10);
+  --accent: #2b5cf0;
+  --accent-ink: #ffffff;
+  --ok: #12855b;
+  --warn: #b26a00;
+  --danger: #c2372c;
+  --radius: 16px;
+  --shadow: 0 1px 2px rgba(16, 20, 30, 0.06), 0 8px 24px rgba(16, 20, 30, 0.06);
+  --tap: 46px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161c;
+    --surface: #1c1f27;
+    --surface-2: #22262f;
+    --ink: #eef1f6;
+    --ink-soft: #9aa3b2;
+    --line: rgba(255, 255, 255, 0.10);
+    --accent: #5b86ff;
+    --accent-ink: #0b1020;
+    --ok: #46c58d;
+    --warn: #e2a33c;
+    --danger: #ff7a6e;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+}
+
+h1 { font-size: 17px; font-weight: 650; margin: 0; }
+h2 { font-size: 15px; font-weight: 650; margin: 20px 0 8px; }
+p { margin: 0 0 10px; }
+ul { margin: 0 0 12px; padding-left: 20px; }
+li { margin-bottom: 6px; }
+.muted { color: var(--ink-soft); font-size: 14px; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+
+/* ── Экраны ─────────────────────────────────────────────── */
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.screen.is-active { display: flex; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.topbar h1 { flex: 1; }
+.topbar-spacer { width: var(--tap); }
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 14px calc(28px + env(safe-area-inset-bottom));
+  max-width: 780px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.lead { color: var(--ink-soft); font-size: 14px; margin-bottom: 16px; }
+
+/* ── Кнопки ─────────────────────────────────────────────── */
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 550;
+  min-height: var(--tap);
+  padding: 0 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.06s ease, opacity 0.15s ease;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: default; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+.btn.ghost { background: transparent; }
+.btn.danger { color: var(--danger); }
+.btn.danger-solid { background: var(--danger); color: #fff; border-color: transparent; }
+.btn.block { display: block; width: 100%; margin: 8px 0; }
+.btn.wide { min-width: 140px; }
+
+.icon-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  width: var(--tap);
+  height: var(--tap);
+  border-radius: 12px;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+.icon-btn:active { background: var(--surface-2); }
+
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.btn-row .btn { flex: 1; min-width: 150px; }
+
+/* ── Карточки ───────────────────────────────────────────── */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.writer-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+
+.writer-head { display: flex; align-items: center; gap: 8px; }
+.writer-name {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 650;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+.writer-name::after { content: ' ✎'; font-size: 13px; color: var(--ink-soft); }
+
+.badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-soft);
+}
+.badge.done { color: var(--ok); }
+
+.bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+  margin: 10px 0;
+  border: 1px solid var(--line);
+}
+.bar span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+
+.writer-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.writer-stats b { color: var(--ink); }
+.writer-stats .ok { color: var(--ok); }
+.writer-stats .warn { color: var(--warn); }
+
+.writer-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.writer-actions .btn { flex: 1 1 auto; min-width: 104px; font-size: 14px; }
+
+.writer-id {
+  margin-top: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  opacity: 0.7;
+  word-break: break-all;
+}
+
+.roster-stats { text-align: center; color: var(--ink-soft); font-size: 13px; margin-top: 14px; }
+
+.empty { text-align: center; padding: 30px 10px; color: var(--ink-soft); }
+
+/* ── Согласие ───────────────────────────────────────────── */
+
+.consent-card h2:first-of-type { margin-top: 8px; }
+.consent-writer { color: var(--ink-soft); font-size: 14px; }
+
+.check {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 20px 0 14px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.check input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--accent); }
+
+.switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; }
+.switch-row small { display: block; color: var(--ink-soft); font-size: 13px; margin-top: 2px; }
+.switch-row input { width: 44px; height: 26px; accent-color: var(--accent); flex: none; }
+
+.stats-grid { display: flex; flex-direction: column; gap: 2px; }
+.stats-grid div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.stats-grid div:last-child { border-bottom: 0; }
+.stats-grid span { color: var(--ink-soft); }
+
+/* ── Экран письма ───────────────────────────────────────── */
+
+.write .topbar { background: var(--surface); }
+.write-meta { flex: 1; display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.writer-chip {
+  font-weight: 650;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.counter { color: var(--ink-soft); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.sync-chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 550;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 42vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  touch-action: manipulation;
+}
+.sync-chip[data-tone="warn"] { color: var(--warn); }
+.sync-chip[data-tone="busy"] { color: var(--accent); }
+.sync-chip[data-tone="ok"] { color: var(--ok); }
+
+.progress-rail { height: 3px; background: var(--line); }
+.progress-rail span { display: block; height: 100%; background: var(--accent); transition: width 0.25s ease; }
+
+.stage-label {
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-soft);
+  padding: 6px 12px 0;
+}
+
+.prompt { text-align: center; padding: 6px 16px 10px; }
+.prompt-word {
+  font-size: clamp(30px, 7vw, 46px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+.prompt-hint { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+.prompt-hint b { color: var(--ink); }
+
+.sheet-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 150px;
+  margin: 0 12px;
+  /* Лист всегда светлый: условия письма должны быть одинаковыми
+     на любом устройстве и в любой теме. */
+  background: #fffdf9;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+#ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  cursor: crosshair;
+}
+.sheet-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30%;
+  text-align: center;
+  color: rgba(20, 26, 40, 0.28);
+  font-size: 14px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.sheet-hint.is-hidden { opacity: 0; }
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  flex-wrap: wrap;
+}
+.controls-spacer { flex: 1; }
+.controls .btn { font-size: 14px; }
+
+/* ── Модалки и тосты ────────────────────────────────────── */
+
+#modal-root { display: none; }
+#modal-root.is-open { display: block; }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 24, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+  backdrop-filter: blur(2px);
+}
+.modal {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 22px;
+  width: min(440px, 100%);
+  max-height: 86vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+.modal h2 { margin: 0 0 8px; font-size: 19px; }
+.modal p { color: var(--ink-soft); font-size: 14px; }
+.modal input[type="text"] {
+  width: 100%;
+  font: inherit;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink);
+  margin-top: 8px;
+}
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+.choice-list { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.choice-list .choice { text-align: left; }
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  transform: translate(-50%, 16px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 11px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 550;
+  max-width: 90vw;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 60;
+}
+#toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+#toast[data-tone="error"] { background: var(--danger); color: #fff; }
+
+/* ── Загрузка ───────────────────────────────────────────── */
+
+#boot {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: var(--bg);
+  color: var(--ink-soft);
+  z-index: 80;
+}
+.boot-spinner {
+  width: 26px;
+  height: 26px;
+  border: 2.5px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.boot-error { max-width: 420px; text-align: center; color: var(--danger); padding: 20px; }
+
+/* ── Планшет и десктоп ──────────────────────────────────── */
+
+@media (min-width: 820px) {
+  .prompt-word { font-size: 44px; }
+  .sheet-wrap { margin: 0 auto; width: min(1100px, calc(100% - 32px)); }
+  .controls { max-width: 1100px; width: 100%; margin: 0 auto; }
+}
+
+/* Низкие экраны (телефон в альбомной): подсказки ужимаются,
+   чтобы лист остался главным элементом. */
+@media (max-height: 520px) {
+  .prompt { padding: 2px 12px 6px; }
+  .prompt-word { font-size: 26px; }
+  .prompt-hint, .stage-label { display: none; }
+  .topbar { min-height: 44px; }
+}

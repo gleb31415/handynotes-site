@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /i/
+Disallow: /handwriting/
 
 Sitemap: https://handynotes.app/sitemap.xml
