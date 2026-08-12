@@ -7839,19 +7839,6 @@
   "lemma": "яков"
  },
  {
-  "task_index": 603,
-  "text": "шлюхи",
-  "normalized_text": "шлюхи",
-  "starts_with_uppercase": false,
-  "word_group": "core_650",
-  "is_exact_repeat": false,
-  "repeat_of": null,
-  "is_case_pair": false,
-  "case_pair_id": null,
-  "len": 5,
-  "lemma": "шлюха"
- },
- {
   "task_index": 604,
   "text": "громкий",
   "normalized_text": "громкий",

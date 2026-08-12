@@ -25,7 +25,7 @@ const state = {
   sessionIDs: new Map(),
   sheet: null,
   pendingByWriter: new Map(),
-  /// Delivery length per writer. It is not simply 759: repeats whose original
+  /// Delivery length per writer. It is not simply 758: repeats whose original
   /// landed too close to the tail are dropped, and how many that is varies
   /// with the shuffle, so each writer's own total is what their progress is
   /// measured against.
@@ -135,7 +135,7 @@ function renderRoster() {
 }
 
 /// How many tasks this writer's own delivery holds, built once and cached —
-/// the roster must not re-shuffle 759 rows on every render.
+/// the roster must not re-shuffle 758 rows on every render.
 function deliveryTotalFor(writerID) {
   const cached = state.deliveryTotals.get(writerID);
   if (cached !== undefined) return cached;
@@ -147,7 +147,7 @@ function deliveryTotalFor(writerID) {
 function writerCard(writer) {
   const stats = state.pendingByWriter.get(writer.writer_id) ?? { total: 0, pending: 0 };
   const cursor = writer.progress?.cursor ?? 0;
-  const total = deliveryTotalFor(writer.writer_id) || state.rows.length || 759;
+  const total = deliveryTotalFor(writer.writer_id) || state.rows.length || 758;
   const percent = clamp(Math.round((cursor / total) * 100), 0, 100);
   const finished = writer.progress?.finished_at;
   return `

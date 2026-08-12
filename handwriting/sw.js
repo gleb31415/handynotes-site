@@ -2,13 +2,13 @@
 //
 // Collection happens in rooms with bad wifi and on tablets in airplane mode,
 // so the app itself must survive a cold start with no network: the shell and
-// the 759-row task file are precached, and everything the writer produces
+// the 758-row task file are precached, and everything the writer produces
 // lives in IndexedDB until the queue can drain.
 //
 // Bump CACHE when any shell file changes — the old cache is dropped wholesale
 // on activate, which is the only reliable way to retire a stale module graph.
 
-const CACHE = 'noto-collect-v2';
+const CACHE = 'noto-collect-v3';
 
 const SHELL = [
   './',

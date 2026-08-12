@@ -2,7 +2,7 @@
 //
 // A JS port of `HandwritingCoreTaskPlan.swift`, kept line-for-line faithful so
 // a writer who starts on the iPad and continues in the browser walks the same
-// schedule: the same 759 rows, the same seeded SplitMix64 shuffle, the same
+// schedule: the same 758 rows, the same seeded SplitMix64 shuffle, the same
 // repeat spacing, the same packets of 22.
 
 import { sha256 } from './util.js';
