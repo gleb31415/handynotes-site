@@ -1093,16 +1093,16 @@
  },
  {
   "task_index": 84,
-  "text": "сбербанк",
-  "normalized_text": "сбербанк",
-  "starts_with_uppercase": false,
+  "text": "Тбанк",
+  "normalized_text": "Тбанк",
+  "starts_with_uppercase": true,
   "word_group": "core_300",
   "is_exact_repeat": false,
   "repeat_of": null,
   "is_case_pair": false,
   "case_pair_id": null,
-  "len": 8,
-  "lemma": "сбербанк"
+  "len": 5,
+  "lemma": "тбанк"
  },
  {
   "task_index": 85,

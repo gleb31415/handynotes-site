@@ -8,7 +8,7 @@
 // Bump CACHE when any shell file changes — the old cache is dropped wholesale
 // on activate, which is the only reliable way to retire a stale module graph.
 
-const CACHE = 'noto-collect-v3';
+const CACHE = 'noto-collect-v4';
 
 const SHELL = [
   './',
