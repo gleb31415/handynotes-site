@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: stored choice, else browser language */
+    (function () {
+      var l = "en";
+      try { l = localStorage.getItem("hn-lang") || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en"); } catch (e) {}
+      document.documentElement.setAttribute("data-lang", l);
+      document.documentElement.lang = l;
+    })();
+  </script>
+  <title>Community — HandyNotes</title>
+  <meta name="description" content="The HandyNotes Telegram channel: new features announced first, votes on what gets built next, and a look behind the scenes of a one-developer notes app.">
+  <link rel="canonical" href="https://handynotes.app/community/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="HandyNotes">
+  <meta property="og:title" content="Community — HandyNotes">
+  <meta property="og:description" content="New features first, votes on what gets built next, and a look behind the scenes — on the HandyNotes Telegram channel.">
+  <meta property="og:url" content="https://handynotes.app/community/">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#CC8C85">
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-pill__wordmark" href="/" aria-label="HandyNotes">
+      <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
+    </a>
+    <ul class="nav-pill__links">
+      <li><a href="/community/"><span class="i18n-en">Community</span><span class="i18n-ru">Сообщество</span></a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
+    </ul>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span><span class="i18n-ru">EN</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/us/app/handynotes-handwriting/id6790469095"><span class="i18n-en">Get the app</span><span class="i18n-ru">Скачать</span></a>
+  </nav>
+
+  <main class="doc container">
+    <header class="doc__header">
+      <div class="doc__intro">
+        <span class="portrait-mark" role="img" aria-label="A hand-drawn portrait of the developer"></span>
+        <div class="doc__intro-copy">
+          <h1 class="doc__title"><span class="i18n-en">Community</span><span class="i18n-ru">Сообщество</span></h1>
+          <p class="doc__lede"><span class="i18n-en">HandyNotes is written by one developer, out in the open. The Telegram channel is where that happens: every new feature is announced there first, and what gets built next is decided by the people who write in the app.</span><span class="i18n-ru">HandyNotes пишет один разработчик — и пишет на виду. Всё происходит в Telegram-канале: каждая новая функция появляется сначала там, а что делать дальше — решают те, кто в приложении пишет.</span></p>
+        </div>
+      </div>
+    </header>
+
+    <div class="doc__body i18n-en">
+      <section>
+        <a class="channel-card" href="https://t.me/HandynotesApp">
+          <span class="channel-card__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M21.2 3.3 3.7 10.1c-.9.35-.85 1.63.07 1.9l5.6 1.7 1.75 5.6c.28.9 1.55.97 1.93.1l2.1-4.8 4.9 3.6c.75.55 1.8.13 1.98-.78L23 4.5c.2-.95-.8-1.66-1.8-1.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="m9.4 13.7 10.3-8.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="channel-card__copy">
+            <span class="channel-card__name">HandyNotes on Telegram</span>
+            <span class="channel-card__handle">@HandynotesApp</span>
+          </span>
+          <span class="btn btn-fill channel-card__cta">Join the channel</span>
+        </a>
+      </section>
+
+      <section>
+        <h2>What's on the channel</h2>
+        <div class="faq-item">
+          <h3>New features, before the update lands</h3>
+          <p>Every release is shown there first — what changed, why it changed, and how to use it — usually with a short clip of the feature in real ink, days before the build reaches the App Store.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Votes on what gets built next</h3>
+          <p>The roadmap isn't mine alone. Ideas go up as polls, you pick the ones that would actually help your notes, and the winners move to the top of the queue. A single vote genuinely moves things here — it's a small channel and I read all of it.</p>
+        </div>
+        <div class="faq-item">
+          <h3>The work in progress</h3>
+          <p>Sketches, experiments, the occasional bug caught on camera, and the ideas that didn't survive contact with a real page. If you want to see how a notes app is actually made, this is the window.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Come and write with us</h2>
+        <p>No account, no forms — just an app you already have on your phone. Subscribe, and the next update will be something you had a hand in.</p>
+        <div class="contact-row">
+          <a class="btn btn-fill" href="https://t.me/HandynotesApp">
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21.2 3.3 3.7 10.1c-.9.35-.85 1.63.07 1.9l5.6 1.7 1.75 5.6c.28.9 1.55.97 1.93.1l2.1-4.8 4.9 3.6c.75.55 1.8.13 1.98-.78L23 4.5c.2-.95-.8-1.66-1.8-1.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="m9.4 13.7 10.3-8.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Open the channel
+          </a>
+          <a class="btn btn-outline" href="/support/">Need help instead? →</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="doc__body i18n-ru">
+      <section>
+        <a class="channel-card" href="https://t.me/HandynotesApp">
+          <span class="channel-card__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M21.2 3.3 3.7 10.1c-.9.35-.85 1.63.07 1.9l5.6 1.7 1.75 5.6c.28.9 1.55.97 1.93.1l2.1-4.8 4.9 3.6c.75.55 1.8.13 1.98-.78L23 4.5c.2-.95-.8-1.66-1.8-1.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="m9.4 13.7 10.3-8.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="channel-card__copy">
+            <span class="channel-card__name">HandyNotes в Telegram</span>
+            <span class="channel-card__handle">@HandynotesApp</span>
+          </span>
+          <span class="btn btn-fill channel-card__cta">Подписаться</span>
+        </a>
+      </section>
+
+      <section>
+        <h2>Что в канале</h2>
+        <div class="faq-item">
+          <h3>Новые функции — до того, как выйдет обновление</h3>
+          <p>Каждый релиз сначала показываю там: что изменилось, зачем и как этим пользоваться — обычно с коротким видео, где функция работает на живых чернилах, за несколько дней до того, как сборка доедет до App Store.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Голосования за то, что делать дальше</h3>
+          <p>Дорожная карта не только моя. Идеи выкладываю опросами, вы выбираете те, что действительно помогут вашим конспектам, а победившие поднимаются в начало очереди. Здесь один голос правда решает: канал небольшой, и я читаю всё.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Кухня разработки</h3>
+          <p>Наброски, эксперименты, пойманные на видео баги и идеи, которые не пережили встречи с настоящей страницей. Если хочется посмотреть, как приложение для заметок делается на самом деле — вам сюда.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Заходите писать вместе</h2>
+        <p>Без аккаунтов и анкет — нужен только Telegram, который и так стоит на телефоне. Подпишитесь, и следующее обновление будет тем, к которому вы приложили руку.</p>
+        <div class="contact-row">
+          <a class="btn btn-fill" href="https://t.me/HandynotesApp">
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21.2 3.3 3.7 10.1c-.9.35-.85 1.63.07 1.9l5.6 1.7 1.75 5.6c.28.9 1.55.97 1.93.1l2.1-4.8 4.9 3.6c.75.55 1.8.13 1.98-.78L23 4.5c.2-.95-.8-1.66-1.8-1.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="m9.4 13.7 10.3-8.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Открыть канал
+          </a>
+          <a class="btn btn-outline" href="/support/">Нужна помощь? →</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__row">
+      <a class="nav-pill__wordmark" href="/" aria-label="HandyNotes">
+        <span class="logo-mark logo-mark--sm" aria-hidden="true"></span>
+      </a>
+      <ul class="foot__links">
+        <li><a href="/community/"><span class="i18n-en">Community</span><span class="i18n-ru">Сообщество</span></a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
+        <li><a href="https://t.me/GNaum">Telegram</a></li>
+      </ul>
+      <p class="foot__credit"><span class="i18n-en">© 2026 HandyNotes. Built by one developer.</span><span class="i18n-ru">© 2026 HandyNotes. Сделано одним разработчиком.</span></p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -776,6 +776,57 @@ svg .pop {
 /* Telegram button — black label (text + icon) in both themes */
 .contact-row .btn-fill { color: #111; }
 
+/* ---------------------------------- community (Telegram channel) ---------------------------------- */
+
+/* one tappable card: the whole row is the link to the channel */
+.channel-card,
+.doc__body a.channel-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-xl);
+  border: var(--rule-hair) solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-raised);
+  text-decoration: none;
+  transition: transform var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+}
+.channel-card:hover,
+.doc__body a.channel-card:hover { transform: translateY(-2px); background: var(--glass-bg-strong); color: inherit; }
+
+.channel-card__mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-wash);
+  color: var(--color-accent-hover);
+}
+.channel-card__mark svg { width: 1.6rem; height: 1.6rem; }
+
+.channel-card__copy { flex: 1 1 12rem; display: flex; flex-direction: column; gap: var(--space-3xs); }
+
+.channel-card__name {
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.channel-card__handle {
+  font-size: var(--text-sm);
+  color: var(--color-neutral);
+}
+
+/* the CTA is a span inside the card link, so it only has to look like a button */
+.channel-card__cta { flex: none; color: #111; }
+
 /* ---------------------------------- invite / 404 ---------------------------------- */
 
 .centered-page {
@@ -835,6 +886,8 @@ svg .pop {
     font-size: var(--text-sm);
   }
   .contact-row .btn__icon { width: 1.1em; height: 1.1em; }
+  .channel-card { padding: var(--space-lg); gap: var(--space-md); }
+  .channel-card__cta { width: 100%; justify-content: center; }
 }
 
 /* ---------------------------------- reduced motion ---------------------------------- */
