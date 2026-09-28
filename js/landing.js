@@ -288,6 +288,177 @@
     $$("[data-scene]").forEach(function (h) { sceneIo.observe(h); });
   }
 
+  /* ---------------------------------------------------------------- the pen: ink and nib in one frame */
+
+  // A broad-nib flourish (a coil of growing loops, a big swoop, a curled swash). The ink and
+  // the nib are drawn from the same point in the same frame, so the stroke never trails the
+  // pen. The pen slows in tight turns and runs on the straights, the width follows the nib
+  // angle, and the ink turns from ink colour into the accent along the way.
+  var penArt = $(".engine-art");
+  if (penArt) {
+    var inkCv = $(".engine-art__ink", penArt), nibCv = $(".engine-art__nib", penArt);
+    var inkCx = inkCv.getContext("2d"), nibCx = nibCv.getContext("2d");
+    var VW = 520, VH = 125;
+    var flourish = (function () {
+      var raw = [], i, u;
+      for (i = 0; i <= 520; i++) {
+        u = i / 520;
+        var phi = Math.PI + u * 10 * Math.PI, r = 8 + 20 * Math.pow(u, 0.8);
+        raw.push([34 + 230 * u + r * Math.sin(phi) * 1.05, 84 - r * Math.cos(phi) * 0.95 - 10 * u]);
+      }
+      var tail = [raw[raw.length - 1], [292, 44], [330, 18], [372, 26], [384, 62], [356, 98], [318, 104], [300, 80],
+        [332, 58], [392, 66], [446, 92], [488, 108], [508, 96], [504, 78], [488, 76], [482, 88]];
+      var P = [tail[0]].concat(tail, [tail[tail.length - 1]]);
+      raw.pop();
+      for (i = 1; i < P.length - 2; i++) {
+        for (var k = 0; k < 22; k++) {
+          var t = k / 22, t2 = t * t, t3 = t2 * t, pt = [];
+          for (var j = 0; j < 2; j++) {
+            pt.push(0.5 * (2 * P[i][j] + (-P[i - 1][j] + P[i + 1][j]) * t + (2 * P[i - 1][j] - 5 * P[i][j] + 4 * P[i + 1][j] - P[i + 2][j]) * t2 +
+              (-P[i - 1][j] + 3 * P[i][j] - 3 * P[i + 1][j] + P[i + 2][j]) * t3));
+          }
+          raw.push(pt);
+        }
+      }
+      raw.push(tail[tail.length - 1]);
+      // even steps along the curve
+      var pts = [raw[0]], acc = 0, step = 1.2;
+      for (i = 1; i < raw.length; i++) {
+        var a = raw[i - 1], b = raw[i], d = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        if (!d) continue;
+        var s = step - acc;
+        while (s <= d) { pts.push([a[0] + (b[0] - a[0]) * s / d, a[1] + (b[1] - a[1]) * s / d]); s += step; }
+        acc = d - (s - step);
+      }
+      pts.push(raw[raw.length - 1]);
+      var n = pts.length, NIB = 38 * Math.PI / 180, w = [], ang = [], time = [0];
+      for (i = 0; i < n; i++) {
+        var p0 = pts[Math.max(0, i - 2)], p1 = pts[Math.min(n - 1, i + 2)];
+        ang.push(Math.atan2(p1[1] - p0[1], p1[0] - p0[0]));
+        var taper = Math.min(1, i / 40, (n - 1 - i) / 60);
+        w.push((1.6 + 6.4 * Math.abs(Math.sin(ang[i] - NIB))) * (0.35 + 0.65 * taper));
+      }
+      // time per step: longer where the direction turns fast
+      for (i = 1; i < n; i++) {
+        var turn = Math.abs(Math.atan2(Math.sin(ang[i] - ang[i - 1]), Math.cos(ang[i] - ang[i - 1])));
+        time.push(time[i - 1] + 1 + 9 * turn);
+      }
+      for (i = 0; i < n; i++) time[i] /= time[n - 1];
+      return { pts: pts, w: w, time: time, n: n };
+    })();
+    var DRAW = 2600, HOLD = 1300, FADE = 500, CYCLE = DRAW + HOLD + FADE;
+    var penScale = 1, drawnTo = 0, penT = 0, penLast = 0, penRunning = false, fading = false;
+    var inkRGB = [28, 26, 30], accRGB = [176, 100, 91];
+    var readColours = function () {
+      var probe = document.createElement("span");
+      probe.style.display = "none"; document.body.appendChild(probe);
+      var rgb = function (v) {
+        probe.style.color = ""; probe.style.color = v;
+        var m = getComputedStyle(probe).color.match(/\d+(\.\d+)?/g);
+        return m ? [+m[0], +m[1], +m[2]] : null;
+      };
+      var cs = getComputedStyle(document.documentElement);
+      inkRGB = rgb(cs.getPropertyValue("--text").trim()) || inkRGB;
+      accRGB = rgb(cs.getPropertyValue("--accent-strong").trim()) || accRGB;
+      probe.remove();
+    };
+    var sizePen = function () {
+      var r = penArt.getBoundingClientRect(), dpr = Math.min(3, window.devicePixelRatio || 1);
+      if (!r.width) return false;
+      [inkCv, nibCv].forEach(function (c) { c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr); });
+      penScale = (r.width * dpr) / VW;
+      inkCx.setTransform(penScale, 0, 0, penScale, 0, 0);
+      nibCx.setTransform(penScale, 0, 0, penScale, 0, 0);
+      return true;
+    };
+    var colourAt = function (f) {
+      var e = f * f;
+      return "rgb(" + Math.round(inkRGB[0] + (accRGB[0] - inkRGB[0]) * e) + "," + Math.round(inkRGB[1] + (accRGB[1] - inkRGB[1]) * e) + "," +
+        Math.round(inkRGB[2] + (accRGB[2] - inkRGB[2]) * e) + ")";
+    };
+    // lay ink from segment `from` up to the point at fraction `frac` of segment `to`
+    var tipAt = function (i, frac) {
+      var F = flourish, a = F.pts[i], b = F.pts[Math.min(F.n - 1, i + 1)];
+      return [a[0] + (b[0] - a[0]) * frac, a[1] + (b[1] - a[1]) * frac, F.w[i] + (F.w[Math.min(F.n - 1, i + 1)] - F.w[i]) * frac];
+    };
+    var layInk = function (from, upto) {
+      var F = flourish;
+      for (var i = Math.max(1, from); i <= upto; i++) {
+        var a = F.pts[i - 1], b = F.pts[i], wa = F.w[i - 1] / 2, wb = F.w[i] / 2;
+        var th = Math.atan2(b[1] - a[1], b[0] - a[0]), nx = -Math.sin(th), ny = Math.cos(th);
+        inkCx.fillStyle = colourAt(i / F.n);
+        inkCx.beginPath();
+        inkCx.moveTo(a[0] + nx * wa, a[1] + ny * wa); inkCx.lineTo(b[0] + nx * wb, b[1] + ny * wb);
+        inkCx.lineTo(b[0] - nx * wb, b[1] - ny * wb); inkCx.lineTo(a[0] - nx * wa, a[1] - ny * wa);
+        inkCx.closePath(); inkCx.fill();
+        inkCx.beginPath(); inkCx.arc(b[0], b[1], wb, 0, 6.2832); inkCx.fill();
+      }
+    };
+    var drawNib = function (tip) {
+      nibCx.clearRect(0, 0, VW, VH);
+      if (!tip) return;
+      nibCx.fillStyle = "rgba(" + accRGB.join(",") + ",0.22)";
+      nibCx.beginPath(); nibCx.arc(tip[0], tip[1], 12, 0, 6.2832); nibCx.fill();
+      nibCx.fillStyle = "rgb(" + accRGB.join(",") + ")";
+      nibCx.beginPath(); nibCx.arc(tip[0], tip[1], 4.6, 0, 6.2832); nibCx.fill();
+    };
+    // the index the pen has reached at time fraction p (time[] is increasing)
+    var indexAt = function (p) {
+      var T = flourish.time, lo = 0, hi = flourish.n - 1;
+      if (p >= 1) return [hi, 0];
+      while (hi - lo > 1) { var mid = (lo + hi) >> 1; if (T[mid] <= p) lo = mid; else hi = mid; }
+      return [lo, (p - T[lo]) / Math.max(1e-9, T[hi] - T[lo])];
+    };
+    var renderPen = function () {
+      var t = penT % CYCLE;
+      if (t < DRAW) {
+        if (fading) { fading = false; inkCv.classList.remove("is-fading"); inkCx.clearRect(0, 0, VW, VH); drawnTo = 0; readColours(); }
+        var at = indexAt(easeInOut(t / DRAW) * 0.25 + (t / DRAW) * 0.75), idx = at[0];
+        if (idx > drawnTo) { layInk(drawnTo + 1, idx); drawnTo = idx; }
+        var tip = tipAt(idx, at[1]);
+        // the last partial step, drawn every frame so ink reaches exactly under the nib
+        var a = flourish.pts[idx];
+        inkCx.fillStyle = colourAt(idx / flourish.n);
+        inkCx.beginPath(); inkCx.arc(tip[0], tip[1], tip[2] / 2, 0, 6.2832); inkCx.fill();
+        inkCx.lineWidth = tip[2]; inkCx.strokeStyle = inkCx.fillStyle;
+        inkCx.beginPath(); inkCx.moveTo(a[0], a[1]); inkCx.lineTo(tip[0], tip[1]); inkCx.stroke();
+        drawNib(tip);
+      } else {
+        if (drawnTo < flourish.n - 1) { layInk(drawnTo + 1, flourish.n - 1); drawnTo = flourish.n - 1; }
+        drawNib(null);
+        if (t >= DRAW + HOLD && !fading) { fading = true; inkCv.classList.add("is-fading"); }
+      }
+    };
+    var penLoop = function (ts) {
+      if (!visible.get(penArt)) { penRunning = false; return; }
+      penT += Math.min(50, ts - penLast); penLast = ts;
+      renderPen();
+      requestAnimationFrame(penLoop);
+    };
+    var kickPen = function () {
+      if (penRunning) return;
+      penRunning = true; penLast = performance.now();
+      requestAnimationFrame(penLoop);
+    };
+    var redrawPen = function () {
+      if (!sizePen()) return;
+      readColours();
+      inkCx.clearRect(0, 0, VW, VH);
+      var keep = drawnTo; drawnTo = 0;
+      if (reduced) { layInk(1, flourish.n - 1); drawnTo = flourish.n - 1; return; }
+      if (keep) { layInk(1, keep); drawnTo = keep; }
+    };
+    redrawPen();
+    window.addEventListener("resize", redrawPen);
+    new MutationObserver(redrawPen).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    if (!reduced && io) {
+      io.observe(penArt);
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) kickPen(); });
+      }, { threshold: 0.2 }).observe(penArt);
+    }
+  }
+
   /* ---------------------------------------------------------------- the infinite board camera */
 
   // The board is real: same-zoom simulator pans stitched into one layer of ink (paper keyed

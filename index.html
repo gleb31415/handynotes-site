@@ -35,7 +35,7 @@
   <meta name="theme-color" content="#1C1C1E" media="(prefers-color-scheme: dark)">
   <link rel="preload" as="image" href="/images/shots/hero-start.jpg">
 
-  <link rel="stylesheet" href="/css/landing.css?v=24">
+  <link rel="stylesheet" href="/css/landing.css?v=26">
 </head>
 <body>
 
@@ -211,17 +211,12 @@
       <div class="base">
         <article class="card glass card--engine reveal">
           <div class="card__copy">
-            <h3 class="card__title"><span class="i18n-en">Ink that keeps pace with your hand.</span><span class="i18n-ru">Чернила без задержки.</span></h3>
+            <h3 class="card__title"><span class="i18n-en">The smoothest writing experience on the market.</span><span class="i18n-ru">Самое плавное письмо на рынке.</span></h3>
             <p class="card__body"><span class="i18n-en">A custom Metal GPU engine draws every stroke the instant you make it — with pressure, tilt, hover and Pencil&nbsp;Pro squeeze. Hundreds of pages stay smooth.</span><span class="i18n-ru">Собственный движок на Metal рисует каждый штрих в тот же миг — с нажимом, наклоном, hover и сжатием Pencil&nbsp;Pro. Даже на сотнях страниц — ни одного рывка.</span></p>
           </div>
           <div class="engine-art" aria-hidden="true">
-            <svg viewBox="0 0 520 130">
-              <path class="engine-art__ink" pathLength="1" d="M22 92C52 30 84 22 104 62S142 112 172 70 218 14 250 60 296 112 326 66 380 18 414 58 470 104 498 52"/>
-              <g class="engine-art__nib">
-                <circle r="13" class="halo"/><circle r="5.5"/>
-                <animateMotion dur="3.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.72;1" calcMode="linear" path="M22 92C52 30 84 22 104 62S142 112 172 70 218 14 250 60 296 112 326 66 380 18 414 58 470 104 498 52"/>
-              </g>
-            </svg>
+            <canvas class="engine-art__ink"></canvas>
+            <canvas class="engine-art__nib"></canvas>
           </div>
           <div class="stats">
             <div class="stat glass"><strong>120<small>Hz</small></strong><span><span class="i18n-en">ProMotion rendering</span><span class="i18n-ru">частота отрисовки</span></span></div>
@@ -612,8 +607,8 @@
     <p class="foot__legal"><span class="i18n-en">Google Drive, Desmos, GeoGebra, Goodnotes, Notability and the other app names and icons on this page are trademarks of their respective owners. Pencora is not affiliated with or endorsed by them; they are shown to describe compatibility and comparable features.</span><span class="i18n-ru">Google Drive, Desmos, GeoGebra, Goodnotes, Notability и другие названия и иконки приложений на этой странице — товарные знаки их владельцев. Pencora не связана с ними и не одобрена ими; они приведены, чтобы описать совместимость и сопоставимые возможности.</span></p>
   </footer>
 
-  <script src="/js/scenes.js?v=24"></script>
-  <script src="/js/model-sample.js?v=24"></script>
-  <script src="/js/landing.js?v=24"></script>
+  <script src="/js/scenes.js?v=26"></script>
+  <script src="/js/model-sample.js?v=26"></script>
+  <script src="/js/landing.js?v=26"></script>
 </body>
 </html>
