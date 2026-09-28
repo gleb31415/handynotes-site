@@ -1,5 +1,5 @@
-/* Noto · сбор почерка — весь стиль приложения.
-   Одна страница, четыре экрана, никаких зависимостей. */
+/* Pencora · сбор почерка — весь стиль приложения.
+   Одна страница, пять экранов, никаких зависимостей. */
 
 :root {
   --bg: #f4f3ef;
@@ -182,6 +182,8 @@ li { margin-bottom: 6px; }
   color: var(--ink-soft);
 }
 .badge.done { color: var(--ok); }
+.badge.joined { color: var(--accent); }
+.badge.warn { color: var(--warn); }
 
 .bar {
   height: 6px;
@@ -204,6 +206,21 @@ li { margin-bottom: 6px; }
 .writer-stats .ok { color: var(--ok); }
 .writer-stats .warn { color: var(--warn); }
 
+.tracks { display: flex; flex-direction: column; gap: 2px; margin: 8px 0 6px; }
+.track {
+  display: grid;
+  grid-template-columns: 74px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.track .bar { margin: 6px 0; }
+.track-count { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.track-count b { color: var(--ink); }
+/* Символы — своим цветом, чтобы две полосы не читались как одна. */
+.track.glyphs .bar span { background: var(--ok); }
+
 .writer-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 .writer-actions .btn { flex: 1 1 auto; min-width: 104px; font-size: 14px; }
 
@@ -223,6 +240,14 @@ li { margin-bottom: 6px; }
 /* ── Согласие ───────────────────────────────────────────── */
 
 .consent-card h2:first-of-type { margin-top: 8px; }
+.consent-update {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
 .consent-writer { color: var(--ink-soft); font-size: 14px; }
 
 .check {
@@ -234,6 +259,8 @@ li { margin-bottom: 6px; }
   cursor: pointer;
 }
 .check input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--accent); }
+/* Согласие и «мне уже 18» — два обязательных флажка подряд. */
+.check + .check { margin-top: -4px; }
 
 .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; }
 .switch-row small { display: block; color: var(--ink-soft); font-size: 13px; margin-top: 2px; }
@@ -298,6 +325,23 @@ li { margin-bottom: 6px; }
 }
 .prompt-hint { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
 .prompt-hint b { color: var(--ink); }
+.prompt-hint code { font-size: 13px; padding: 1px 5px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); }
+
+/* Символ-задание: крупно, так, как его набирает KaTeX. */
+.prompt-word.is-glyph { font-size: clamp(44px, 10vw, 64px); font-weight: 400; line-height: 1.2; min-height: 1.2em; }
+.prompt-word.is-glyph .katex { font-size: 1em; }
+.prompt-note { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+.template-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.template-toggle[hidden] { display: none; }
+.template-toggle input { width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
 
 .sheet-wrap {
   position: relative;
@@ -357,6 +401,276 @@ li { margin-bottom: 6px; }
 }
 .controls-spacer { flex: 1; }
 .controls .btn { font-size: 14px; }
+
+/* ── Настройки: поле ввода ──────────────────────────────── */
+
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field small { display: block; color: var(--ink-soft); font-size: 13px; margin-top: 2px; }
+.field input, .compose textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.small { font-size: 13px; }
+
+/* ── Решение почерком ───────────────────────────────────── */
+
+.scroll.wide { max-width: 1200px; }
+.compose textarea { resize: vertical; line-height: 1.4; min-height: 120px; }
+.compose textarea.mono { font-size: 12.5px; }
+.field-title { display: block; font-weight: 650; font-size: 15px; margin-bottom: 8px; }
+.btn-row.compact { margin-top: 10px; align-items: center; }
+.btn-row.compact .btn { flex: 0 1 auto; min-width: 0; }
+.btn-row.compact .btn[hidden] { display: none; }
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.segmented button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 550;
+  min-height: 38px;
+  padding: 0 12px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.segmented button + button { border-left: 1px solid var(--line); }
+.segmented button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+
+/* ── Язык интерфейса (RU/EN в шапке каждого экрана) ─────── */
+
+.lang-toggle { flex: none; border-radius: 10px; }
+.lang-toggle button { min-height: 30px; padding: 0 9px; font-size: 12px; font-weight: 650; letter-spacing: 0.02em; }
+
+/* До загрузки модулей: экран загрузки уже на языке страницы. */
+html[lang="en"] .boot-ru { display: none; }
+html:not([lang="en"]) .boot-en { display: none; }
+
+/* ── Язык слов для сбора ────────────────────────────────── */
+
+.collect-lang {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 14px;
+}
+.collect-lang-title { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.collect-toggle { display: flex; width: min(460px, 100%); border-radius: 14px; }
+.collect-toggle button { flex: 1; min-height: 48px; font-size: 16px; font-weight: 650; padding: 0 14px; }
+.collect-toggle.compact { width: auto; border-radius: 12px; }
+.collect-toggle.compact button { min-height: 34px; font-size: 13px; padding: 0 12px; flex: none; }
+
+/* ── Сообщество: 3 + реальные авторы, полоса до следующей модели ── */
+
+.community { padding: 14px 16px 12px; }
+.community-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+}
+.community-count { font-size: 17px; font-weight: 600; }
+.community-count b { font-size: 22px; font-variant-numeric: tabular-nums; }
+.community-next { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.community-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  margin: 10px 0 8px;
+}
+.community-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--ok));
+  transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.community-bar.big { height: 14px; margin: 14px 0 10px; }
+.community-note { font-size: 13px; color: var(--ink-soft); margin: 0; }
+
+/* Экран письма: язык слов и одна строка про сообщество. */
+.write-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 14px;
+  padding: 8px 12px 0;
+}
+body[data-mode="glyphs"] .write-strip { display: none; }
+.community-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  min-width: 0;
+}
+.community-mini[hidden] { display: none; }
+.community-mini-bar {
+  flex: none;
+  width: 56px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.community-mini-bar span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+
+/* ── «Ты в команде!» ────────────────────────────────────── */
+
+.celebrate { position: relative; text-align: center; }
+.celebrate h2 { font-size: 24px; margin: 4px 0 6px; animation: celebrate-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.celebrate-number { font-size: 17px; color: var(--ink) !important; margin: 0; }
+.celebrate-count {
+  display: inline-block;
+  min-width: 1.4em;
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.celebrate-count.is-ticked { animation: celebrate-tick 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+.celebrate-line { font-size: 13px; font-variant-numeric: tabular-nums; }
+.celebrate-body { text-align: left; }
+.celebrate .modal-actions { justify-content: center; }
+.celebrate .modal-actions .btn { min-width: 160px; }
+.celebrate-confetti { position: absolute; inset: -22px -22px auto; height: 0; pointer-events: none; }
+.celebrate-confetti i {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  width: 7px;
+  height: 11px;
+  border-radius: 2px;
+  background: hsl(var(--h), 80%, 58%);
+  opacity: 0;
+  transform: rotate(var(--r));
+  animation: confetti-fall 1.6s ease-in var(--d) both;
+}
+@keyframes celebrate-in { from { opacity: 0; transform: translateY(6px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes celebrate-tick {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.45); }
+  100% { transform: scale(1); }
+}
+@keyframes confetti-fall {
+  0% { opacity: 0; transform: translateY(0) rotate(var(--r)); }
+  10% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(260px) rotate(calc(var(--r) + 300deg)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .community-bar span, .celebrate h2, .celebrate-count.is-ticked { transition: none; animation: none; }
+  .celebrate-confetti { display: none; }
+}
+
+details summary { cursor: pointer; color: var(--ink-soft); font-size: 14px; padding: 6px 0; }
+.prompt-details textarea { margin-top: 6px; }
+
+.compose .write-meta h1 { flex: none; }
+/* Имя писателя в шапке сжимается с многоточием, как .writer-chip на экране письма. */
+#compose-writer { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.compose .card > h2:first-child { margin-top: 0; }
+.compose-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.compose-grid > * { min-width: 0; }
+/* На телефоне страница важнее ползунков: сначала результат, потом настройки. */
+.compose-main { order: -1; }
+@media (min-width: 980px) {
+  .compose-grid { grid-template-columns: 340px 1fr; align-items: start; }
+  .compose-main { order: 0; }
+}
+
+.knobs { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+.knob { display: flex; flex-direction: column; gap: 4px; }
+.knob + .knob { margin-top: 2px; }
+.knob label { display: block; cursor: pointer; }
+.knob-head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; font-size: 14px; }
+.knob-head output { font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.knob small { display: block; color: var(--ink-soft); font-size: 12px; line-height: 1.35; }
+.knob-label { font-size: 14px; }
+.knob-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-soft); }
+.knob input[type="range"] { width: 100%; accent-color: var(--accent); margin: 2px 0; min-height: 28px; }
+.seed-row label small { margin-top: 2px; }
+.seed-controls { display: flex; gap: 8px; }
+.seed-controls input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.card > .knob + .knob, .card > .knob { margin-bottom: 12px; }
+.switch-row.small b { font-size: 14px; }
+
+.preview-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.check.inline { margin: 0; font-size: 14px; align-items: center; }
+.check.inline input { width: 18px; height: 18px; }
+.compose-status { font-size: 13px; color: var(--ink-soft); }
+.compose-status[data-tone="busy"] { color: var(--accent); }
+.compose-status[data-tone="busy"]::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: -1px;
+}
+.compose-status[data-tone="error"] { color: var(--danger); }
+.compose-status[data-tone="ok"] { color: var(--ok); }
+
+.pager { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 14px; margin-bottom: 8px; }
+.pager[hidden] { display: none; }
+.pager .btn { min-width: var(--tap); padding: 0 10px; font-size: 20px; }
+
+.preview {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  /* Бумага всегда светлая — как лист для письма. */
+  background: #fffefb;
+  min-height: 160px;
+}
+.preview canvas { display: block; width: 100%; height: auto; }
+.preview-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: rgba(20, 26, 40, 0.4);
+  font-size: 14px;
+}
+.preview-empty[hidden] { display: none; }
+.exports { margin-top: 12px; }
+
+.missing-chars { font-size: 18px; letter-spacing: 0.08em; }
+#compose-missing-card[hidden] { display: none; }
+.lint ul { margin-top: 6px; font-size: 13px; color: var(--ink-soft); }
+.lint[hidden] { display: none; }
 
 /* ── Модалки и тосты ────────────────────────────────────── */
 
@@ -458,6 +772,98 @@ li { margin-bottom: 6px; }
 @media (max-height: 520px) {
   .prompt { padding: 2px 12px 6px; }
   .prompt-word { font-size: 26px; }
-  .prompt-hint, .stage-label { display: none; }
+  .prompt-hint, .stage-label, .community-mini { display: none; }
+  .write-strip { padding-top: 4px; }
   .topbar { min-height: 44px; }
+}
+
+/* Узкий телефон: шапка письма тесная — счётчик уступает место; большой
+   переключатель языка слов ужимается, чтобы «Английские слова» не
+   переносились на вторую строку. */
+@media (max-width: 420px) {
+  .write .counter { display: none; }
+  .sync-chip { max-width: 34vw; }
+  .collect-toggle:not(.compact) button { font-size: 15px; padding: 0 8px; }
+}
+
+/* ── The Pencora look (2026-09-28) ──────────────────────────────────────
+   Same paper, ink, accent and glass as handynotes.app, laid over the tokens
+   above: layout and behaviour are untouched. The writing pad stays white. */
+
+:root {
+  --bg: #f3f0eb;
+  --surface: rgba(255, 255, 255, 0.74);
+  --surface-2: #f7f4ef;
+  --ink: #17151a;
+  --ink-soft: #5d5760;
+  --line: rgba(40, 28, 30, 0.10);
+  --accent: #b0645b;
+  --accent-ink: #ffffff;
+  --radius: 22px;
+  --shadow: 0 1px 2px rgba(20, 20, 20, 0.05), 0 20px 44px -26px rgba(20, 20, 20, 0.32);
+  --ribbons: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1600' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M1290 60C900 -20 640 240 780 470S1180 760 1010 980 560 1240 330 1680' stroke='%23e6e0d8' stroke-width='84'/%3E%3Cpath d='M-90 180C230 120 330 440 170 610S20 980 290 1140 820 1300 1290 1420' stroke='%23ecdcd6' stroke-width='60'/%3E%3C/g%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1c1e;
+    --surface: rgba(44, 44, 48, 0.70);
+    --surface-2: #2a2a2d;
+    --ink: #efedf3;
+    --ink-soft: #aaa4ae;
+    --line: rgba(255, 255, 255, 0.09);
+    --accent: #e3a1a8;
+    --accent-ink: #2b1517;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 20px 44px -24px rgba(0, 0, 0, 0.7);
+    --ribbons: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1600' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M1290 60C900 -20 640 240 780 470S1180 760 1010 980 560 1240 330 1680' stroke='%2328282b' stroke-width='84'/%3E%3Cpath d='M-90 180C230 120 330 440 170 610S20 980 290 1140 820 1300 1290 1420' stroke='%232d282a' stroke-width='60'/%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+body {
+  font-family: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: var(--ribbons) center / cover no-repeat, var(--bg);
+}
+h1 { font-size: 18px; font-weight: 750; letter-spacing: -0.02em; }
+h2 { font-weight: 720; letter-spacing: -0.015em; }
+
+.topbar {
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  border-bottom-color: transparent;
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.card {
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), var(--shadow);
+}
+@media (prefers-color-scheme: dark) {
+  .card { border-color: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--shadow); }
+}
+
+.btn { border-radius: 999px; font-weight: 650; letter-spacing: -0.01em; }
+.btn.primary { background: var(--ink); color: var(--bg); box-shadow: 0 10px 22px -14px rgba(0, 0, 0, 0.55); }
+.badge.joined { color: var(--accent); }
+.bar { border-color: transparent; }
+
+/* Community bar (2026-09-28): one hue, light rose into terracotta, with a soft sheen on top.
+   The old accent→green blend went muddy in the middle. */
+.community-bar { background: color-mix(in srgb, var(--accent) 10%, var(--surface-2)); border-color: color-mix(in srgb, var(--accent) 16%, transparent); }
+.community-bar span {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 38%, #fff) 0%, color-mix(in srgb, var(--accent) 72%, #fff) 45%, var(--accent) 100%);
+  box-shadow: 0 0 12px -2px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.community-mini-bar span { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 45%, #fff), var(--accent)); }
+@media (prefers-color-scheme: dark) {
+  .community-bar span {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 60%),
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 45%, #2a2a2d) 0%, color-mix(in srgb, var(--accent) 75%, #2a2a2d) 45%, var(--accent) 100%);
+  }
+  .community-mini-bar span { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 50%, #2a2a2d), var(--accent)); }
 }

@@ -1,7 +1,7 @@
 {
-  "name": "Noto · сбор почерка",
-  "short_name": "Noto сбор",
-  "description": "Сбор рукописных образцов по общему ядру заданий: запись траекторий пера, работа офлайн, экспорт в JSON.",
+  "name": "Pencora · сбор почерка",
+  "short_name": "Pencora сбор",
+  "description": "Сбор рукописных образцов по общему ядру заданий: запись траекторий пера, работа офлайн, экспорт в JSON. · Handwriting sample collection from a shared core of tasks (Russian and English): pen trajectories, works offline, JSON export.",
   "lang": "ru",
   "start_url": "./",
   "scope": "./",

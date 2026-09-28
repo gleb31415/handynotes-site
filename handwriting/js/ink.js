@@ -88,6 +88,9 @@ export class InkSheet {
     /// Once a real pen has written on this sheet, touches are palm contact.
     this.penSeen = false;
     this.enabled = true;
+    /// Optional display-only underlay (e.g. a faint reference glyph), painted
+    /// between the guides and the ink. See `setTemplate`.
+    this.template = null;
 
     this._bind();
   }
@@ -251,6 +254,16 @@ export class InkSheet {
 
   // MARK: Drawing
 
+  /// Installs (or, with null, removes) a display-only underlay painter.
+  /// `fn(ctx, { width, height })` runs on every redraw after the guides and
+  /// before the ink, with the context in CSS pixels of the CURRENT bounds. It
+  /// only paints: nothing it does can reach `strokes` or `capture()`, and its
+  /// canvas state is saved and restored around it.
+  setTemplate(fn) {
+    this.template = typeof fn === 'function' ? fn : null;
+    this.redraw();
+  }
+
   /// Sets the canvas transform to capture space: device pixels ← CSS pixels ←
   /// the display similarity. Ink is drawn through it; guides are not.
   _inkTransform() {
@@ -265,6 +278,7 @@ export class InkSheet {
     ctx.setTransform(backing, 0, 0, backing, 0, 0);
     ctx.clearRect(0, 0, this.width, this.height);
     this._drawGuides();
+    this._drawTemplate();
     this._inkTransform();
     for (const stroke of this.strokes) this._drawStroke(stroke, 0);
   }
@@ -286,6 +300,20 @@ export class InkSheet {
     line(height * GUIDES.xHeight, 'rgba(20, 30, 60, 0.10)', [4, 6], 1);
     line(height * GUIDES.baseline, 'rgba(30, 60, 130, 0.34)', [], 1.4);
     line(height * GUIDES.descender, 'rgba(20, 30, 60, 0.08)', [4, 6], 1);
+  }
+
+  _drawTemplate() {
+    if (!this.template) return;
+    const { ctx } = this;
+    ctx.save();
+    try {
+      this.template(ctx, { width: this.width, height: this.height });
+    } catch (error) {
+      // A broken underlay must never cost the writer their sheet.
+      console.warn('ink template failed', error);
+    } finally {
+      ctx.restore();
+    }
   }
 
   /// Draws a stroke from `fromIndex`, so a live stroke only ever paints its

@@ -95,24 +95,30 @@ export function escapeHtml(value) {
   })[c]);
 }
 
-/// Bytes → "1,4 МБ". Storage numbers are shown to a human, not a machine.
-export function formatBytes(bytes) {
-  if (!bytes) return '0 КБ';
-  const units = ['Б', 'КБ', 'МБ', 'ГБ'];
+/// Bytes → "1,4 МБ" / "1.4 MB". Storage numbers are shown to a human, not a
+/// machine. `lang` is the interface language ('ru' | 'en'); this module takes
+/// it as an argument rather than importing the page's i18n, because it is
+/// also copied into the app's FormulaLab bundle.
+export function formatBytes(bytes, lang = 'ru') {
+  const en = lang === 'en';
+  if (!bytes) return en ? '0 KB' : '0 КБ';
+  const units = en ? ['B', 'KB', 'MB', 'GB'] : ['Б', 'КБ', 'МБ', 'ГБ'];
   let value = bytes;
   let unit = 0;
   while (value >= 1024 && unit < units.length - 1) {
     value /= 1024;
     unit++;
   }
-  return `${value < 10 && unit > 0 ? value.toFixed(1) : Math.round(value)} ${units[unit]}`.replace('.', ',');
+  const text = `${value < 10 && unit > 0 ? value.toFixed(1) : Math.round(value)} ${units[unit]}`;
+  return en ? text : text.replace('.', ',');
 }
 
-export function formatDate(ms) {
+export function formatDate(ms, lang = 'ru') {
   if (!ms) return '—';
   const d = new Date(ms);
-  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) +
-    ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  const locale = lang === 'en' ? 'en-US' : 'ru-RU';
+  return d.toLocaleDateString(locale, { day: 'numeric', month: 'short' }) +
+    ' ' + d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
 }
 
 /// Trailing-edge debounce. Draft autosave rides this so a fast writer doesn't

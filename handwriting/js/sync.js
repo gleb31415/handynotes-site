@@ -9,6 +9,7 @@
 // server is marked `sent` and stays on the device, exportable and re-sendable.
 
 import { samples as sampleStore, writers as writerStore, meta } from './store.js';
+import { t } from './i18n.js';
 
 export const SERVER = {
   projectURL: 'https://mfnnodremhlvdkjjqqew.supabase.co',
@@ -21,6 +22,30 @@ const BATCH_SIZE = 25;
 const MAX_BATCH_BYTES = 1_200_000;
 const RETRY_MIN_MS = 5_000;
 const RETRY_MAX_MS = 300_000;
+/// Consent text that first covers math symbols. Symbol samples of a writer
+/// who agreed only to an older text wait in the queue (never dropped) until
+/// the writer agrees to this one.
+export const GLYPH_CONSENT_VERSION = '0.2';
+
+/// Consent text that adds the age confirmation (18+). Nothing of a writer
+/// leaves the device until they agreed to it AND confirmed their age.
+export const ADULT_CONSENT_VERSION = '0.3';
+
+/// Has this writer agreed to (at least) this version of the consent text?
+/// Versions compare as numbers, so 0.3 covers everything 0.2 covered.
+export function consentCovers(writer, version) {
+  if (!writer?.consent?.granted) return false;
+  const given = parseFloat(writer.consent.text_version ?? '0');
+  return Number.isFinite(given) && given >= parseFloat(version);
+}
+
+/// The one gate for writing, uploading and joining the community: consent to
+/// the current text with the writer's own confirmation of being 18 or older.
+/// A writer who agreed before the age question existed keeps everything
+/// they wrote, queued, until they confirm.
+export function consentAllowsUpload(writer) {
+  return consentCovers(writer, ADULT_CONSENT_VERSION) && writer.consent.adult === true;
+}
 
 /// Local-only bookkeeping that must not travel to the server or into exports.
 const LOCAL_FIELDS = new Set(['sync', 'uploaded_at', 'writer_label']);
@@ -44,6 +69,9 @@ export function writerEnvelopeFields(writer, { retire = false } = {}) {
   if (writer.can_write_cursive) fields.can_write_cursive = writer.can_write_cursive;
   if (writer.input_device) fields.input_device = writer.input_device;
   if (writer.habitual_script) fields.habitual_script = writer.habitual_script;
+  // The collection language the writer is on (the server keeps the latest);
+  // every sample also carries its own `language`.
+  if (writer.task_language === 'ru' || writer.task_language === 'en') fields.task_language = writer.task_language;
   if (retire) fields.retire_writer = true;
   return fields;
 }
@@ -57,7 +85,9 @@ export class SyncEngine extends EventTarget {
     super();
     this.enabled = true;
     this.running = false;
-    this.lastError = null;
+    /// { key, vars } of a dictionary message, or { text } of a raw one —
+    /// worded on read, so the chip follows a language switch.
+    this._error = null;
     this.lastSuccessAt = null;
     this.progress = null;
     this.failures = 0;
@@ -81,6 +111,12 @@ export class SyncEngine extends EventTarget {
 
   get isOnline() { return navigator.onLine !== false; }
 
+  /// The last error in the current interface language, or null.
+  get lastError() {
+    if (!this._error) return null;
+    return this._error.key ? t(this._error.key, this._error.vars) : this._error.text;
+  }
+
   _emit() { this.dispatchEvent(new Event('change')); }
 
   _scheduleRetry() {
@@ -98,23 +134,25 @@ export class SyncEngine extends EventTarget {
     if (!this.enabled) return;
     if (this.running) { this._rerun = true; return; }
     if (!this.isOnline) {
-      this.lastError = 'Нет сети';
+      this._error = { key: 'sync.noNetwork' };
       this._emit();
       return;
     }
 
     this.running = true;
-    this.lastError = null;
+    this._error = null;
     this._emit();
 
     try {
       const roster = writers ?? await writerStore.all();
       for (const writer of roster) {
-        if (!writer.consent?.granted) continue;
+        // No upload without consent to the current text AND the 18+
+        // confirmation; the writer's samples stay queued, never dropped.
+        if (!consentAllowsUpload(writer)) continue;
         await this._drainWriter(writer);
       }
     } catch (error) {
-      this.lastError = error?.message ?? String(error);
+      this._error = { text: error?.message ?? String(error) };
     } finally {
       this.running = false;
       this.progress = null;
@@ -130,6 +168,9 @@ export class SyncEngine extends EventTarget {
 
   async _drainWriter(writer) {
     let pending = await sampleStore.pendingForWriter(writer.writer_id);
+    if (!consentCovers(writer, GLYPH_CONSENT_VERSION)) {
+      pending = pending.filter((s) => s.sample_type !== 'prompted_glyph');
+    }
     if (pending.length === 0) return;
 
     const total = pending.length;
@@ -154,13 +195,13 @@ export class SyncEngine extends EventTarget {
         if (accepted.length < batch.length) {
           // The server took part of the batch; the rest stays queued and
           // rides the next pass rather than being retried in a tight loop.
-          this.lastError = 'Часть образцов сервер не принял — попробуем позже';
+          this._error = { key: 'sync.partial' };
           this._scheduleRetry();
           return;
         }
       } else {
         this.failures += 1;
-        this.lastError = outcome.error;
+        this._error = outcome.error;
         this._scheduleRetry();
         return;
       }
@@ -180,19 +221,29 @@ export class SyncEngine extends EventTarget {
         body: JSON.stringify(envelopeFor(writer, batch)),
       });
       if (!response.ok) {
-        return { ok: false, error: `Сервер ответил ${response.status}` };
+        return { ok: false, error: { key: 'sync.status', vars: { status: response.status } } };
       }
       const body = await response.json().catch(() => ({}));
       return { ok: true, statuses: body.statuses ?? {} };
     } catch (error) {
-      return { ok: false, error: 'Сервер недоступен' };
+      return { ok: false, error: { key: 'sync.unreachable' } };
+    }
+  }
+
+  /// Resolves once no drain is running (or after `timeoutMs`, whichever is
+  /// first) — for a caller that must know the queue went out before it
+  /// speaks to the server (the community announcement).
+  async whenIdle(timeoutMs = 20_000) {
+    const deadline = Date.now() + timeoutMs;
+    while ((this.running || this._rerun) && Date.now() < deadline) {
+      await new Promise((resolve) => setTimeout(resolve, 250));
     }
   }
 
   /// Best-effort "this writer is done" stamp. A failure costs the server a
   /// `retired_at` and nothing else, so it never blocks the handover.
   async retire(writer) {
-    if (!this.enabled || !this.isOnline || !writer.consent?.granted) return false;
+    if (!this.enabled || !this.isOnline || !consentAllowsUpload(writer)) return false;
     const url = `${SERVER.projectURL}/functions/v1/samples`;
     try {
       const response = await fetch(url, {

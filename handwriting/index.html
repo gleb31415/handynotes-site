@@ -2,42 +2,73 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<title>Noto · сбор почерка</title>
+<title>Pencora · сбор почерка</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="description" content="Сбор рукописных образцов: задания из общего ядра, запись траекторий пера, работа офлайн, экспорт в JSON.">
+<meta name="description" data-i18n-attr="content:doc.description" content="Сбор рукописных образцов: слова из общего ядра и математические символы, запись траекторий пера, работа офлайн, экспорт в JSON, решения задач своим почерком.">
+<script>
+  // Before the first paint: the page's language (the same resolution as
+  // js/i18n.js — ?lang=, then localStorage "hn-lang", then the browser), so
+  // the boot screen already speaks it. Everything else is applied by i18n.js.
+  (function () {
+    var lang = null;
+    try { var q = new URLSearchParams(location.search).get('lang'); if (q === 'ru' || q === 'en') lang = q; } catch (e) {}
+    if (!lang) { try { var s = localStorage.getItem('hn-lang'); if (s === 'ru' || s === 'en') lang = s; } catch (e) {} }
+    if (!lang) lang = String((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase().indexOf('ru') === 0 ? 'ru' : 'en';
+    document.documentElement.lang = lang;
+  })();
+</script>
 <meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14161c" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Noto сбор">
+<meta name="apple-mobile-web-app-title" data-i18n-attr="content:doc.appTitle" content="Pencora сбор">
 <meta name="robots" content="noindex">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icons/icon-180.png">
-<link rel="stylesheet" href="./css/app.css">
+<link rel="stylesheet" href="./css/app.css?v=2">
 </head>
 <body data-screen="roster">
 
-<div id="boot"><div class="boot-spinner"></div><p>Загрузка заданий…</p></div>
+<div id="boot"><div class="boot-spinner"></div><p><span class="boot-ru" lang="ru">Загрузка заданий…</span><span class="boot-en" lang="en">Loading tasks…</span></p></div>
 
 <!-- ───────────────────────── Ростер писателей ───────────────────────── -->
 <section class="screen" data-screen="roster">
   <header class="topbar">
-    <h1>Сбор почерка</h1>
-    <button class="icon-btn" id="btn-settings" aria-label="Настройки">
+    <h1 data-i18n="roster.title">Сбор почерка</h1>
+    <div class="segmented lang-toggle" role="group" data-lang-toggle data-i18n-attr="aria-label:lang.toggle" aria-label="Язык интерфейса">
+      <button type="button" data-value="ru" lang="ru">RU</button>
+      <button type="button" data-value="en" lang="en">EN</button>
+    </div>
+    <button class="icon-btn" id="btn-settings" data-i18n-attr="aria-label:roster.settings" aria-label="Настройки">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Zm7.4-2.6.1-.9-.1-.9 1.9-1.5-1.9-3.2-2.3.8a6.9 6.9 0 0 0-1.6-.9L15 4h-3.7l-.5 2.3c-.6.2-1.1.5-1.6.9l-2.3-.8-1.9 3.2L6.9 11l-.1.9.1.9-1.9 1.5 1.9 3.2 2.3-.8c.5.4 1 .7 1.6.9l.5 2.3H15l.5-2.3c.6-.2 1.1-.5 1.6-.9l2.3.8 1.9-3.2-1.9-1.5Z"/></svg>
     </button>
   </header>
 
   <div class="scroll">
-    <p class="lead">
+    <!-- Which core the words come from: the page-wide pick, prominent on
+         purpose — the app's "collect English" link lands here with ?lang=en. -->
+    <div class="collect-lang">
+      <span class="collect-lang-title" data-i18n="collect.label">Какие слова писать</span>
+      <div class="segmented collect-toggle" role="group" data-collect-toggle data-i18n-attr="aria-label:collect.aria" aria-label="Язык слов для сбора">
+        <button type="button" data-value="ru" data-i18n="collect.ru">Русские слова</button>
+        <button type="button" data-value="en" data-i18n="collect.en">Английские слова</button>
+      </div>
+    </div>
+
+    <!-- The community counter (3 + real contributors), filled by app.js. -->
+    <section class="card community" id="community-card" aria-live="polite" data-i18n-attr="aria-label:community.aria" aria-label="Сколько людей уже пишут"></section>
+
+    <p class="lead" id="roster-lead">
       Каждый человек, который пишет на этом устройстве, — отдельный писатель.
-      Задания идут из общего ядра (759 слов, около 750 заданий на человека),
-      порядок у каждого свой и не меняется при перезагрузке страницы.
+      Задания идут из общего ядра, порядок у каждого свой и не меняется при
+      перезагрузке страницы. Отдельно собираются математические символы
+      (288 штук, около 560 заданий) — из них потом можно переписать решение
+      задачи вашим почерком.
     </p>
     <div id="writer-list" class="writer-list"></div>
-    <button class="btn primary block" id="btn-add-writer">＋ Новый писатель</button>
+    <button class="btn primary block" id="btn-add-writer" data-i18n="roster.addWriter">＋ Новый писатель</button>
     <div class="roster-stats" id="roster-stats"></div>
   </div>
 </section>
@@ -45,32 +76,54 @@
 <!-- ───────────────────────── Согласие ───────────────────────── -->
 <section class="screen" data-screen="consent">
   <header class="topbar">
-    <button class="icon-btn" id="consent-cancel" aria-label="Назад">←</button>
-    <h1>Согласие</h1>
-    <span class="topbar-spacer"></span>
+    <button class="icon-btn" id="consent-cancel" data-i18n-attr="aria-label:consent.back" aria-label="Назад">←</button>
+    <h1 data-i18n="consent.title">Согласие</h1>
+    <div class="segmented lang-toggle" role="group" data-lang-toggle data-i18n-attr="aria-label:lang.toggle" aria-label="Язык интерфейса">
+      <button type="button" data-value="ru" lang="ru">RU</button>
+      <button type="button" data-value="en" lang="en">EN</button>
+    </div>
   </header>
 
   <div class="scroll">
     <div class="card consent-card">
-      <p class="consent-writer">Писатель: <b id="consent-writer"></b></p>
-      <h2>Что собирается</h2>
+      <p class="consent-writer"><span data-i18n="consent.writer">Писатель:</span> <b id="consent-writer"></b></p>
+      <p class="consent-update" id="consent-update" data-i18n="consent.update" hidden>
+        Текст согласия обновился: теперь, кроме слов, собираются и математические
+        символы. Прочитайте, пожалуйста, и подтвердите ещё раз — уже написанное
+        остаётся как было.
+      </p>
+      <p class="consent-update" id="consent-age-update" data-i18n="consent.ageUpdate" hidden>
+        Подтвердите, пожалуйста, что вам уже исполнилось 18: сбор почерка теперь
+        только для взрослых. Всё, что уже написано, сохранится, но на сервер уйдёт
+        только после подтверждения.
+      </p>
+      <h2 data-i18n="consent.collectedTitle">Что собирается</h2>
       <ul>
-        <li>Траектория пера: координаты, время, нажим и наклон — то есть <b>как</b> написано слово.</li>
-        <li>Слово-задание, которое было показано, и техническая информация об экране.</li>
-        <li>Анонимный идентификатор писателя — случайный номер, не связанный с личностью.</li>
+        <li data-i18n-html="consent.c1">Траектория пера: координаты, время, нажим и наклон — то есть <b>как</b> написано слово.</li>
+        <li data-i18n="consent.c2">Также — рукописные математические символы и буквы (цифры, латиница, греческие буквы, знаки, скобки, кириллица), если вы их пишете.</li>
+        <li data-i18n="consent.c3">Слово или символ-задание, которое было показано, и техническая информация об экране.</li>
+        <li data-i18n="consent.c4">Анонимный идентификатор писателя — случайный номер, не связанный с личностью.</li>
       </ul>
-      <h2>Что не собирается</h2>
+      <h2 data-i18n="consent.notTitle">Что не собирается</h2>
       <ul>
-        <li>Имя, e-mail, телефон, местоположение, содержимое ваших заметок.</li>
-        <li>Имя писателя из списка остаётся только на этом устройстве.</li>
+        <li data-i18n="consent.n1">Имя, e-mail, телефон, местоположение, содержимое ваших заметок.</li>
+        <li data-i18n="consent.n2">Имя писателя из списка остаётся только на этом устройстве.</li>
+        <li data-i18n="consent.n3">Текст решений, которые вы вставляете в «Решение почерком», — он не отправляется на сервер датасета. Только если в настройках указана внешняя модель почерка, слова решения (без формул) вместе с анонимным идентификатором писателя уходят на её адрес — экран решения об этом предупреждает.</li>
       </ul>
-      <h2>Зачем</h2>
-      <p>Данные используются для обучения и оценки моделей распознавания рукописного текста.</p>
-      <p class="muted">Версия текста согласия: 0.1. Отправку на сервер можно выключить в настройках — тогда всё остаётся на устройстве, и данные можно выгрузить в JSON.</p>
+      <h2 data-i18n="consent.whyTitle">Зачем</h2>
+      <p data-i18n="consent.w1">Слова и символы используются для обучения и оценки моделей распознавания и генерации рукописного текста (датасет).</p>
+      <p data-i18n-html="consent.w2">Символы и слова также используются <b>локально, на этом устройстве</b>, чтобы переписывать решения задач вашим почерком. Для этого ничего не отправляется на сервер (кроме описанной выше внешней модели почерка, если её включили).</p>
+      <p class="muted" id="consent-version-note">Версия текста согласия: 0.3. Отправку на сервер можно выключить в настройках — тогда всё остаётся на устройстве, и данные можно выгрузить в JSON.</p>
 
+      <!-- Both boxes are required: the consent and the writer's own
+           confirmation of being 18 or older (consent text 0.3). -->
       <label class="check">
         <input type="checkbox" id="consent-agree">
-        <span>Я согласен(на) на сбор и использование этих данных</span>
+        <span data-i18n="consent.agree">Я согласен(на) на сбор и использование этих данных</span>
+      </label>
+      <label class="check">
+        <input type="checkbox" id="consent-adult">
+        <span data-i18n="consent.adult">Мне уже исполнилось 18 лет</span>
       </label>
       <button class="btn primary block" id="consent-continue" disabled>Начать писать</button>
     </div>
@@ -80,20 +133,37 @@
 <!-- ───────────────────────── Письмо ───────────────────────── -->
 <section class="screen write" data-screen="write">
   <header class="topbar">
-    <button class="icon-btn" id="btn-back" aria-label="К списку писателей">←</button>
+    <button class="icon-btn" id="btn-back" data-i18n-attr="aria-label:write.back" aria-label="К списку писателей">←</button>
     <div class="write-meta">
       <span class="writer-chip" id="write-writer"></span>
       <span class="counter" id="write-counter"></span>
     </div>
-    <button class="sync-chip" id="sync-chip" data-tone="ok" title="Отправить сейчас"></button>
+    <div class="segmented lang-toggle" role="group" data-lang-toggle data-i18n-attr="aria-label:lang.toggle" aria-label="Язык интерфейса">
+      <button type="button" data-value="ru" lang="ru">RU</button>
+      <button type="button" data-value="en" lang="en">EN</button>
+    </div>
+    <button class="sync-chip" id="sync-chip" data-tone="ok" data-i18n-attr="title:write.syncNow" title="Отправить сейчас"></button>
   </header>
 
   <div class="progress-rail"><span id="progress-fill"></span></div>
+  <!-- Words only (hidden for symbols): which core, and the community line. -->
+  <div class="write-strip" id="write-strip">
+    <div class="segmented collect-toggle compact" role="group" data-collect-toggle data-i18n-attr="aria-label:collect.aria" aria-label="Язык слов для сбора">
+      <button type="button" data-value="ru" data-i18n="collect.ru">Русские слова</button>
+      <button type="button" data-value="en" data-i18n="collect.en">Английские слова</button>
+    </div>
+    <div class="community-mini" id="community-write" hidden></div>
+  </div>
   <div class="stage-label" id="stage-label"></div>
 
   <div class="prompt">
     <div class="prompt-word" id="prompt-word"></div>
     <div class="prompt-hint" id="prompt-hint"></div>
+    <div class="prompt-note" id="prompt-note" hidden></div>
+    <label class="template-toggle" id="template-toggle" hidden>
+      <input type="checkbox" id="opt-template" checked>
+      <span data-i18n="write.template">Образец на листе</span>
+    </label>
   </div>
 
   <div class="sheet-wrap" id="sheet-wrap">
@@ -103,50 +173,203 @@
   </div>
 
   <footer class="controls">
-    <button class="btn ghost" id="btn-undo" disabled>Отменить</button>
-    <button class="btn ghost" id="btn-clear" disabled>Стереть</button>
+    <button class="btn ghost" id="btn-undo" data-i18n="write.undo" disabled>Отменить</button>
+    <button class="btn ghost" id="btn-clear" data-i18n="write.clear" disabled>Стереть</button>
     <span class="controls-spacer"></span>
-    <button class="btn ghost" id="btn-skip">Пропустить</button>
-    <button class="btn primary wide" id="btn-save" disabled>Готово →</button>
+    <button class="btn ghost" id="btn-skip" data-i18n="write.skip">Пропустить</button>
+    <button class="btn primary wide" id="btn-save" data-i18n="write.save" disabled>Готово →</button>
   </footer>
+</section>
+
+<!-- ───────────────────────── Решение почерком ───────────────────────── -->
+<section class="screen compose" data-screen="compose">
+  <header class="topbar">
+    <button class="icon-btn" id="compose-back" data-i18n-attr="aria-label:write.back" aria-label="К списку писателей">←</button>
+    <div class="write-meta">
+      <h1 data-i18n="compose.title">Решение почерком</h1>
+      <span class="counter" id="compose-writer"></span>
+    </div>
+    <div class="segmented lang-toggle" role="group" data-lang-toggle data-i18n-attr="aria-label:lang.toggle" aria-label="Язык интерфейса">
+      <button type="button" data-value="ru" lang="ru">RU</button>
+      <button type="button" data-value="en" lang="en">EN</button>
+    </div>
+  </header>
+
+  <div class="scroll wide">
+    <div class="card">
+      <p class="muted" data-i18n="compose.intro">
+        Спросите нейросеть (ChatGPT, Claude, DeepSeek…), как решить задачу, и допишите к вопросу
+        наш промпт — тогда ответ придёт в Markdown с формулами LaTeX, ровно в той разметке, которую
+        умеет эта страница. Вставьте ответ сюда: он будет переписан от руки с сохранением вёрстки,
+        формулы расставлены так, как их сверстал бы LaTeX, но каждый символ — из тех, что вы
+        написали сами, и каждый раз немного по-другому.
+      </p>
+      <p class="muted small" id="compose-markup" data-i18n-html="compose.markup">
+        Поддерживается: заголовки <code>#</code> <code>##</code> <code>###</code>,
+        <code>**жирный**</code> (сильнее нажим), <code>*курсив*</code> (сильнее наклон),
+        <code>~~зачёркнутый~~</code>, списки <code>- </code> и <code>1. </code> с вложенностью по отступу,
+        задачи <code>- [ ]</code>, цитаты <code>&gt; </code>, таблицы <code>| a | b |</code>,
+        код в <code>```</code>, разделитель <code>---</code>, формулы <code>$…$</code> и <code>$$…$$</code>.
+      </p>
+      <div class="btn-row compact">
+        <button class="btn primary" id="compose-copy-prompt" data-i18n="compose.copyPrompt">Скопировать промпт для нейросети</button>
+        <div class="segmented" role="group" data-i18n-attr="aria-label:compose.promptLang" aria-label="Язык промпта" id="compose-prompt-lang">
+          <button type="button" data-value="ru" aria-pressed="true">RU</button>
+          <button type="button" data-value="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+      <details class="prompt-details">
+        <summary data-i18n="compose.promptText">Текст промпта</summary>
+        <textarea id="compose-prompt-text" class="mono" readonly rows="10" data-i18n-attr="aria-label:compose.promptText" aria-label="Текст промпта"></textarea>
+      </details>
+    </div>
+
+    <div class="card">
+      <label class="field-title" for="compose-input" data-i18n="compose.pasteTitle">Вставьте ответ</label>
+      <textarea id="compose-input" rows="10" spellcheck="false" data-i18n-attr="placeholder:compose.placeholder"
+                placeholder="Сюда — ответ нейросети целиком: Markdown и формулы в $…$ или $$…$$"></textarea>
+      <div class="btn-row compact">
+        <button class="btn" id="compose-paste" data-i18n="compose.paste" hidden>Вставить из буфера</button>
+        <button class="btn ghost" id="compose-clear" data-i18n="compose.clear">Очистить</button>
+      </div>
+    </div>
+
+    <div class="compose-grid">
+      <div class="compose-side">
+        <div class="card">
+          <h2 data-i18n="compose.hand">Почерк</h2>
+          <div id="compose-knobs" class="knobs"></div>
+          <div class="knob seed-row">
+            <label for="compose-seed"><b data-i18n="compose.seedTitle">Случайность (seed)</b>
+              <small data-i18n="compose.seedHelp">Одно и то же число — одна и та же страница. Другое — другая «попытка» написать то же.</small></label>
+            <div class="seed-controls">
+              <input type="number" id="compose-seed" inputmode="numeric" step="1" min="0">
+              <button class="btn" id="compose-dice" data-i18n-attr="aria-label:compose.dice" aria-label="Случайный seed">🎲</button>
+            </div>
+          </div>
+          <button class="btn ghost block" id="compose-reset" data-i18n="compose.reset">Сбросить настройки почерка</button>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="compose.page">Страница</h2>
+          <div class="knob">
+            <span class="knob-label"><b data-i18n="compose.paper">Бумага</b></span>
+            <div class="segmented" id="compose-paper" role="group" data-i18n-attr="aria-label:compose.paper" aria-label="Бумага">
+              <button type="button" data-value="grid" data-i18n="compose.paperGrid">Клетка</button>
+              <button type="button" data-value="lines" data-i18n="compose.paperLines">Линейка</button>
+              <button type="button" data-value="blank" data-i18n="compose.paperBlank">Чистый</button>
+            </div>
+          </div>
+          <div class="knob">
+            <span class="knob-label"><b data-i18n="compose.ink">Чернила</b></span>
+            <div class="segmented" id="compose-ink" role="group" data-i18n-attr="aria-label:compose.ink" aria-label="Чернила">
+              <button type="button" data-value="blue" data-i18n="compose.inkBlue">синие</button>
+              <button type="button" data-value="black" data-i18n="compose.inkBlack">чёрные</button>
+              <button type="button" data-value="violet" data-i18n="compose.inkViolet">фиолетовые</button>
+            </div>
+          </div>
+          <div id="compose-page-knobs" class="knobs"></div>
+          <label class="switch-row small">
+            <span><b data-i18n="compose.margin">Поля</b><small data-i18n="compose.marginHelp">Красная линия полей справа, как в школьной тетради.</small></span>
+            <input type="checkbox" id="compose-margin" checked>
+          </label>
+        </div>
+      </div>
+
+      <div class="compose-main">
+        <div class="card preview-card">
+          <div class="preview-bar">
+            <span class="compose-status" id="compose-status" data-tone="idle"></span>
+            <span class="controls-spacer"></span>
+            <label class="check inline"><input type="checkbox" id="compose-show-missing"><span data-i18n="compose.showMissing">Показать недостающие</span></label>
+          </div>
+          <div class="pager" id="compose-pager" hidden>
+            <button class="btn ghost" id="compose-prev" data-i18n-attr="aria-label:compose.prev" aria-label="Предыдущая страница">‹</button>
+            <span id="compose-page-label"></span>
+            <button class="btn ghost" id="compose-next" data-i18n-attr="aria-label:compose.next" aria-label="Следующая страница">›</button>
+          </div>
+          <div class="preview" id="compose-preview">
+            <div class="preview-empty" id="compose-empty" data-i18n="compose.empty">Вставьте ответ — здесь появится страница.</div>
+          </div>
+          <div class="btn-row compact exports">
+            <button class="btn" id="compose-png" disabled>PNG</button>
+            <button class="btn" id="compose-svg" disabled>SVG</button>
+            <button class="btn" id="compose-print" data-i18n="compose.print" disabled>Печать / PDF</button>
+            <button class="btn ghost" id="compose-json" data-i18n="compose.json" disabled>Штрихи JSON</button>
+          </div>
+        </div>
+
+        <div class="card" id="compose-missing-card" hidden>
+          <p id="compose-missing-text"></p>
+          <button class="btn primary" id="compose-fill-missing">Дописать эти символы</button>
+          <p class="muted small" id="compose-missing-note"></p>
+        </div>
+
+        <div class="card">
+          <div class="muted small" id="compose-coverage"></div>
+          <div class="muted small" id="compose-sources"></div>
+          <details class="lint" id="compose-lint" hidden>
+            <summary id="compose-lint-summary"></summary>
+            <ul id="compose-lint-list"></ul>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ───────────────────────── Настройки ───────────────────────── -->
 <section class="screen" data-screen="settings">
   <header class="topbar">
-    <button class="icon-btn" id="btn-settings-back" aria-label="Назад">←</button>
-    <h1>Настройки</h1>
-    <span class="topbar-spacer"></span>
+    <button class="icon-btn" id="btn-settings-back" data-i18n-attr="aria-label:settings.back" aria-label="Назад">←</button>
+    <h1 data-i18n="settings.title">Настройки</h1>
+    <div class="segmented lang-toggle" role="group" data-lang-toggle data-i18n-attr="aria-label:lang.toggle" aria-label="Язык интерфейса">
+      <button type="button" data-value="ru" lang="ru">RU</button>
+      <button type="button" data-value="en" lang="en">EN</button>
+    </div>
   </header>
 
   <div class="scroll">
     <div class="card">
       <label class="switch-row">
         <span>
-          <b>Отправлять на сервер</b>
-          <small>Выключите, чтобы собирать только на устройство и выгружать вручную в JSON.</small>
+          <b data-i18n="settings.upload">Отправлять на сервер</b>
+          <small data-i18n="settings.uploadHint">Выключите, чтобы собирать только на устройство и выгружать вручную в JSON.</small>
         </span>
         <input type="checkbox" id="opt-upload" checked>
       </label>
     </div>
 
     <div class="card">
-      <h2>Данные</h2>
+      <h2 data-i18n="settings.composeTitle">Решение почерком</h2>
+      <label class="field">
+        <span><b data-i18n="settings.modelUrl">Модель почерка (URL)</b>
+          <small data-i18n="settings.modelUrlHint">Необязательно. Если указан, текст между формулами сначала запрашивается у этой модели
+          (POST, ответ — штрихи в долях x-высоты, см. README). Не ответила за 2,5 с или ошиблась —
+          слово берётся из ваших слов и букв, как без модели. Слова решения (без формул) и анонимный
+          идентификатор писателя уходят на этот адрес.</small>
+        </span>
+        <input type="url" id="opt-model-url" placeholder="https://…/generate" autocomplete="off" spellcheck="false" inputmode="url">
+      </label>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="settings.dataTitle">Данные</h2>
       <div class="stats-grid" id="settings-stats"></div>
       <div class="btn-row">
-        <button class="btn" id="btn-export-all">Экспорт всех в JSON</button>
-        <button class="btn" id="btn-import">Импорт JSON</button>
+        <button class="btn" id="btn-export-all" data-i18n="settings.exportAll">Экспорт всех в JSON</button>
+        <button class="btn" id="btn-import" data-i18n="settings.import">Импорт JSON</button>
         <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
       <div class="btn-row">
-        <button class="btn ghost" id="btn-resend">Отправить всё заново</button>
-        <button class="btn ghost danger" id="btn-wipe">Стереть всё</button>
+        <button class="btn ghost" id="btn-resend" data-i18n="settings.resend">Отправить всё заново</button>
+        <button class="btn ghost danger" id="btn-wipe" data-i18n="settings.wipe">Стереть всё</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>Офлайн</h2>
-      <p class="muted">
+      <h2 data-i18n="settings.offlineTitle">Офлайн</h2>
+      <p class="muted" data-i18n="settings.offline">
         Страница работает без сети: задания и приложение кешируются, слова копятся
         в браузере и уходят на сервер сами, когда сеть появится. На iPad и Android
         можно добавить страницу на домашний экран — она откроется как приложение,
