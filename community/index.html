@@ -1,26 +1,42 @@
 <!doctype html>
-<html lang="en" data-lang="en">
+<html lang="en" data-lang="en" data-lang-fixed="en" data-alt-en="/community/" data-alt-ru="/ru/community/">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <script>
-    /* pick the language before first paint: stored choice, else browser language */
+    /* pick the language before first paint: ?lang= or stored choice, else browser language.
+       A published page is one language (data-lang-fixed, set by scripts/site/build.py): it
+       keeps it and hops to its twin only on an explicit choice or, from English, a Russian
+       browser — a Russian page never sends a crawler away. */
     (function () {
-      var l = "en";
-      try { l = localStorage.getItem("hn-lang") || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en"); } catch (e) {}
-      document.documentElement.setAttribute("data-lang", l);
-      document.documentElement.lang = l;
+      var root = document.documentElement, fixed = root.getAttribute("data-lang-fixed");
+      var m = /[?&]lang=(en|ru)\b/.exec(location.search), pick = m ? m[1] : null;
+      if (!pick) try { pick = localStorage.getItem("hn-lang"); } catch (e) {}
+      var l = pick || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en");
+      if (fixed) {
+        if (!pick && fixed === "ru") l = "ru";
+        var twin = l !== fixed && root.getAttribute("data-alt-" + l);
+        if (twin) location.replace(twin + location.search + location.hash);
+        l = fixed;
+      }
+      root.setAttribute("data-lang", l);
+      root.lang = l;
     })();
   </script>
   <title>Community — Pencora</title>
   <meta name="description" content="The Pencora Telegram channel: new features announced first, votes on what gets built next, and a look behind the scenes of a one-developer notes app.">
-  <link rel="canonical" href="https://handynotes.app/community/">
+  <link rel="canonical" href="https://pencora.app/community/">
+  <link rel="alternate" hreflang="en" href="https://pencora.app/community/">
+  <link rel="alternate" hreflang="ru" href="https://pencora.app/ru/community/">
+  <link rel="alternate" hreflang="x-default" href="https://pencora.app/community/">
 
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
   <meta property="og:site_name" content="Pencora">
   <meta property="og:title" content="Community — Pencora">
   <meta property="og:description" content="New features first, votes on what gets built next, and a look behind the scenes — on the Pencora Telegram channel.">
-  <meta property="og:url" content="https://handynotes.app/community/">
+  <meta property="og:url" content="https://pencora.app/community/">
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
@@ -35,13 +51,13 @@
       <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
     </a>
     <ul class="nav-pill__links">
-      <li><a href="/community/"><span class="i18n-en">Community</span><span class="i18n-ru">Сообщество</span></a></li>
-      <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
-      <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
-      <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
+      <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
     </ul>
-    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span><span class="i18n-ru">EN</span></button>
-    <a class="btn btn-fill" href="https://apps.apple.com/us/app/handynotes-handwriting/id6790469095"><span class="i18n-en">Get it free</span><span class="i18n-ru">Скачать бесплатно</span></a>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-en">Get it free</span></a>
   </nav>
 
   <main class="doc container">
@@ -49,8 +65,8 @@
       <div class="doc__intro">
         <span class="portrait-mark" role="img" aria-label="A hand-drawn portrait of the developer"></span>
         <div class="doc__intro-copy">
-          <h1 class="doc__title"><span class="i18n-en">Community</span><span class="i18n-ru">Сообщество</span></h1>
-          <p class="doc__lede"><span class="i18n-en">Pencora is written by one developer, out in the open. The Telegram channel is where that happens: every new feature is announced there first, and what gets built next is decided by the people who write in the app.</span><span class="i18n-ru">Pencora пишет один разработчик — и пишет на виду. Всё происходит в Telegram-канале: каждая новая функция появляется сначала там, а что делать дальше — решают те, кто в приложении пишет.</span></p>
+          <h1 class="doc__title"><span class="i18n-en">Community</span></h1>
+          <p class="doc__lede"><span class="i18n-en">Pencora is written by one developer, out in the open. The Telegram channel is where that happens: every new feature is announced there first, and what gets built next is decided by the people who write in the app.</span></p>
         </div>
       </div>
     </header>
@@ -104,54 +120,7 @@
       </section>
     </div>
 
-    <div class="doc__body i18n-ru">
-      <section>
-        <a class="channel-card" href="https://t.me/HandynotesApp">
-          <span class="channel-card__mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M21.2 3.3 3.7 10.1c-.9.35-.85 1.63.07 1.9l5.6 1.7 1.75 5.6c.28.9 1.55.97 1.93.1l2.1-4.8 4.9 3.6c.75.55 1.8.13 1.98-.78L23 4.5c.2-.95-.8-1.66-1.8-1.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="m9.4 13.7 10.3-8.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <span class="channel-card__copy">
-            <span class="channel-card__name">Pencora в Telegram</span>
-            <span class="channel-card__handle">@HandynotesApp</span>
-          </span>
-          <span class="btn btn-fill channel-card__cta">Подписаться</span>
-        </a>
-      </section>
-
-      <section>
-        <h2>Что в канале</h2>
-        <div class="faq-item">
-          <h3>Новые функции — до того, как выйдет обновление</h3>
-          <p>Каждый релиз сначала показываю там: что изменилось, зачем и как этим пользоваться — обычно с коротким видео, где функция работает на живых чернилах, за несколько дней до того, как сборка доедет до App Store.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Голосования за то, что делать дальше</h3>
-          <p>Дорожная карта не только моя. Идеи выкладываю опросами, вы выбираете те, что действительно помогут вашим конспектам, а победившие поднимаются в начало очереди. Здесь один голос правда решает: канал небольшой, и я читаю всё.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Кухня разработки</h3>
-          <p>Наброски, эксперименты, пойманные на видео баги и идеи, которые не пережили встречи с настоящей страницей. Если хочется посмотреть, как приложение для заметок делается на самом деле — вам сюда.</p>
-        </div>
-      </section>
-
-      <section>
-        <h2>Заходите писать вместе</h2>
-        <p>Без аккаунтов и анкет — нужен только Telegram, который и так стоит на телефоне. Подпишитесь, и следующее обновление будет тем, к которому вы приложили руку.</p>
-        <div class="contact-row">
-          <a class="btn btn-fill" href="https://t.me/HandynotesApp">
-            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M21.2 3.3 3.7 10.1c-.9.35-.85 1.63.07 1.9l5.6 1.7 1.75 5.6c.28.9 1.55.97 1.93.1l2.1-4.8 4.9 3.6c.75.55 1.8.13 1.98-.78L23 4.5c.2-.95-.8-1.66-1.8-1.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="m9.4 13.7 10.3-8.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Открыть канал
-          </a>
-          <a class="btn btn-outline" href="/support/">Нужна помощь? →</a>
-        </div>
-      </section>
-    </div>
+    
   </main>
 
   <footer class="foot">
@@ -160,13 +129,14 @@
         <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
       </a>
       <ul class="foot__links">
-        <li><a href="/community/"><span class="i18n-en">Community</span><span class="i18n-ru">Сообщество</span></a></li>
-        <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
-        <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
-        <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
+        <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
+        <li><a href="/compare/"><span class="i18n-en">Compare</span></a></li>
         <li><a href="https://t.me/GNaum">Telegram</a></li>
       </ul>
-      <p class="foot__credit"><span class="i18n-en">© 2026 Pencora. Built by one developer.</span><span class="i18n-ru">© 2026 Pencora. Сделано одним разработчиком.</span></p>
+      <p class="foot__credit"><span class="i18n-en">© 2026 Pencora. Built by one developer.</span></p>
     </div>
   </footer>
 

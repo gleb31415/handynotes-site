@@ -787,7 +787,7 @@ details summary { cursor: pointer; color: var(--ink-soft); font-size: 14px; padd
 }
 
 /* ── The Pencora look (2026-09-28) ──────────────────────────────────────
-   Same paper, ink, accent and glass as handynotes.app, laid over the tokens
+   Same paper, ink, accent and glass as pencora.app, laid over the tokens
    above: layout and behaviour are untouched. The writing pad stays white. */
 
 :root {

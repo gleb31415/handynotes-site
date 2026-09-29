@@ -3,4 +3,4 @@ Allow: /
 Disallow: /i/
 Disallow: /handwriting/
 
-Sitemap: https://handynotes.app/sitemap.xml
+Sitemap: https://pencora.app/sitemap.xml

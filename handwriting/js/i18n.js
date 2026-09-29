@@ -3,7 +3,7 @@
 // One module owns it. The language is resolved once at import:
 //   1. `?lang=ru|en` in the address — the link the app shares carries it —
 //      and is persisted, because the installed PWA's start_url drops it;
-//   2. localStorage `hn-lang` — the same key the main handynotes.app site
+//   2. localStorage `hn-lang` — the same key the main pencora.app site
 //      uses, so a choice made there carries over (same origin);
 //   3. the browser: a `ru…` language means Russian, anything else English.
 //

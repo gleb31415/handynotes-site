@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-lang-fixed="en" data-alt-en="/compare/" data-alt-ru="/ru/compare/">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: ?lang= or stored choice, else browser language.
+       A published page is one language (data-lang-fixed, set by scripts/site/build.py): it
+       keeps it and hops to its twin only on an explicit choice or, from English, a Russian
+       browser — a Russian page never sends a crawler away. */
+    (function () {
+      var root = document.documentElement, fixed = root.getAttribute("data-lang-fixed");
+      var m = /[?&]lang=(en|ru)\b/.exec(location.search), pick = m ? m[1] : null;
+      if (!pick) try { pick = localStorage.getItem("hn-lang"); } catch (e) {}
+      var l = pick || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en");
+      if (fixed) {
+        if (!pick && fixed === "ru") l = "ru";
+        var twin = l !== fixed && root.getAttribute("data-alt-" + l);
+        if (twin) location.replace(twin + location.search + location.hash);
+        l = fixed;
+      }
+      root.setAttribute("data-lang", l);
+      root.lang = l;
+    })();
+  </script>
+  <title>Pencora vs Goodnotes, Notability and other iPad notes apps</title>
+  <meta name="description" content="How Pencora, the free iPad notes app, compares with Goodnotes, Notability, Noteshelf, Apple Notes, OneNote and others: handwriting in your own hand, graphs, geometry, PDF import as editable ink.">
+  <link rel="canonical" href="https://pencora.app/compare/">
+  <link rel="alternate" hreflang="en" href="https://pencora.app/compare/">
+  <link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/">
+  <link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:site_name" content="Pencora">
+  <meta property="og:title" content="Pencora vs Goodnotes, Notability and other iPad notes apps">
+  <meta property="og:description" content="Free, no account, and it does things other notes apps don’t. Feature by feature.">
+  <meta property="og:url" content="https://pencora.app/compare/">
+  <meta property="og:image" content="https://pencora.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#CC8C85">
+
+  <link rel="stylesheet" href="/css/style.css?v=2">
+</head>
+<body>
+
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-pill__wordmark" href="/" aria-label="Pencora">
+      <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
+    </a>
+    <ul class="nav-pill__links">
+      <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
+    </ul>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-en">Get it free</span></a>
+  </nav>
+
+  <main class="doc container">
+    <header class="doc__header">
+      <h1 class="doc__title"><span class="i18n-en">Pencora vs other iPad notes apps</span></h1>
+      <p class="doc__lede"><span class="i18n-en">Pencora is free — every feature, no subscription, no account. Here is what it does that Goodnotes, Notability and the other big notes apps don’t, feature by feature.</span></p>
+      <div class="cmp__cta">
+        <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-en">Get Pencora free</span></a>
+      </div>
+    </header>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-en">Feature by feature</span></h2>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table cmp-table--matrix">
+          <caption><span class="i18n-en">Which apps have each feature</span></caption>
+          <thead><tr><th scope="col"><span class="i18n-en">Feature</span></th><th scope="col" class="is-us"><span class="cmp-col"><picture class=""><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"></picture>Pencora</span></th><th scope="col"><a class="cmp-col" href="/compare/goodnotes/"><img src="/images/apps/goodnotes.jpg" alt="" width="26" height="26">Goodnotes</a></th><th scope="col"><a class="cmp-col" href="/compare/notability/"><img src="/images/apps/notability.jpg" alt="" width="26" height="26">Notability</a></th><th scope="col"><a class="cmp-col" href="/compare/noteshelf/"><img src="/images/apps/noteshelf.jpg" alt="" width="26" height="26">Noteshelf</a></th><th scope="col"><a class="cmp-col" href="/compare/myscript-notes/"><img src="/images/apps/myscript.jpg" alt="" width="26" height="26">MyScript Notes</a></th><th scope="col"><a class="cmp-col" href="/compare/collanote/"><img src="/images/apps/collanote.jpg" alt="" width="26" height="26">CollaNote</a></th><th scope="col"><a class="cmp-col" href="/compare/apple-notes/"><img src="/images/apps/applenotes.jpg" alt="" width="26" height="26">Apple Notes</a></th><th scope="col"><a class="cmp-col" href="/compare/onenote/"><img src="/images/apps/onenote.jpg" alt="" width="26" height="26">OneNote</a></th></tr></thead>
+          <tbody>
+          <tr><th scope="row"><span class="i18n-en">Price</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">Account</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--unknown" aria-hidden="true">–</span><span class="visually-hidden"><span class="i18n-en">Not compared</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">Typed text in your handwriting</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">Graphs on the page</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">Geometry constructions</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">PDFs from other apps</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">Infinite board</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--unknown" aria-hidden="true">–</span><span class="visually-hidden"><span class="i18n-en">Not compared</span></span></td><td><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span></td><td><span class="mark mark--unknown" aria-hidden="true">–</span><span class="visually-hidden"><span class="i18n-en">Not compared</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">Paper</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--unknown" aria-hidden="true">–</span><span class="visually-hidden"><span class="i18n-en">Not compared</span></span></td><td><span class="mark mark--unknown" aria-hidden="true">–</span><span class="visually-hidden"><span class="i18n-en">Not compared</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">Handwriting search</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--unknown" aria-hidden="true">–</span><span class="visually-hidden"><span class="i18n-en">Not compared</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--unknown" aria-hidden="true">–</span><span class="visually-hidden"><span class="i18n-en">Not compared</span></span></td></tr>
+          <tr><th scope="row"><span class="i18n-en">Automatic backup</span></th><td class="is-us"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span></td><td><span class="mark mark--unknown" aria-hidden="true">–</span><span class="visually-hidden"><span class="i18n-en">Not compared</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td><td><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="cmp__note cmp__legend"><span class="i18n-en"><span class="mark mark--yes" aria-hidden="true">✓</span> has it &nbsp; <span class="mark mark--partial" aria-hidden="true"></span> only partly, or only on a paid plan &nbsp; <span class="mark mark--no" aria-hidden="true">✕</span> doesn’t have it &nbsp; <span class="mark mark--unknown" aria-hidden="true">–</span> not compared yet. Open an app below for the details.</span></p>
+    </section>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-en">Compare one by one</span></h2>
+      <ul class="cmp-links">
+        <li><a class="cmp-link" href="/compare/goodnotes/"><img src="/images/apps/goodnotes.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Goodnotes</span><span class="cmp-link__sub"><span class="i18n-en">Free without the 3-notebook limit</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/notability/"><img src="/images/apps/notability.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Notability</span><span class="cmp-link__sub"><span class="i18n-en">Unlimited notes and search, free</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/noteshelf/"><img src="/images/apps/noteshelf.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Noteshelf</span><span class="cmp-link__sub"><span class="i18n-en">Search and backups without Premium</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/myscript-notes/"><img src="/images/apps/myscript.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs MyScript Notes</span><span class="cmp-link__sub"><span class="i18n-en">Formerly Nebo · no 5-page limit</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/collanote/"><img src="/images/apps/collanote.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs CollaNote</span><span class="cmp-link__sub"><span class="i18n-en">Graphs and geometry, no Premium</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/apple-notes/"><img src="/images/apps/applenotes.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Apple Notes</span><span class="cmp-link__sub"><span class="i18n-en">Built in vs built for handwriting</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/onenote/"><img src="/images/apps/onenote.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs OneNote</span><span class="cmp-link__sub"><span class="i18n-en">No Microsoft account, graphs on iPad</span></span></span></a></li>
+      </ul>
+    </section>
+
+    <p class="cmp__note"><span class="i18n-en">Compared with what Goodnotes, Notability, Noteshelf, MyScript Notes, CollaNote, Apple Notes, OneNote say about themselves on their own websites and App Store pages, checked September 2026. Apps change — if something here is out of date, <a href="/support/">tell me</a> and I’ll fix it. Goodnotes, Notability, Noteshelf, MyScript Notes, CollaNote, Apple Notes, OneNote are trademarks of their respective owners; Pencora is not affiliated with or endorsed by them.</span></p>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__row">
+      <a class="nav-pill__wordmark" href="/" aria-label="Pencora">
+        <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
+      </a>
+      <ul class="foot__links">
+        <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
+        <li><a href="/compare/"><span class="i18n-en">Compare</span></a></li>
+        <li><a href="https://t.me/GNaum">Telegram</a></li>
+      </ul>
+      <p class="foot__credit"><span class="i18n-en">© 2026 Pencora. Built by one developer.</span></p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

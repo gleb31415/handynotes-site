@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-lang-fixed="en" data-alt-en="/compare/noteshelf/" data-alt-ru="/ru/compare/noteshelf/">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: ?lang= or stored choice, else browser language.
+       A published page is one language (data-lang-fixed, set by scripts/site/build.py): it
+       keeps it and hops to its twin only on an explicit choice or, from English, a Russian
+       browser — a Russian page never sends a crawler away. */
+    (function () {
+      var root = document.documentElement, fixed = root.getAttribute("data-lang-fixed");
+      var m = /[?&]lang=(en|ru)\b/.exec(location.search), pick = m ? m[1] : null;
+      if (!pick) try { pick = localStorage.getItem("hn-lang"); } catch (e) {}
+      var l = pick || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en");
+      if (fixed) {
+        if (!pick && fixed === "ru") l = "ru";
+        var twin = l !== fixed && root.getAttribute("data-alt-" + l);
+        if (twin) location.replace(twin + location.search + location.hash);
+        l = fixed;
+      }
+      root.setAttribute("data-lang", l);
+      root.lang = l;
+    })();
+  </script>
+  <title>Pencora vs Noteshelf — a free Noteshelf alternative for iPad</title>
+  <meta name="description" content="Pencora vs Noteshelf: Pencora is free with unlimited notebooks, handwriting search and daily backups, writes typed text in your own handwriting, and adds graphs, geometry and an infinite board.">
+  <link rel="canonical" href="https://pencora.app/compare/noteshelf/">
+  <link rel="alternate" hreflang="en" href="https://pencora.app/compare/noteshelf/">
+  <link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/noteshelf/">
+  <link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/noteshelf/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:site_name" content="Pencora">
+  <meta property="og:title" content="Pencora vs Noteshelf — a free Noteshelf alternative for iPad">
+  <meta property="og:description" content="Unlimited notebooks, search and backups — free. Where Pencora is ahead of Noteshelf.">
+  <meta property="og:url" content="https://pencora.app/compare/noteshelf/">
+  <meta property="og:image" content="https://pencora.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#CC8C85">
+
+  <link rel="stylesheet" href="/css/style.css?v=2">
+</head>
+<body>
+
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-pill__wordmark" href="/" aria-label="Pencora">
+      <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
+    </a>
+    <ul class="nav-pill__links">
+      <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
+    </ul>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-en">Get it free</span></a>
+  </nav>
+
+  <main class="doc container">
+    <header class="doc__header">
+      <div class="cmp__vs" aria-hidden="true"><picture class="cmp__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"></picture><span class="cmp__vs-word">vs</span><img class="cmp__icon" src="/images/apps/noteshelf.jpg" alt="" width="56" height="56"></div>
+      <h1 class="doc__title"><span class="i18n-en">Pencora vs Noteshelf</span></h1>
+      <p class="doc__lede"><span class="i18n-en">Noteshelf limits notebooks on its free version and keeps handwriting search and automatic backups for Premium. Pencora has no limits and no Premium — and it writes, graphs and constructs things Noteshelf can’t.</span></p>
+      <div class="cmp__cta">
+        <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-en">Get Pencora free</span></a>
+        <a class="btn btn-outline" href="/compare/"><span class="i18n-en">All comparisons</span></a>
+      </div>
+    </header>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-en">Where Pencora is ahead of Noteshelf</span></h2>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table cmp-table--duo">
+          <caption><span class="i18n-en">Pencora compared with Noteshelf</span></caption>
+          <thead><tr>
+            <th scope="col"><span class="i18n-en">Feature</span></th>
+            <th scope="col" class="is-us"><span class="cmp-col"><picture class=""><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"></picture>Pencora</span></th>
+            <th scope="col"><span class="cmp-col"><img src="/images/apps/noteshelf.jpg" alt="" width="26" height="26">Noteshelf</span></th>
+          </tr></thead>
+          <tbody>
+          <tr>
+            <th scope="row"><span class="i18n-en">Price</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Free — every feature. No subscription, no ads</span></span></div></td>
+            <td data-label="Noteshelf"><div class="cmp-cell"><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span><span><span class="i18n-en">Free version limits your notebooks; Premium is a subscription, from $29.99 a year</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Typed text in your handwriting</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Teach it your letters once, then type or paste a whole Markdown document — lists, formulas — and it’s written in your own hand. Russian and English, on the iPad</span></span></div></td>
+            <td data-label="Noteshelf"><div class="cmp-cell"><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span><span><span class="i18n-en">Its AI can insert text as handwriting — in a generic style, not yours, and not in Russian</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Graphs on the page</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Functions, implicit curves, points and tables — typed, imported from CSV or read from a hand-drawn table; ink on the plane sticks to its coordinates</span></span></div></td>
+            <td data-label="Noteshelf"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">No graphing</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Geometry constructions</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Bisectors, perpendiculars, tangents, reflections, triangle centres — drag a point and everything built on it follows, in real millimetres</span></span></div></td>
+            <td data-label="Noteshelf"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">Shapes and snapping — no constructions</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">PDFs from other apps</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Handwriting comes in as real, editable strokes on the right paper — lasso, recolour or erase any of it</span></span></div></td>
+            <td data-label="Noteshelf"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">An imported PDF is a page you annotate on top of</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Infinite board</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">An endless canvas with a minimap behind every notebook</span></span></div></td>
+            <td data-label="Noteshelf"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">Pages only, no infinite canvas</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Handwriting search</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Free, on the iPad, in 8 languages including Russian and Ukrainian</span></span></div></td>
+            <td data-label="Noteshelf"><div class="cmp-cell"><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span><span><span class="i18n-en">Premium only</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Automatic backup</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Free: every day to your own Google Drive, five latest copies kept</span></span></div></td>
+            <td data-label="Noteshelf"><div class="cmp-cell"><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span><span><span class="i18n-en">Automatic backup to Drive, Dropbox or OneDrive is Premium only</span></span></div></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-en">Moving over from Noteshelf</span></h2>
+      <ol class="cmp__steps">
+        <li><span class="i18n-en">Export the notebook as a PDF from Noteshelf.</span></li>
+        <li><span class="i18n-en">Open the PDF with Pencora — from the Share sheet, or with Import inside a notebook — and choose to bring it in as editable ink.</span></li>
+        <li><span class="i18n-en">Pencora detects the paper ruling and turns the handwriting into real strokes, page by page. Long notebooks open at once and finish converting as you go.</span></li>
+      </ol>
+    </section>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-en">Other comparisons</span></h2>
+      <ul class="cmp-links">
+        <li><a class="cmp-link" href="/compare/goodnotes/"><img src="/images/apps/goodnotes.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Goodnotes</span><span class="cmp-link__sub"><span class="i18n-en">Free without the 3-notebook limit</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/notability/"><img src="/images/apps/notability.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Notability</span><span class="cmp-link__sub"><span class="i18n-en">Unlimited notes and search, free</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/myscript-notes/"><img src="/images/apps/myscript.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs MyScript Notes</span><span class="cmp-link__sub"><span class="i18n-en">Formerly Nebo · no 5-page limit</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/collanote/"><img src="/images/apps/collanote.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs CollaNote</span><span class="cmp-link__sub"><span class="i18n-en">Graphs and geometry, no Premium</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/apple-notes/"><img src="/images/apps/applenotes.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Apple Notes</span><span class="cmp-link__sub"><span class="i18n-en">Built in vs built for handwriting</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/onenote/"><img src="/images/apps/onenote.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs OneNote</span><span class="cmp-link__sub"><span class="i18n-en">No Microsoft account, graphs on iPad</span></span></span></a></li>
+      </ul>
+    </section>
+
+    <p class="cmp__note"><span class="i18n-en">Compared with what Noteshelf says about itself on its own website and App Store page, checked September 2026. Apps change — if something here is out of date, <a href="/support/">tell me</a> and I’ll fix it. Noteshelf is a trademark of its owner; Pencora is not affiliated with or endorsed by it.</span></p>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__row">
+      <a class="nav-pill__wordmark" href="/" aria-label="Pencora">
+        <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
+      </a>
+      <ul class="foot__links">
+        <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
+        <li><a href="/compare/"><span class="i18n-en">Compare</span></a></li>
+        <li><a href="https://t.me/GNaum">Telegram</a></li>
+      </ul>
+      <p class="foot__credit"><span class="i18n-en">© 2026 Pencora. Built by one developer.</span></p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

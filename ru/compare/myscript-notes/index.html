@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru" data-lang="ru" data-lang-fixed="ru" data-alt-en="/compare/myscript-notes/" data-alt-ru="/ru/compare/myscript-notes/">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: ?lang= or stored choice, else browser language.
+       A published page is one language (data-lang-fixed, set by scripts/site/build.py): it
+       keeps it and hops to its twin only on an explicit choice or, from English, a Russian
+       browser — a Russian page never sends a crawler away. */
+    (function () {
+      var root = document.documentElement, fixed = root.getAttribute("data-lang-fixed");
+      var m = /[?&]lang=(en|ru)\b/.exec(location.search), pick = m ? m[1] : null;
+      if (!pick) try { pick = localStorage.getItem("hn-lang"); } catch (e) {}
+      var l = pick || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en");
+      if (fixed) {
+        if (!pick && fixed === "ru") l = "ru";
+        var twin = l !== fixed && root.getAttribute("data-alt-" + l);
+        if (twin) location.replace(twin + location.search + location.hash);
+        l = fixed;
+      }
+      root.setAttribute("data-lang", l);
+      root.lang = l;
+    })();
+  </script>
+  <title>Pencora или MyScript Notes (Nebo) — бесплатная альтернатива для iPad</title>
+  <meta name="description" content="Pencora или MyScript Notes (бывший Nebo): Pencora бесплатна без лимита страниц, пишет напечатанный текст вашим почерком, строит графики и геометрические построения и импортирует PDF как редактируемые чернила.">
+  <link rel="canonical" href="https://pencora.app/ru/compare/myscript-notes/">
+  <link rel="alternate" hreflang="en" href="https://pencora.app/compare/myscript-notes/">
+  <link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/myscript-notes/">
+  <link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/myscript-notes/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:site_name" content="Pencora">
+  <meta property="og:title" content="Pencora или MyScript Notes (Nebo) — бесплатная альтернатива для iPad">
+  <meta property="og:description" content="Без лимита страниц — и пишет вашим почерком. Чем Pencora лучше MyScript Notes (Nebo).">
+  <meta property="og:url" content="https://pencora.app/ru/compare/myscript-notes/">
+  <meta property="og:image" content="https://pencora.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#CC8C85">
+
+  <link rel="stylesheet" href="/css/style.css?v=2">
+</head>
+<body>
+
+  <nav class="nav-pill" aria-label="Основная навигация">
+    <a class="nav-pill__wordmark" href="/ru/" aria-label="Pencora">
+      <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
+    </a>
+    <ul class="nav-pill__links">
+      <li><a href="/ru/community/"><span class="i18n-ru">Сообщество</span></a></li>
+      <li><a href="/ru/support/"><span class="i18n-ru">Поддержка</span></a></li>
+      <li><a href="/ru/privacy/"><span class="i18n-ru">Приватность</span></a></li>
+      <li><a href="/ru/terms/"><span class="i18n-ru">Условия</span></a></li>
+    </ul>
+    <button class="nav-pill__lang" type="button" aria-label="Сменить язык"><span class="i18n-ru">EN</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-ru">Скачать бесплатно</span></a>
+  </nav>
+
+  <main class="doc container">
+    <header class="doc__header">
+      <div class="cmp__vs" aria-hidden="true"><picture class="cmp__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"></picture><span class="cmp__vs-word">vs</span><img class="cmp__icon" src="/images/apps/myscript.jpg" alt="" width="56" height="56"></div>
+      <h1 class="doc__title"><span class="i18n-ru">Pencora или MyScript Notes</span></h1>
+      <p class="doc__lede"><span class="i18n-ru">У MyScript Notes — бывшего Nebo — отличное распознавание почерка, но после пробного периода бесплатная версия ограничивает тетради пятью страницами. Pencora бесплатна без ограничений — и добавляет генерацию почерка, графики и геометрию.</span></p>
+      <div class="cmp__cta">
+        <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-ru">Скачать Pencora бесплатно</span></a>
+        <a class="btn btn-outline" href="/ru/compare/"><span class="i18n-ru">Все сравнения</span></a>
+      </div>
+    </header>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-ru">Чем Pencora лучше MyScript Notes</span></h2>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table cmp-table--duo">
+          <caption><span class="i18n-ru">Сравнение Pencora и MyScript Notes</span></caption>
+          <thead><tr>
+            <th scope="col"><span class="i18n-ru">Возможность</span></th>
+            <th scope="col" class="is-us"><span class="cmp-col"><picture class=""><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"></picture>Pencora</span></th>
+            <th scope="col"><span class="cmp-col"><img src="/images/apps/myscript.jpg" alt="" width="26" height="26">MyScript Notes</span></th>
+          </tr></thead>
+          <tbody>
+          <tr>
+            <th scope="row"><span class="i18n-ru">Цена</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-ru">Да</span></span><span><span class="i18n-ru">Бесплатно — все функции. Без подписки и рекламы</span></span></div></td>
+            <td data-label="MyScript Notes"><div class="cmp-cell"><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-ru">Частично</span></span><span><span class="i18n-ru">После 7-дневного пробного периода бесплатная версия ограничивает тетради пятью страницами; полный доступ платный</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-ru">Текст вашим почерком</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-ru">Да</span></span><span><span class="i18n-ru">Один раз покажите свои буквы — и любой напечатанный или вставленный Markdown-документ, со списками и формулами, будет написан вашим почерком. По-русски и по-английски, прямо на iPad</span></span></div></td>
+            <td data-label="MyScript Notes"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-ru">Нет</span></span><span><span class="i18n-ru">В приложении нет</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-ru">Графики на странице</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-ru">Да</span></span><span><span class="i18n-ru">Функции, неявные кривые, точки и таблицы — набранные, из CSV или распознанные с таблицы от руки; чернила на плоскости привязаны к её координатам</span></span></div></td>
+            <td data-label="MyScript Notes"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-ru">Нет</span></span><span><span class="i18n-ru">В MyScript Notes графиков нет — они в отдельном платном приложении MyScript Math</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-ru">Геометрические построения</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-ru">Да</span></span><span><span class="i18n-ru">Биссектрисы, перпендикуляры, касательные, отражения, замечательные точки — потяните точку, и всё построенное на ней поедет следом, в настоящих миллиметрах</span></span></div></td>
+            <td data-label="MyScript Notes"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-ru">Нет</span></span><span><span class="i18n-ru">Распознавание фигур и схем, линейка — без построений</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-ru">PDF из других приложений</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-ru">Да</span></span><span><span class="i18n-ru">Почерк переносится настоящими редактируемыми штрихами на нужной бумаге — выделяйте, перекрашивайте, стирайте</span></span></div></td>
+            <td data-label="MyScript Notes"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-ru">Нет</span></span><span><span class="i18n-ru">PDF импортируется как страницы, поверх которых пишете</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-ru">Автоматический бэкап</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-ru">Да</span></span><span><span class="i18n-ru">Бесплатно: каждый день в ваш Google Диск, хранятся пять последних копий</span></span></div></td>
+            <td data-label="MyScript Notes"><div class="cmp-cell"><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-ru">Частично</span></span><span><span class="i18n-ru">Бэкап — вручную, файлом; автосинхронизация с облаком — только в платной версии и с аккаунтом</span></span></div></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-ru">Как перейти с MyScript Notes</span></h2>
+      <ol class="cmp__steps">
+        <li><span class="i18n-ru">Экспортируйте тетрадь из MyScript Notes в PDF.</span></li>
+        <li><span class="i18n-ru">Откройте PDF в Pencora — через «Поделиться» или через импорт внутри тетради — и выберите импорт как редактируемых чернил.</span></li>
+        <li><span class="i18n-ru">Pencora распознаёт разлиновку и превращает почерк в настоящие штрихи, страница за страницей. Длинные тетради открываются сразу и дописываются по ходу.</span></li>
+      </ol>
+    </section>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-ru">Другие сравнения</span></h2>
+      <ul class="cmp-links">
+        <li><a class="cmp-link" href="/ru/compare/goodnotes/"><img src="/images/apps/goodnotes.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Goodnotes</span><span class="cmp-link__sub"><span class="i18n-ru">Бесплатно и без лимита в 3 тетради</span></span></span></a></li>
+        <li><a class="cmp-link" href="/ru/compare/notability/"><img src="/images/apps/notability.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Notability</span><span class="cmp-link__sub"><span class="i18n-ru">Безлимитные заметки и поиск — бесплатно</span></span></span></a></li>
+        <li><a class="cmp-link" href="/ru/compare/noteshelf/"><img src="/images/apps/noteshelf.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Noteshelf</span><span class="cmp-link__sub"><span class="i18n-ru">Поиск и бэкапы без Premium</span></span></span></a></li>
+        <li><a class="cmp-link" href="/ru/compare/collanote/"><img src="/images/apps/collanote.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs CollaNote</span><span class="cmp-link__sub"><span class="i18n-ru">Графики и геометрия, без Premium</span></span></span></a></li>
+        <li><a class="cmp-link" href="/ru/compare/apple-notes/"><img src="/images/apps/applenotes.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Apple Notes</span><span class="cmp-link__sub"><span class="i18n-ru">Встроенные заметки против созданных для почерка</span></span></span></a></li>
+        <li><a class="cmp-link" href="/ru/compare/onenote/"><img src="/images/apps/onenote.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs OneNote</span><span class="cmp-link__sub"><span class="i18n-ru">Без аккаунта Microsoft, графики на iPad</span></span></span></a></li>
+      </ul>
+    </section>
+
+    <p class="cmp__note"><span class="i18n-ru">Сравнение — по тому, что сообщает о себе MyScript Notes на своём сайте и странице в App Store, проверено: сентябрь 2026. Приложения меняются — если что-то устарело, <a href="/ru/support/">напишите мне</a>, и я исправлю. MyScript Notes — товарный знак своего владельца; Pencora с ним не связана и им не одобрена.</span></p>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__row">
+      <a class="nav-pill__wordmark" href="/ru/" aria-label="Pencora">
+        <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
+      </a>
+      <ul class="foot__links">
+        <li><a href="/ru/community/"><span class="i18n-ru">Сообщество</span></a></li>
+        <li><a href="/ru/support/"><span class="i18n-ru">Поддержка</span></a></li>
+        <li><a href="/ru/privacy/"><span class="i18n-ru">Приватность</span></a></li>
+        <li><a href="/ru/terms/"><span class="i18n-ru">Условия</span></a></li>
+        <li><a href="/ru/compare/"><span class="i18n-ru">Сравнение</span></a></li>
+        <li><a href="https://t.me/GNaum">Telegram</a></li>
+      </ul>
+      <p class="foot__credit"><span class="i18n-ru">© 2026 Pencora. Сделано одним разработчиком.</span></p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

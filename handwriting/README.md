@@ -34,7 +34,7 @@
 
 ## Где это живёт и как попадает в прод
 
-Прод — **https://handynotes.app/handwriting/**, и это GitHub Pages, а не
+Прод — **https://pencora.app/handwriting/**, и это GitHub Pages, а не
 Cloudflare: сайт публикуется из **отдельного публичного репозитория**
 `gleb31415/handynotes-site` (в нём лежит содержимое `Noto2/web/` в корне, плюс
 `CNAME`). Этот репозиторий приватный, а Pages не публикует приватные репо на

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-lang-fixed="en" data-alt-en="/compare/onenote/" data-alt-ru="/ru/compare/onenote/">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: ?lang= or stored choice, else browser language.
+       A published page is one language (data-lang-fixed, set by scripts/site/build.py): it
+       keeps it and hops to its twin only on an explicit choice or, from English, a Russian
+       browser — a Russian page never sends a crawler away. */
+    (function () {
+      var root = document.documentElement, fixed = root.getAttribute("data-lang-fixed");
+      var m = /[?&]lang=(en|ru)\b/.exec(location.search), pick = m ? m[1] : null;
+      if (!pick) try { pick = localStorage.getItem("hn-lang"); } catch (e) {}
+      var l = pick || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en");
+      if (fixed) {
+        if (!pick && fixed === "ru") l = "ru";
+        var twin = l !== fixed && root.getAttribute("data-alt-" + l);
+        if (twin) location.replace(twin + location.search + location.hash);
+        l = fixed;
+      }
+      root.setAttribute("data-lang", l);
+      root.lang = l;
+    })();
+  </script>
+  <title>Pencora vs OneNote on iPad — a OneNote alternative for handwriting</title>
+  <meta name="description" content="Pencora vs Microsoft OneNote on iPad: no account needed, graphs and geometry constructions on the page, typed text in your own handwriting, and PDFs imported as editable ink instead of pictures.">
+  <link rel="canonical" href="https://pencora.app/compare/onenote/">
+  <link rel="alternate" hreflang="en" href="https://pencora.app/compare/onenote/">
+  <link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/onenote/">
+  <link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/onenote/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:site_name" content="Pencora">
+  <meta property="og:title" content="Pencora vs OneNote on iPad — a OneNote alternative for handwriting">
+  <meta property="og:description" content="No Microsoft account, graphs on iPad, PDFs as ink. Where Pencora is ahead of OneNote.">
+  <meta property="og:url" content="https://pencora.app/compare/onenote/">
+  <meta property="og:image" content="https://pencora.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#CC8C85">
+
+  <link rel="stylesheet" href="/css/style.css?v=2">
+</head>
+<body>
+
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-pill__wordmark" href="/" aria-label="Pencora">
+      <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
+    </a>
+    <ul class="nav-pill__links">
+      <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
+    </ul>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-en">Get it free</span></a>
+  </nav>
+
+  <main class="doc container">
+    <header class="doc__header">
+      <div class="cmp__vs" aria-hidden="true"><picture class="cmp__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"></picture><span class="cmp__vs-word">vs</span><img class="cmp__icon" src="/images/apps/onenote.jpg" alt="" width="56" height="56"></div>
+      <h1 class="doc__title"><span class="i18n-en">Pencora vs OneNote</span></h1>
+      <p class="doc__lede"><span class="i18n-en">OneNote is free and everywhere, but on iPad it needs a Microsoft account, can’t draw graphs, and turns PDFs into pictures. Pencora needs no account and puts graphs, geometry and your own handwriting on the page.</span></p>
+      <div class="cmp__cta">
+        <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-en">Get Pencora free</span></a>
+        <a class="btn btn-outline" href="/compare/"><span class="i18n-en">All comparisons</span></a>
+      </div>
+    </header>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-en">Where Pencora is ahead of OneNote</span></h2>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table cmp-table--duo">
+          <caption><span class="i18n-en">Pencora compared with OneNote</span></caption>
+          <thead><tr>
+            <th scope="col"><span class="i18n-en">Feature</span></th>
+            <th scope="col" class="is-us"><span class="cmp-col"><picture class=""><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"></picture>Pencora</span></th>
+            <th scope="col"><span class="cmp-col"><img src="/images/apps/onenote.jpg" alt="" width="26" height="26">OneNote</span></th>
+          </tr></thead>
+          <tbody>
+          <tr>
+            <th scope="row"><span class="i18n-en">Account</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Not needed — open the app and write</span></span></div></td>
+            <td data-label="OneNote"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">A Microsoft account is required; notebooks live in OneDrive</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Typed text in your handwriting</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Teach it your letters once, then type or paste a whole Markdown document — lists, formulas — and it’s written in your own hand. Russian and English, on the iPad</span></span></div></td>
+            <td data-label="OneNote"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">Not available</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Graphs on the page</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Functions, implicit curves, points and tables — typed, imported from CSV or read from a hand-drawn table; ink on the plane sticks to its coordinates</span></span></div></td>
+            <td data-label="OneNote"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">Not on iPad — graphing is only in OneNote for the web and Windows</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Geometry constructions</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Bisectors, perpendiculars, tangents, reflections, triangle centres — drag a point and everything built on it follows, in real millimetres</span></span></div></td>
+            <td data-label="OneNote"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">Shape recognition only — no constructions</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">PDFs from other apps</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Handwriting comes in as real, editable strokes on the right paper — lasso, recolour or erase any of it</span></span></div></td>
+            <td data-label="OneNote"><div class="cmp-cell"><span class="mark mark--no" aria-hidden="true">✕</span><span class="visually-hidden"><span class="i18n-en">No</span></span><span><span class="i18n-en">PDF pages are inserted as images you ink over</span></span></div></td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="i18n-en">Paper</span></th>
+            <td class="is-us" data-label="Pencora"><div class="cmp-cell"><span class="mark mark--yes" aria-hidden="true">✓</span><span class="visually-hidden"><span class="i18n-en">Yes</span></span><span><span class="i18n-en">Lined, grid, dotted and more — or any PDF page as your paper</span></span></div></td>
+            <td data-label="OneNote"><div class="cmp-cell"><span class="mark mark--partial" aria-hidden="true"></span><span class="visually-hidden"><span class="i18n-en">Partly</span></span><span><span class="i18n-en">Ruled or grid lines per page; no page templates on iPad</span></span></div></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-en">Moving over from OneNote</span></h2>
+      <ol class="cmp__steps">
+        <li><span class="i18n-en">In OneNote, send your pages to PDF (Share → Create PDF).</span></li>
+        <li><span class="i18n-en">Open the PDF with Pencora — from the Share sheet, or with Import inside a notebook — and choose to bring it in as editable ink.</span></li>
+        <li><span class="i18n-en">Pencora detects the paper ruling and turns the handwriting into real strokes, page by page. Long notebooks open at once and finish converting as you go.</span></li>
+      </ol>
+    </section>
+
+    <section class="cmp__section">
+      <h2><span class="i18n-en">Other comparisons</span></h2>
+      <ul class="cmp-links">
+        <li><a class="cmp-link" href="/compare/goodnotes/"><img src="/images/apps/goodnotes.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Goodnotes</span><span class="cmp-link__sub"><span class="i18n-en">Free without the 3-notebook limit</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/notability/"><img src="/images/apps/notability.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Notability</span><span class="cmp-link__sub"><span class="i18n-en">Unlimited notes and search, free</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/noteshelf/"><img src="/images/apps/noteshelf.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Noteshelf</span><span class="cmp-link__sub"><span class="i18n-en">Search and backups without Premium</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/myscript-notes/"><img src="/images/apps/myscript.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs MyScript Notes</span><span class="cmp-link__sub"><span class="i18n-en">Formerly Nebo · no 5-page limit</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/collanote/"><img src="/images/apps/collanote.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs CollaNote</span><span class="cmp-link__sub"><span class="i18n-en">Graphs and geometry, no Premium</span></span></span></a></li>
+        <li><a class="cmp-link" href="/compare/apple-notes/"><img src="/images/apps/applenotes.jpg" alt="" width="42" height="42"><span><span class="cmp-link__name">Pencora vs Apple Notes</span><span class="cmp-link__sub"><span class="i18n-en">Built in vs built for handwriting</span></span></span></a></li>
+      </ul>
+    </section>
+
+    <p class="cmp__note"><span class="i18n-en">Compared with what OneNote says about itself on its own website and App Store page, checked September 2026. Apps change — if something here is out of date, <a href="/support/">tell me</a> and I’ll fix it. OneNote is a trademark of its owner; Pencora is not affiliated with or endorsed by it.</span></p>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot__row">
+      <a class="nav-pill__wordmark" href="/" aria-label="Pencora">
+        <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
+      </a>
+      <ul class="foot__links">
+        <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
+        <li><a href="/compare/"><span class="i18n-en">Compare</span></a></li>
+        <li><a href="https://t.me/GNaum">Telegram</a></li>
+      </ul>
+      <p class="foot__credit"><span class="i18n-en">© 2026 Pencora. Built by one developer.</span></p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

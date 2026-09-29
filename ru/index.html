@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="ru" data-lang="ru" data-lang-fixed="ru" data-alt-en="/" data-alt-ru="/ru/">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script>
+    /* pick the language before first paint: ?lang= or stored choice, else browser language.
+       A published page is one language (data-lang-fixed, set by scripts/site/build.py): it
+       keeps it and hops to its twin only on an explicit choice or, from English, a Russian
+       browser — a Russian page never sends a crawler away. */
+    (function () {
+      var root = document.documentElement, fixed = root.getAttribute("data-lang-fixed");
+      var m = /[?&]lang=(en|ru)\b/.exec(location.search), pick = m ? m[1] : null;
+      if (!pick) try { pick = localStorage.getItem("hn-lang"); } catch (e) {}
+      var l = pick || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en");
+      if (fixed) {
+        if (!pick && fixed === "ru") l = "ru";
+        var twin = l !== fixed && root.getAttribute("data-alt-" + l);
+        if (twin) location.replace(twin + location.search + location.hash);
+        l = fixed;
+      }
+      root.setAttribute("data-lang", l);
+      root.lang = l;
+      root.className += " js";
+      try { var th = localStorage.getItem("hn-theme"); if (th === "dark" || th === "light") document.documentElement.setAttribute("data-theme", th); } catch (e) {}
+    })();
+  </script>
+  <title>Pencora — бесплатные заметки, которые успевают за рукой и думают наперёд</title>
+  <meta name="description" content="Pencora — бесплатная умная тетрадь для рукописных заметок на iPad: нейросеть пишет напечатанный текст вашим почерком, поиск по почерку, графики и геометрия прямо на странице, импорт PDF из любых заметок — на движке чернил без задержки.">
+  <link rel="canonical" href="https://pencora.app/ru/">
+  <link rel="alternate" hreflang="en" href="https://pencora.app/">
+  <link rel="alternate" hreflang="ru" href="https://pencora.app/ru/">
+  <link rel="alternate" hreflang="x-default" href="https://pencora.app/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:site_name" content="Pencora">
+  <meta property="og:title" content="Pencora — бесплатные заметки, которые успевают за рукой и думают наперёд">
+  <meta property="og:description" content="Напечатайте — и это будет написано вашим почерком. Поиск по всему, что вы когда-либо писали. Графики и геометрия на странице. Бесплатно.">
+  <meta property="og:url" content="https://pencora.app/ru/">
+  <meta property="og:image" content="https://pencora.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pencora — бесплатные заметки, которые успевают за рукой и думают наперёд">
+  <meta name="twitter:description" content="Напечатайте — и это будет написано вашим почерком. Поиск по всему, что вы когда-либо писали. Графики и геометрия на странице. Бесплатно.">
+  <meta name="twitter:image" content="https://pencora.app/og-image.png">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta name="theme-color" content="#F3F0EB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1C1C1E" media="(prefers-color-scheme: dark)">
+  <link rel="preload" as="image" href="/images/shots/hero-start.jpg">
+
+  <link rel="stylesheet" href="/css/landing.css?v=26">
+  <script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Pencora",
+    "url": "https://pencora.app/",
+    "inLanguage": [
+      "en",
+      "ru"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Pencora",
+    "url": "https://pencora.app/ru/",
+    "description": "Бесплатные рукописные заметки для iPad: напечатанный текст — вашим почерком, поиск по почерку, графики и геометрия прямо на странице, импорт PDF из любых заметок.",
+    "operatingSystem": "iPadOS 17 or later",
+    "applicationCategory": "EducationalApplication",
+    "image": "https://pencora.app/og-image.png",
+    "installUrl": "https://apps.apple.com/app/id6790469095",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+]
+  </script>
+</head>
+<body>
+
+  <!-- hand-drawn ribbons weaving behind the page (drawn by js/landing.js) -->
+  <div class="ribbons" aria-hidden="true"></div>
+
+  <nav class="nav glass" aria-label="Основная навигация">
+    <a class="nav__brand" href="/ru/" aria-label="Pencora — на главную">
+      <img class="nav__icon icon-light" src="/images/pencora-icon-light.jpg" alt="" width="30" height="30">
+      <img class="nav__icon icon-dark" src="/images/pencora-icon-dark.jpg" alt="" width="30" height="30">
+      <span class="wordmark nav__wordmark" aria-hidden="true"></span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="/ru/community/"><span class="i18n-ru">Сообщество</span></a></li>
+      <li><a href="/ru/support/"><span class="i18n-ru">Поддержка</span></a></li>
+      <li><a href="/ru/privacy/"><span class="i18n-ru">Приватность</span></a></li>
+      <li><a href="/ru/terms/"><span class="i18n-ru">Условия</span></a></li>
+    </ul>
+    <button class="theme-toggle" type="button" aria-label="Переключить светлую и тёмную тему" title="Light / dark">
+      <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></svg>
+      <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 14.6A7.8 7.8 0 0 1 9.4 4.5a7.8 7.8 0 1 0 10.1 10.1z"/></svg>
+    </button>
+    <button class="nav__lang" type="button" aria-label="Сменить язык"><span class="i18n-ru">EN</span></button>
+    <a class="btn btn--ink btn--sm" href="https://apps.apple.com/app/id6790469095"><span class="i18n-ru"><span class="nav__cta-long">Скачать бесплатно</span><span class="nav__cta-short">Скачать</span></span></a>
+  </nav>
+
+  <!-- ============================== HERO ============================== -->
+  <header class="hero" id="top">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <div class="hero__brand rise" style="--i:0">
+          <div class="app-icon hero__icon">
+            <img class="icon-light" src="/images/pencora-icon-light.jpg" alt="Pencora app icon" width="76" height="76">
+            <img class="icon-dark" src="/images/pencora-icon-dark.jpg" alt="Pencora app icon" width="76" height="76">
+          </div>
+          <span class="wordmark hero__wordmark" role="img" aria-label="Pencora"></span>
+        </div>
+
+        <h1 class="hero__title rise" style="--i:1">
+          
+          <span class="i18n-ru">Заметки, которые поспевают за рукой и <em>думают наперёд</em>.</span>
+        </h1>
+        <p class="hero__sub rise" style="--i:2">
+          
+          <span class="i18n-ru">Pencora — это бумага, которая думает. Перепишет напечатанный текст <em>вашим</em> почерком, найдёт любое слово в записях, построит график и не даст чертежу поплыть. Всё работает прямо на iPad, без облака.</span>
+        </p>
+
+        <div class="hero__cta rise" style="--i:3">
+          <a class="store" href="https://apps.apple.com/app/id6790469095" aria-label="Скачать Pencora в App Store">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 7.5v8M8.6 12.3 12 15.7l3.4-3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="store__text"><small><span class="i18n-ru">Загрузите в</span></small><strong>App Store</strong></span>
+          </a>
+          <a class="btn btn--glass glass" href="#gen"><span class="i18n-ru">Посмотреть возможности</span> <span aria-hidden="true">↓</span></a>
+        </div>
+        <ul class="freebar rise" style="--i:4">
+          <li class="freebar__big"><span class="i18n-ru">100% бесплатно</span></li>
+          <li><span class="i18n-ru">Без подписки</span></li>
+          <li><span class="i18n-ru">Без рекламы</span></li>
+          <li><span class="i18n-ru">Без аккаунта</span></li>
+        </ul>
+      </div>
+
+      <div class="hero__stage rise" style="--i:2">
+        <figure class="ipad" aria-label="Pencora на iPad: рисунок принцессы в бальном платье на странице цвета слоновой кости">
+          <div class="ipad__screen">
+            <div class="shot shot--fill" data-scene="hero">
+              <img src="/images/shots/hero-1.jpg" alt="A real Pencora page on Ivory paper: a princess in a flowing ball gown holding a bouquet, drawn in black and pink ink" width="1100" height="1583">
+            </div>
+          </div>
+        </figure>
+        <p class="hero__caption rise" style="--i:5"><span class="i18n-ru">Настоящий экран. Каждая линия — живой штрих.</span></p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================== MARQUEE ============================== -->
+  <section class="ticker" aria-label="Список возможностей">
+    <div class="ticker__row" aria-hidden="true">
+      <div class="ticker__track">
+        <span class="chip glass"><span class="i18n-ru">Генерация почерка</span></span>
+        <span class="chip glass"><span class="i18n-ru">Поиск по почерку</span></span>
+        <span class="chip glass"><span class="i18n-ru">Графики как в Desmos</span></span>
+        <span class="chip glass"><span class="i18n-ru">Геометрия как в GeoGebra</span></span>
+        <span class="chip glass"><span class="i18n-ru">Формулы вашим почерком</span></span>
+        <span class="chip glass"><span class="i18n-ru">PDF из любого приложения</span></span>
+        <span class="chip glass"><span class="i18n-ru">Бесконечная доска</span></span>
+        <span class="chip glass"><span class="i18n-ru">Зачеркнуть — стереть</span></span>
+        <span class="chip glass"><span class="i18n-ru">Генерация почерка</span></span>
+        <span class="chip glass"><span class="i18n-ru">Поиск по почерку</span></span>
+        <span class="chip glass"><span class="i18n-ru">Графики как в Desmos</span></span>
+        <span class="chip glass"><span class="i18n-ru">Геометрия как в GeoGebra</span></span>
+        <span class="chip glass"><span class="i18n-ru">Формулы вашим почерком</span></span>
+        <span class="chip glass"><span class="i18n-ru">PDF из любого приложения</span></span>
+        <span class="chip glass"><span class="i18n-ru">Бесконечная доска</span></span>
+        <span class="chip glass"><span class="i18n-ru">Зачеркнуть — стереть</span></span>
+      </div>
+    </div>
+    <div class="ticker__row ticker__row--rev" aria-hidden="true">
+      <div class="ticker__track">
+        <span class="chip glass"><span class="i18n-ru">Чернила на Metal, 120 Гц</span></span>
+        <span class="chip glass"><span class="i18n-ru">Выпрямление фигур</span></span>
+        <span class="chip glass"><span class="i18n-ru">Векторный PDF</span></span>
+        <span class="chip glass"><span class="i18n-ru">Маркер под чернилами</span></span>
+        <span class="chip glass"><span class="i18n-ru">Лассо с поворотом</span></span>
+        <span class="chip glass"><span class="i18n-ru">Каллиграфические перья</span></span>
+        <span class="chip glass"><span class="i18n-ru">Markdown и TeX</span></span>
+        <span class="chip glass"><span class="i18n-ru">Бэкапы в Google Drive</span></span>
+        <span class="chip glass"><span class="i18n-ru">Чернила на Metal, 120 Гц</span></span>
+        <span class="chip glass"><span class="i18n-ru">Выпрямление фигур</span></span>
+        <span class="chip glass"><span class="i18n-ru">Векторный PDF</span></span>
+        <span class="chip glass"><span class="i18n-ru">Маркер под чернилами</span></span>
+        <span class="chip glass"><span class="i18n-ru">Лассо с поворотом</span></span>
+        <span class="chip glass"><span class="i18n-ru">Каллиграфические перья</span></span>
+        <span class="chip glass"><span class="i18n-ru">Markdown и TeX</span></span>
+        <span class="chip glass"><span class="i18n-ru">Бэкапы в Google Drive</span></span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- ============================== 1 · HANDWRITING GENERATION ============================== -->
+    <section class="section wrap" id="gen">
+      <article class="first reveal">
+        <div class="first__copy">
+          <h2 class="first__title first__title--big"><span class="i18n-ru">Печатаете вы — пишет ваша рука.</span></h2>
+          <p class="first__body"><span class="i18n-ru">Первая модель почерка, которая работает прямо на iPad. Один раз покажите ей свои буквы — и вставляйте хоть целый документ в Markdown, с заголовками, списками и формулами. Текст ляжет на страницу настоящими чернилами, точно по линейкам, и его можно стирать и править. В интернет ничего не уходит.</span></p>
+          <ul class="points">
+            <li><span class="i18n-ru">Markdown, списки и формулы в LaTeX</span></li>
+            <li><span class="i18n-ru">Попадает в линейки вашей бумаги</span></li>
+            <li><span class="i18n-ru">Буквы не повторяются, как у живой руки</span></li>
+            <li><span class="i18n-ru">Русский и английский</span></li>
+          </ul>
+        </div>
+        <div class="first__visual">
+          <div class="screen-wrap">
+            <div class="screen-tags">
+              <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7z"/></svg><span class="i18n-ru">Впервые в мире</span></span>
+            </div>
+            <div class="screen glass-frame">
+              <div class="shot" data-scene="gen" style="--ar: 1000 / 762">
+                <img src="/images/shots/gen-1.jpg" alt="A lined page with a heading, two paragraphs and a list, written by Pencora in handwriting from typed Markdown" width="1000" height="762" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- the model's own output, no interface -->
+      <div class="model reveal" data-demo="model">
+        <div class="model__sheet">
+          <svg class="model__ink" role="img" aria-label="Русский почерк, сгенерированный моделью Pencora: «Этот текст написала нейросеть. Она выучила почерк на двадцати пяти тысячах слов, написанных живыми людьми, и работает прямо на планшете — без интернета и облака.»"></svg>
+        </div>
+        <div class="model__side">
+          <p class="model__label"><span class="i18n-ru">Этого никто не писал.</span></p>
+          <p class="model__text"><span class="i18n-ru">Каждый штрих слева нарисовала модель Pencora — это не шрифт и не скан. Штрихи появляются в том же порядке и с тем же ритмом, с каким их выводит модель.</span></p>
+          <div class="research">
+            <div class="research__stat"><strong>25&#8239;000</strong><span><span class="i18n-ru">слов, написанных от руки по-русски, — на них училась модель</span></span></div>
+            <div class="research__stat"><strong>22.7M</strong><span><span class="i18n-ru">параметров, и всё считается на GPU iPad</span></span></div>
+          </div>
+          <p class="model__text"><span class="i18n-ru">По-русски модель уже пишет поразительно хорошо. Английский датасет собираем прямо сейчас — его пишут такие же люди, как вы.</span></p>
+          <a class="btn btn--ink" href="/handwriting/?lang=ru"><span class="i18n-ru">Написать слова для датасета</span> <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 2 · FOUNDATIONS ============================== -->
+    <section class="section wrap" id="base">
+      <header class="section__head reveal">
+        <h2 class="section__title"><span class="i18n-ru">Основа — без компромиссов.</span></h2>
+        <p class="section__lede"><span class="i18n-ru">Всё умное начинается с пера. Поэтому перо у нас идеальное.</span></p>
+      </header>
+
+      <div class="base">
+        <article class="card glass card--engine reveal">
+          <div class="card__copy">
+            <h3 class="card__title"><span class="i18n-ru">Самое плавное письмо на рынке.</span></h3>
+            <p class="card__body"><span class="i18n-ru">Собственный движок на Metal рисует каждый штрих в тот же миг — с нажимом, наклоном, hover и сжатием Pencil&nbsp;Pro. Даже на сотнях страниц — ни одного рывка.</span></p>
+          </div>
+          <div class="engine-art" aria-hidden="true">
+            <canvas class="engine-art__ink"></canvas>
+            <canvas class="engine-art__nib"></canvas>
+          </div>
+          <div class="stats">
+            <div class="stat glass"><strong>120<small>Hz</small></strong><span><span class="i18n-ru">частота отрисовки</span></span></div>
+            <div class="stat glass"><strong>240<small>Hz</small></strong><span><span class="i18n-ru">опрос Apple Pencil</span></span></div>
+            <div class="stat glass"><strong>0</strong><span><span class="i18n-ru">серверов между вами и заметками</span></span></div>
+          </div>
+        </article>
+
+        <ul class="tiles">
+          <li class="tile glass reveal" style="--i:0">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/><path d="M8.5 15c1.5-3 3-3 3.5-.5s2 2.5 3.5-1"/></svg>
+            <strong><span class="i18n-ru">Любая бумага</span></strong>
+            <span><span class="i18n-ru">Линейка, клетка, точки — или любая страница PDF вместо бумаги.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:1">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 16.5 12 5l7.5 11.5z"/><circle cx="12" cy="12.5" r="7.8" stroke-dasharray="2 2.2"/></svg>
+            <strong><span class="i18n-ru">Выпрямление фигур</span></strong>
+            <span><span class="i18n-ru">Задержите перо в конце штриха — и линия, окружность или многоугольник станут ровными.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:2">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8.5 14.5 7.2-9.2 3.8 3-7.2 9.2H8.5z"/><path d="M5 20.5h14"/></svg>
+            <strong><span class="i18n-ru">Маркер и лента</span></strong>
+            <span><span class="i18n-ru">Маркер ложится под чернила и не мажет их, а лента прячет ответы для самопроверки.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:3">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12.5" cy="9.5" rx="7.5" ry="4.8" stroke-dasharray="2.6 2.4"/><path d="M8.5 13.8c-1.4 1.6-1.2 3.6.4 4.2 1.7.6 2.9-.8 2-2"/></svg>
+            <strong><span class="i18n-ru">Лассо с поворотом</span></strong>
+            <span><span class="i18n-ru">Двигайте, масштабируйте, поворачивайте — и меняйте толщину уже написанного.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:4">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13c2-3 3.5-3 4.5 0s2.5 3 4 0 3-3 4 0 2.5 3 4.5 0"/><path d="M4 7.5c3 3 13 3 16 0" stroke-dasharray="2 2.4"/></svg>
+            <strong><span class="i18n-ru">Зачеркнуть — стереть</span></strong>
+            <span><span class="i18n-ru">Зачеркните слово — и его нет. Отмена вернёт.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:5">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/><path d="M8 11c1-2 2-2 2.5 0s1.5 2 2.5 0"/></svg>
+            <strong><span class="i18n-ru">Лупа для письма</span></strong>
+            <span><span class="i18n-ru">Пишите крупно в увеличенной полосе — на странице получится мелко и аккуратно.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:6">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 4 8-4 9-4-9z"/><path d="M12 11.5v3"/></svg>
+            <strong><span class="i18n-ru">Каллиграфические перья</span></strong>
+            <span><span class="i18n-ru">Фигурные перья поворачиваются вместе со штрихом, а пипетка возьмёт любой цвет.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:7">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v13H4z"/><path d="M7 9.5h5M7 12.5h8M7 15.5h3"/></svg>
+            <strong><span class="i18n-ru">Текст: Markdown и TeX</span></strong>
+            <span><span class="i18n-ru">Текстовые блоки с заголовками, списками, ссылками и формулами.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:8">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>
+            <strong><span class="i18n-ru">Векторный экспорт PDF</span></strong>
+            <span><span class="i18n-ru">Чёткий при любом увеличении, и ластик тоже учитывается.</span></span>
+          </li>
+          <li class="tile glass reveal" style="--i:9">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg>
+            <strong><span class="i18n-ru">Просмотр на iPhone</span></strong>
+            <span><span class="i18n-ru">Открывайте тетради на iPhone и читайте где угодно.</span></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== 3 · FREE ============================== -->
+    <section class="section wrap" id="free">
+      <div class="free reveal">
+        <div class="free__price" aria-hidden="true"><span class="free__currency">$</span>0</div>
+        <h2 class="free__title"><span class="i18n-ru">Всё это. <em>Бесплатно.</em></span></h2>
+        <p class="free__sub"><span class="i18n-ru">Генерация почерка, поиск, графики, геометрия, импорт PDF, бэкапы в Google Диск, бесконечная доска — ни одна функция на этой странице не стоит денег.</span></p>
+        <ul class="free__list">
+          <li><span class="i18n-ru">Без подписки</span></li>
+          <li><span class="i18n-ru">Без пробного периода</span></li>
+          <li><span class="i18n-ru">Без рекламы</span></li>
+          <li><span class="i18n-ru">Без аккаунта</span></li>
+        </ul>
+        <a class="store store--light" href="https://apps.apple.com/app/id6790469095" aria-label="Скачать Pencora в App Store">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 7.5v8M8.6 12.3 12 15.7l3.4-3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="store__text"><small><span class="i18n-ru">Загрузите в</span></small><strong>App Store</strong></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================== 4 · SEARCH ============================== -->
+    <section class="section wrap" id="search">
+      <header class="section__head reveal">
+        <h2 class="section__title section__title--xl"><span class="i18n-ru">Найдётся всё, что вы писали.</span></h2>
+        <p class="section__lede"><span class="i18n-ru">Искать можно сразу, как только слово легло на страницу. Распознавание идёт на iPad, и записи никуда не уходят.</span></p>
+      </header>
+      <div class="search reveal">
+        <div class="screen-wrap">
+          <div class="screen glass-frame">
+            <div class="shot" data-scene="search" style="--ar: 1200 / 500">
+              <img src="/images/shots/search-1.jpg" alt="Home search in Words mode: typing “paper” finds the handwritten word in the notebook “Why paper”, page 1, twice" width="1200" height="500" loading="lazy">
+            </div>
+          </div>
+        </div>
+        <ul class="search__facts">
+          <li><strong><span class="i18n-ru">Каждое слово — сразу</span></strong><span><span class="i18n-ru">Индексируются на лету, на 8 языках.</span></span></li>
+          <li><strong><span class="i18n-ru">И текст на фото</span></strong><span><span class="i18n-ru">Фото на страницах тоже распознаются.</span></span></li>
+          <li><strong><span class="i18n-ru">Похожее тоже найдётся</span></strong><span><span class="i18n-ru">Опечатки, неразборчивые буквы, однокоренные слова.</span></span></li>
+          <li><strong><span class="i18n-ru">Прямо к слову</span></strong><span><span class="i18n-ru">Страница откроется прямо на нём, с подсветкой.</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================== 5 · DESMOS ============================== -->
+    <section class="section wrap" id="desmos">
+      <article class="first first--flip reveal">
+        <div class="first__copy">
+          <div class="brandmark"><img src="/images/apps/desmos.jpg" alt="" width="56" height="56"><span class="brandmark__plus" aria-hidden="true">+</span><img class="brandmark__self icon-light" src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"><img class="brandmark__self icon-dark" src="/images/pencora-icon-dark.jpg" alt="" width="56" height="56"></div>
+          <h2 class="first__title first__title--big"><span class="i18n-ru">Полноценный Desmos — прямо в конспекте.</span></h2>
+          <p class="first__body"><span class="i18n-ru">Поставьте плоскость в любом месте страницы и вводите: y = 4 sin x, параболу, окружность. Формулы и таблицы живут в одном списке; таблицу можно загрузить из CSV или просто нарисовать от руки — Pencora её распознает. Всё, что вы пишете на плоскости, привязано к её координатам, а график рисуется как штрих пера.</span></p>
+          <ul class="points">
+            <li><span class="i18n-ru">Функции, неявные кривые, точки, таблицы</span></li>
+            <li><span class="i18n-ru">Распознаёт таблицы, нарисованные от руки</span></li>
+            <li><span class="i18n-ru">Сдвиг и масштаб прямо внутри плоскости</span></li>
+            <li><span class="i18n-ru">Одна формула — сразу на нескольких плоскостях</span></li>
+          </ul>
+        </div>
+        <div class="first__visual">
+          <div class="screen-wrap">
+            <div class="screen-tags">
+              <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7z"/></svg><span class="i18n-ru">Впервые в мире</span></span>
+            </div>
+            <div class="screen glass-frame">
+              <div class="shot" data-scene="graph" style="--ar: 1000 / 1223">
+                <img src="/images/shots/graph-1.jpg" alt="The graphs panel with three formulas — a sine, a parabola and a circle — plotted on a plane on the page" width="1000" height="1223" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============================== 6 · GEOGEBRA ============================== -->
+    <section class="section wrap" id="geogebra">
+      <article class="first reveal">
+        <div class="first__copy">
+          <div class="brandmark"><img src="/images/apps/geogebra.jpg" alt="" width="56" height="56"><span class="brandmark__plus" aria-hidden="true">+</span><img class="brandmark__self icon-light" src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"><img class="brandmark__self icon-dark" src="/images/pencora-icon-dark.jpg" alt="" width="56" height="56"></div>
+          <h2 class="first__title first__title--big"><span class="i18n-ru">Всё из GeoGebra — и даже больше.</span></h2>
+          <p class="first__body"><span class="i18n-ru">Треугольник, окружность через его вершины и три биссектрисы, сходящиеся в одной точке, — всё построено настоящими инструментами, в миллиметрах, с подписями вашим почерком. Потяните вершину — и всё, что от неё зависит, точно перестроится. А рядом можно писать от руки, как обычно.</span></p>
+          <ul class="points">
+            <li><span class="i18n-ru">17 производных построений</span></li>
+            <li><span class="i18n-ru">Биссектрисы, касательные, отражения, центры</span></li>
+            <li><span class="i18n-ru">Размеры в миллиметрах</span></li>
+            <li><span class="i18n-ru">Подписи вашим почерком</span></li>
+          </ul>
+        </div>
+        <div class="first__visual">
+          <div class="screen-wrap">
+            <div class="screen-tags">
+              <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7z"/></svg><span class="i18n-ru">Впервые в мире</span></span>
+            </div>
+            <div class="screen glass-frame">
+              <div class="shot" data-scene="geo" style="--ar: 1000 / 1172">
+                <img src="/images/shots/geo-1.jpg" alt="The geometry tools panel beside a triangle with its circumcircle and three angle bisectors, labelled A, B, C and O in handwriting" width="1000" height="1172" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============================== 7 · NOT READY TO CHANGE ============================== -->
+    <section class="section wrap switch" id="switch">
+      <header class="section__head reveal">
+        <span class="badge badge--new"><span class="i18n-ru">Новинка</span></span>
+        <h2 class="section__title section__title--xl"><span class="i18n-ru">Не готовы переезжать? Берите всё с собой.</span></h2>
+        <p class="section__lede"><span class="i18n-ru">Выгрузите тетради в PDF из приложения, в котором пишете сейчас, — Pencora откроет их как настоящие чернила, которые можно править. Разлиновку она определит сама, порядок страниц сохранит.</span></p>
+      </header>
+      <div class="apps" aria-label="Работает с PDF, экспортированными из Goodnotes, Notability, Noteshelf, OneNote, Apple Заметок, Freeform, MyScript Notes, Flexcil, CollaNote, ZoomNotes, Evernote и Noteful">
+        <div class="apps__track">
+          <span class="app-chip glass"><img src="/images/apps/goodnotes.jpg" alt="" width="40" height="40" loading="lazy"><b>Goodnotes</b></span>
+          <span class="app-chip glass"><img src="/images/apps/notability.jpg" alt="" width="40" height="40" loading="lazy"><b>Notability</b></span>
+          <span class="app-chip glass"><img src="/images/apps/noteshelf.jpg" alt="" width="40" height="40" loading="lazy"><b>Noteshelf</b></span>
+          <span class="app-chip glass"><img src="/images/apps/onenote.jpg" alt="" width="40" height="40" loading="lazy"><b>OneNote</b></span>
+          <span class="app-chip glass"><img src="/images/apps/applenotes.jpg" alt="" width="40" height="40" loading="lazy"><b>Apple Notes</b></span>
+          <span class="app-chip glass"><img src="/images/apps/freeform.jpg" alt="" width="40" height="40" loading="lazy"><b>Freeform</b></span>
+          <span class="app-chip glass"><img src="/images/apps/myscript.jpg" alt="" width="40" height="40" loading="lazy"><b>MyScript Notes</b></span>
+          <span class="app-chip glass"><img src="/images/apps/flexcil.jpg" alt="" width="40" height="40" loading="lazy"><b>Flexcil</b></span>
+          <span class="app-chip glass"><img src="/images/apps/collanote.jpg" alt="" width="40" height="40" loading="lazy"><b>CollaNote</b></span>
+          <span class="app-chip glass"><img src="/images/apps/zoomnotes.jpg" alt="" width="40" height="40" loading="lazy"><b>ZoomNotes</b></span>
+          <span class="app-chip glass"><img src="/images/apps/evernote.jpg" alt="" width="40" height="40" loading="lazy"><b>Evernote</b></span>
+          <span class="app-chip glass"><img src="/images/apps/noteful.jpg" alt="" width="40" height="40" loading="lazy"><b>Noteful</b></span>
+          <span class="app-chip glass"><img src="/images/apps/goodnotes.jpg" alt="" width="40" height="40" loading="lazy"><b>Goodnotes</b></span>
+          <span class="app-chip glass"><img src="/images/apps/notability.jpg" alt="" width="40" height="40" loading="lazy"><b>Notability</b></span>
+          <span class="app-chip glass"><img src="/images/apps/noteshelf.jpg" alt="" width="40" height="40" loading="lazy"><b>Noteshelf</b></span>
+          <span class="app-chip glass"><img src="/images/apps/onenote.jpg" alt="" width="40" height="40" loading="lazy"><b>OneNote</b></span>
+          <span class="app-chip glass"><img src="/images/apps/applenotes.jpg" alt="" width="40" height="40" loading="lazy"><b>Apple Notes</b></span>
+          <span class="app-chip glass"><img src="/images/apps/freeform.jpg" alt="" width="40" height="40" loading="lazy"><b>Freeform</b></span>
+          <span class="app-chip glass"><img src="/images/apps/myscript.jpg" alt="" width="40" height="40" loading="lazy"><b>MyScript Notes</b></span>
+          <span class="app-chip glass"><img src="/images/apps/flexcil.jpg" alt="" width="40" height="40" loading="lazy"><b>Flexcil</b></span>
+          <span class="app-chip glass"><img src="/images/apps/collanote.jpg" alt="" width="40" height="40" loading="lazy"><b>CollaNote</b></span>
+          <span class="app-chip glass"><img src="/images/apps/zoomnotes.jpg" alt="" width="40" height="40" loading="lazy"><b>ZoomNotes</b></span>
+          <span class="app-chip glass"><img src="/images/apps/evernote.jpg" alt="" width="40" height="40" loading="lazy"><b>Evernote</b></span>
+          <span class="app-chip glass"><img src="/images/apps/noteful.jpg" alt="" width="40" height="40" loading="lazy"><b>Noteful</b></span>
+        </div>
+      </div>
+      <div class="switch__demo reveal">
+        <div class="pdfswap">
+          <div class="pdfswap__file">
+            <span class="pdfswap__badge">PDF</span>
+            <img src="/images/shots/pdf-source.jpg" alt="A handwritten notebook page exported as PDF from another app" width="635" height="900" loading="lazy">
+          </div>
+          <div class="pdfswap__arrow" aria-hidden="true"><svg viewBox="0 0 80 40"><path d="M4 22c18-10 38-10 60-2"/><path d="m54 10 12 10-14 8"/></svg></div>
+          <div class="screen-wrap pdfswap__app">
+            <div class="screen glass-frame">
+              <div class="shot" data-scene="pdf" style="--ar: 1000 / 805">
+                <img src="/images/shots/pdf-1.jpg" alt="The same page imported into Pencora as editable ink, with a red circle and a check mark added on top" width="1000" height="805" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="points switch__points">
+          <li><span class="i18n-ru">Почерк переносится штрихами, а не картинкой</span></li>
+          <li><span class="i18n-ru">Большие документы открываются сразу и дорабатываются по ходу</span></li>
+          <li><span class="i18n-ru">Экспорт обратно — в векторный PDF, без привязки</span></li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ============================== 8 · BACKUP ============================== -->
+    <section class="section wrap backup reveal" id="backup">
+      <div class="backup__copy">
+        <div class="brandmark"><img src="/images/apps/googledrive.jpg" alt="" width="56" height="56"><span class="brandmark__plus" aria-hidden="true">+</span><img class="brandmark__self icon-light" src="/images/pencora-icon-light.jpg" alt="" width="56" height="56"><img class="brandmark__self icon-dark" src="/images/pencora-icon-dark.jpg" alt="" width="56" height="56"></div>
+        <h2 class="first__title first__title--big"><span class="i18n-ru">Ни одна страница не потеряется.</span></h2>
+        <p class="first__body"><span class="i18n-ru">Каждый день Pencora сама сохраняет всю библиотеку в ваш Google Диск. Купили новый iPad — всё восстановится одним нажатием. А ещё все заметки можно в любой момент сохранить одним файлом.</span></p>
+        <ul class="points">
+          <li><span class="i18n-ru">Каждый день — автоматическая копия в ваш Диск</span></li>
+          <li><span class="i18n-ru">Хранятся пять последних копий</span></li>
+          <li><span class="i18n-ru">Восстановление на новом iPad — в одно касание</span></li>
+          <li><span class="i18n-ru">Pencora видит только свою папку с копиями и больше ничего на Диске</span></li>
+        </ul>
+      </div>
+      <div class="backup__art">
+        <div class="cloud-card glass">
+          <svg class="cloud-art" viewBox="40 30 540 420" aria-hidden="true">
+            <defs>
+              <pattern id="cp-grid" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M8 0H0V8" class="cpage__grid"/></pattern>
+            </defs>
+            <g class="cloud-art__pages">
+              <g class="cpage cpage--1"><g class="cpage__body">
+                <rect class="cpage__paper" width="78" height="100" rx="9"/>
+                <path class="cpage__rule" d="M0 26H78M0 40H78M0 54H78M0 68H78M0 82H78"/>
+                <path class="cpage__ink" d="M10 24 q3 -6 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0"/><path class="cpage__ink" d="M10 38 q3 -6 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0"/><path class="cpage__ink" d="M10 52 q3 -6 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0"/><path class="cpage__ink" d="M10 66 q3 -6 6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0 t6 0"/><path class="cpage__hl" d="M40 52 H66"/>
+              </g></g>
+              <g class="cpage cpage--2"><g class="cpage__body">
+                <rect class="cpage__paper" width="78" height="100" rx="9"/>
+                <rect x="6" y="8" width="66" height="84" fill="url(#cp-grid)"/>
+                <path class="cpage__axis" d="M8 56H70M39 12V90"/>
+                <path class="cpage__curve cpage__curve--red" d="M8 56 C14 40 20 40 24 56 S34 72 39 56 S50 40 54 56 S64 72 70 56"/>
+                <path class="cpage__curve cpage__curve--blue" d="M12 16 C22 74 56 74 66 16"/>
+              </g></g>
+              <g class="cpage cpage--3"><g class="cpage__body">
+                <rect class="cpage__paper" width="78" height="100" rx="9"/>
+                <circle class="cpage__curve cpage__curve--red" cx="39" cy="52" r="26"/>
+                <path class="cpage__geo" d="M39 26 L16.5 65 L61.5 65 Z"/>
+                <path class="cpage__ink" d="M12 88 q3 -6 6 0 t6 0 t6 0 t6 0"/>
+              </g></g>
+            </g>
+            <path class="cloud-art__back" d="M150 302 C98 302 72 266 82 232 C90 204 116 190 142 192 C142 146 184 114 230 122 C252 74 312 58 356 86 C384 60 442 66 460 112 C508 112 538 152 526 198 C554 216 552 270 516 290 C506 297 494 302 480 302 Z"/>
+            <path class="cloud-art__fill" d="M150 302 C98 302 72 266 82 232 C90 204 116 190 142 192 C142 146 184 114 230 122 C252 74 312 58 356 86 C384 60 442 66 460 112 C508 112 538 152 526 198 C554 216 552 270 516 290 C506 297 494 302 480 302 Z"/>
+            <path class="cloud-art__line" pathLength="1" d="M318 302 L150 302 C98 302 72 266 82 232 C90 204 116 190 142 192 C142 146 184 114 230 122 C252 74 312 58 356 86 C384 60 442 66 460 112 C508 112 538 152 526 198 C554 216 552 270 516 290 C506 297 494 302 480 302 L300 302"/>
+            <path class="cloud-art__shine" pathLength="1" d="M168 206 C172 176 192 156 220 152"/>
+            <g class="cloud-art__spark cloud-art__spark--1"><path d="M516 70 V100 M501 85 H531"/></g>
+            <g class="cloud-art__spark cloud-art__spark--2"><path d="M114 128 V146 M105 137 H123"/></g>
+            <g class="cloud-art__spark cloud-art__spark--3"><path d="M548 150 V162 M542 156 H554"/></g>
+            <path class="cloud-art__arrow" pathLength="1" d="M300 262 V186 M274 210 L300 184 L326 210"/>
+          </svg>
+          <div class="cloud-chip cloud-chip--drive glass">
+            <img src="/images/apps/googledrive.jpg" alt="" width="34" height="34">
+            <span><b>Google Drive</b><small><span class="i18n-ru">Каждый день, автоматически</span></small></span>
+          </div>
+          <div class="cloud-chip cloud-chip--done glass">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5.5 12.5 4 4 9-9"/></svg>
+            <span><span class="i18n-ru">Сохранено сегодня</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== 9 · MORE ============================== -->
+    <section class="section wrap" id="more">
+      <div class="more">
+        <article class="card glass card--board reveal" style="--i:0">
+          <div class="screen screen--flat">
+            <div class="shot" data-board-cam='{"ink":"board-ink.webp","chrome":"board-chrome.webp","img":[1778,2022],"screen":[1148.0,1652.0],"grid":{"period":[11.309,11.2602],"phase":[9.024,1.591]},"views":{"A":{"c":[307.6,423.8],"size":[603,867]},"B":{"c":[1301.3,542.5],"size":[974,903]},"C":{"c":[889.4,1720.2],"size":[850,626]},"all":{"c":[897.4,1011.8],"size":[1782,2043]}}}' style="--ar: 1640 / 2360">
+              <img src="/images/shots/board-1.jpg" alt="A real Pencora infinite board: notes, a checklist, graphs and a triangle spread far apart; the view zooms out over the whole board and dives into each cluster" width="1000" height="1439" loading="lazy">
+            </div>
+          </div>
+          <div class="card__copy">
+            <h3 class="card__title"><span class="i18n-ru">Бесконечная доска за каждой тетрадью.</span></h3>
+            <p class="card__body"><span class="i18n-ru">Бесконечный холст с миникартой. Обведите любой фрагмент — и он станет обычной страницей, которая помнит, откуда взялась.</span></p>
+          </div>
+        </article>
+        <article class="card glass card--home reveal" style="--i:1">
+          <div class="screen screen--flat">
+            <div class="shot" style="--ar: 1200 / 412"><img src="/images/shots/home.jpg" alt="The Pencora library: notebooks with handwritten covers — Why paper, Geometry, Written for me, Lecture notes" width="1200" height="412" loading="lazy"></div>
+          </div>
+          <div class="card__copy">
+            <h3 class="card__title"><span class="i18n-ru">Библиотека, где видно, что внутри.</span></h3>
+            <p class="card__body"><span class="i18n-ru">Каждая обложка — это настоящая первая страница. Написанное сегодня парит на главном экране, а папки, теги и вкладки держат остальное под рукой.</span></p>
+          </div>
+        </article>
+        <article class="card glass card--research reveal" style="--i:2">
+          <div class="card__copy">
+            <h3 class="card__title"><span class="i18n-ru">Свои модели, а не чужой API.</span></h3>
+            <p class="card__body"><span class="i18n-ru">Распознавание и генерация почерка работают на моделях, которые мы обучаем сами, — на почерке, который люди пишут для нас в приложении и в браузере. Русских слов уже 25 000, английский набор собираем прямо сейчас.</span></p>
+            <a class="link-card__go" href="/handwriting/?lang=ru"><span class="i18n-ru">Помочь с обучением</span> →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================== MAKER + COMMUNITY ============================== -->
+    <section class="section wrap" id="maker">
+      <div class="maker glass reveal">
+        <span class="maker__portrait" role="img" aria-label="Рисованный портрет разработчика"></span>
+        <div class="maker__copy">
+          <h2 class="maker__title"><span class="i18n-ru">Заметки должны быть бесплатными, а не очередной подпиской.</span></h2>
+          <p class="maker__text"><span class="i18n-ru">Привет! Я делаю Pencora один. Я считаю, что место, где вы думаете и учитесь, не должно сдаваться вам в аренду корпорацией по подписке. Поэтому Pencora бесплатная — все функции, без подвоха.</span></p>
+          <ul class="maker__points">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.7"/><path d="M20 4v4.7h-4.7"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.3"/><path d="M4 20v-4.7h4.7"/></svg>
+              <div><strong><span class="i18n-ru">Постоянно становится лучше</span></strong><span><span class="i18n-ru">Я работаю над Pencora постоянно — каждое обновление делает её быстрее, умнее и приятнее.</span></span></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.5a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5V17H5a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 5 5.5z"/><path d="M8 10h8M8 13h5"/></svg>
+              <div><strong><span class="i18n-ru">Ваш отзыв решает</span></strong><span><span class="i18n-ru">Я постоянно прошу обратную связь. Напишите, чего не хватает или что раздражает, — так и выбираются следующие функции.</span></span></div>
+            </li>
+          </ul>
+          <div class="maker__links">
+            <a class="btn btn--ink" href="https://t.me/HandynotesApp"><span class="i18n-ru">В канал</span> <span aria-hidden="true">→</span></a>
+            <a class="btn btn--glass glass" href="https://t.me/GNaum"><span class="i18n-ru">Написать отзыв</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="values">
+        <div class="value glass reveal" style="--i:0">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5"/><path d="m4 4 16 16"/></svg>
+          <strong><span class="i18n-ru">Без аккаунта</span></strong>
+          <span><span class="i18n-ru">Открыли и пишете. Вот и вся регистрация.</span></span>
+        </div>
+        <div class="value glass reveal" style="--i:1">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+          <strong><span class="i18n-ru">На устройстве</span></strong>
+          <span><span class="i18n-ru">Распознавание, поиск и генерация почерка работают на вашем iPad.</span></span>
+        </div>
+        <div class="value glass reveal" style="--i:2">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6.5v5c0 4.5 3 7.8 7 9 4-1.2 7-4.5 7-9v-5z"/><path d="m9 12 2 2 4-4"/></svg>
+          <strong><span class="i18n-ru">Без рекламы и слежки</span></strong>
+          <span><span class="i18n-ru">Ваши заметки — не товар.</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== FINAL CTA ============================== -->
+    <section class="final wrap reveal">
+      <div class="final__card glass">
+        <div class="app-icon final__icon">
+          <img class="icon-light" src="/images/pencora-icon-light.jpg" alt="" width="96" height="96">
+          <img class="icon-dark" src="/images/pencora-icon-dark.jpg" alt="" width="96" height="96">
+        </div>
+        <h2 class="final__title"><span class="i18n-ru">Берите Pencil и пишите.</span></h2>
+        <p class="final__sub"><span class="i18n-ru">Бесплатно в App Store для iPad — все функции и навсегда.</span></p>
+        <a class="store" href="https://apps.apple.com/app/id6790469095" aria-label="Скачать Pencora в App Store">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 7.5v8M8.6 12.3 12 15.7l3.4-3.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="store__text"><small><span class="i18n-ru">Загрузите в</span></small><strong>App Store</strong></span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <a class="foot__brand" href="/ru/" aria-label="Pencora">
+      <span class="wordmark foot__wordmark" aria-hidden="true"></span>
+    </a>
+    <ul class="foot__links">
+      <li><a href="/ru/community/"><span class="i18n-ru">Сообщество</span></a></li>
+      <li><a href="/ru/support/"><span class="i18n-ru">Поддержка</span></a></li>
+      <li><a href="/ru/privacy/"><span class="i18n-ru">Приватность</span></a></li>
+      <li><a href="/ru/terms/"><span class="i18n-ru">Условия</span></a></li>
+      <li><a href="/ru/compare/"><span class="i18n-ru">Сравнение</span></a></li>
+      <li><a href="/handwriting/?lang=ru"><span class="i18n-ru">Датасет почерка</span></a></li>
+      <li><a href="https://t.me/GNaum">Telegram</a></li>
+    </ul>
+    <p class="foot__credit"><span class="i18n-ru">© 2026 Pencora. Сделано одним разработчиком.</span></p>
+    <p class="foot__legal"><span class="i18n-ru">Google Drive, Desmos, GeoGebra, Goodnotes, Notability и другие названия и иконки приложений на этой странице — товарные знаки их владельцев. Pencora не связана с ними и не одобрена ими; они приведены, чтобы описать совместимость и сопоставимые возможности.</span></p>
+  </footer>
+
+  <script src="/js/scenes.js?v=26"></script>
+  <script src="/js/model-sample.js?v=26"></script>
+  <script src="/js/landing.js?v=27"></script>
+</body>
+</html>

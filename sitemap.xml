@@ -1,28 +1,212 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://handynotes.app/</loc>
+    <loc>https://pencora.app/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/"/>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://handynotes.app/community/</loc>
+    <loc>https://pencora.app/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/community/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/community/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/community/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/community/"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://handynotes.app/support/</loc>
+    <loc>https://pencora.app/ru/community/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/community/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/community/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/community/"/>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://handynotes.app/privacy/</loc>
+    <loc>https://pencora.app/support/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/support/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/support/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/support/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/support/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/support/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/support/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/support/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/privacy/"/>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://handynotes.app/terms/</loc>
+    <loc>https://pencora.app/ru/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/privacy/"/>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/terms/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/terms/"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/terms/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/terms/"/>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/compare/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/compare/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/compare/goodnotes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/goodnotes/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/goodnotes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/goodnotes/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/compare/goodnotes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/goodnotes/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/goodnotes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/goodnotes/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/compare/notability/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/notability/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/notability/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/notability/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/compare/notability/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/notability/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/notability/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/notability/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/compare/noteshelf/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/noteshelf/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/noteshelf/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/noteshelf/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/compare/noteshelf/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/noteshelf/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/noteshelf/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/noteshelf/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/compare/myscript-notes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/myscript-notes/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/myscript-notes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/myscript-notes/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/compare/myscript-notes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/myscript-notes/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/myscript-notes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/myscript-notes/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/compare/collanote/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/collanote/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/collanote/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/collanote/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/compare/collanote/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/collanote/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/collanote/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/collanote/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/compare/apple-notes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/apple-notes/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/apple-notes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/apple-notes/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/compare/apple-notes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/apple-notes/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/apple-notes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/apple-notes/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/compare/onenote/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/onenote/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/onenote/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/onenote/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pencora.app/ru/compare/onenote/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pencora.app/compare/onenote/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://pencora.app/ru/compare/onenote/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pencora.app/compare/onenote/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

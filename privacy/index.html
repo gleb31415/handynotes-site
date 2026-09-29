@@ -1,26 +1,42 @@
 <!doctype html>
-<html lang="en" data-lang="en">
+<html lang="en" data-lang="en" data-lang-fixed="en" data-alt-en="/privacy/" data-alt-ru="/ru/privacy/">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <script>
-    /* pick the language before first paint: stored choice, else browser language */
+    /* pick the language before first paint: ?lang= or stored choice, else browser language.
+       A published page is one language (data-lang-fixed, set by scripts/site/build.py): it
+       keeps it and hops to its twin only on an explicit choice or, from English, a Russian
+       browser — a Russian page never sends a crawler away. */
     (function () {
-      var l = "en";
-      try { l = localStorage.getItem("hn-lang") || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en"); } catch (e) {}
-      document.documentElement.setAttribute("data-lang", l);
-      document.documentElement.lang = l;
+      var root = document.documentElement, fixed = root.getAttribute("data-lang-fixed");
+      var m = /[?&]lang=(en|ru)\b/.exec(location.search), pick = m ? m[1] : null;
+      if (!pick) try { pick = localStorage.getItem("hn-lang"); } catch (e) {}
+      var l = pick || (((navigator.language || "").toLowerCase().indexOf("ru") === 0) ? "ru" : "en");
+      if (fixed) {
+        if (!pick && fixed === "ru") l = "ru";
+        var twin = l !== fixed && root.getAttribute("data-alt-" + l);
+        if (twin) location.replace(twin + location.search + location.hash);
+        l = fixed;
+      }
+      root.setAttribute("data-lang", l);
+      root.lang = l;
     })();
   </script>
   <title>Privacy Policy — Pencora</title>
-  <meta name="description" content="Pencora privacy policy. Your notes stay on your device by default. Nothing is uploaded without your explicit consent.">
-  <link rel="canonical" href="https://handynotes.app/privacy/">
+  <meta name="description" content="Pencora privacy policy. Your notes stay on your device. What leaves it — anonymous usage statistics you can switch off, handwriting you choose to donate (18+), feedback — and why.">
+  <link rel="canonical" href="https://pencora.app/privacy/">
+  <link rel="alternate" hreflang="en" href="https://pencora.app/privacy/">
+  <link rel="alternate" hreflang="ru" href="https://pencora.app/ru/privacy/">
+  <link rel="alternate" hreflang="x-default" href="https://pencora.app/privacy/">
 
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ru_RU">
   <meta property="og:site_name" content="Pencora">
   <meta property="og:title" content="Privacy Policy — Pencora">
-  <meta property="og:description" content="Your notes never leave your device. Nothing is uploaded without your explicit consent.">
-  <meta property="og:url" content="https://handynotes.app/privacy/">
+  <meta property="og:description" content="Your notes stay on your device. Here is exactly what leaves it, and how to switch it off.">
+  <meta property="og:url" content="https://pencora.app/privacy/">
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
@@ -35,152 +51,138 @@
       <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
     </a>
     <ul class="nav-pill__links">
-      <li><a href="/community/"><span class="i18n-en">Community</span><span class="i18n-ru">Сообщество</span></a></li>
-      <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
-      <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
-      <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
+      <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+      <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+      <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+      <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
     </ul>
-    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span><span class="i18n-ru">EN</span></button>
-    <a class="btn btn-fill" href="https://apps.apple.com/us/app/handynotes-handwriting/id6790469095"><span class="i18n-en">Get it free</span><span class="i18n-ru">Скачать бесплатно</span></a>
+    <button class="nav-pill__lang" type="button" aria-label="Switch language"><span class="i18n-en">RU</span></button>
+    <a class="btn btn-fill" href="https://apps.apple.com/app/id6790469095"><span class="i18n-en">Get it free</span></a>
   </nav>
 
   <main class="doc container">
     <header class="doc__header">
-      <h1 class="doc__title"><span class="i18n-en">Privacy Policy</span><span class="i18n-ru">Политика конфиденциальности</span></h1>
-      <p class="doc__meta"><span class="i18n-en">Effective date: July 14, 2026</span><span class="i18n-ru">Дата вступления в силу: 14 июля 2026</span></p>
+      <h1 class="doc__title"><span class="i18n-en">Privacy Policy</span></h1>
+      <p class="doc__meta"><span class="i18n-en">Effective date: September 29, 2026</span></p>
     </header>
 
     <div class="doc__body i18n-en">
       <div class="callout">
-        <p><strong>TL;DR:</strong> Your notes never leave your device. Nothing is uploaded without your explicit consent.</p>
+        <p><strong>TL;DR:</strong> Your notes stay on your device. Four things can leave it: anonymous usage statistics (you can switch them off), handwriting samples — only if you are 18+ and opt in, feedback you choose to send, and backups to your own Google Drive if you connect it. Handwriting recognition uses Google ML Kit, which downloads its models from Google and sends Google its own diagnostics.</p>
       </div>
 
       <section>
+        <h2>Who is responsible</h2>
+        <p>Pencora is made by one developer, <strong>Gleb Naumkin</strong>, who decides how the data described here is used (the "controller" / «оператор»). Contact: <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a> or <a href="https://t.me/GNaum">Telegram</a>.</p>
+      </section>
+
+      <section>
         <h2>What stays on your device</h2>
-        <p>By default, <strong>everything</strong> stays on your device: your notebooks, strokes, images, the search index built from your handwriting, and your pen settings. Pencora has no account system, no tracking, no advertising, and no third-party analytics SDKs of any kind.</p>
+        <p>Your notebooks, strokes, images, the search index built from your handwriting and your pen settings stay on your device. Handwriting recognition runs on the device too. Pencora has no accounts and no advertising, does not track you across other apps or websites, and does not sell data.</p>
+      </section>
+
+      <section>
+        <h2>Anonymous usage statistics</h2>
+        <p>To understand which features are used and whether the handwriting program works, Pencora sends a small amount of usage information to its server:</p>
+        <ul>
+          <li>a random ID created on your device (the "writer ID" — it is not derived from your device, Apple ID, name or email);</li>
+          <li>the app version and your total time in the app;</li>
+          <li>which features you used — for example, that you opened the handwriting tab, pressed Write, opened «Boost your model», saw the consent screen, started writing words or reached the word goal;</li>
+          <li>your answers to the consent and "rate the app" questions.</li>
+        </ul>
+        <p>It never includes the contents of your notes, your drawings or text, your name, email, location or any advertising identifier. It is not shared with anyone and not used for advertising.</p>
+        <p><strong>Switch it off</strong> any time in Profile → Data &amp; privacy → Anonymous usage statistics. Nothing of this is ever sent for someone whose birthday shows they are under 18. We rely on our legitimate interest in improving the app (GDPR Art. 6(1)(f)); you can object at any time with that switch.</p>
+        <p>One exception to the switch: when you give, decline or withdraw consent to the handwriting donation, a record of that decision is kept (without your time in the app), because we must be able to show what you agreed to (GDPR Art. 7(1)).</p>
       </section>
 
       <section>
         <h2>Your birthday</h2>
-        <p>Pencora asks for your birthday once, during onboarding. It's used <strong>only locally on your device</strong> to confirm you're 18 or older before you can opt into the research donation described below. Your birthday is never uploaded anywhere.</p>
+        <p>Pencora asks for your birthday during onboarding (and again later if you skipped it). It is used <strong>only on your device</strong>: to check that you are 18 or older before you can join the handwriting donation, and to switch off usage statistics for anyone under 18. Your birthday is never uploaded.</p>
       </section>
 
       <section>
-        <h2>Optional: handwriting research donation</h2>
-        <p>You can choose to contribute samples of your handwriting to a public research dataset. This is off by default and requires an explicit, two-step opt-in — you turn it on, and then you review and approve every individual sample before it's sent.</p>
-        <p>If you opt in, a donated sample includes:</p>
+        <h2>Optional: handwriting donation (18+)</h2>
+        <p>You can contribute samples of your handwriting. It is off by default, open only to people who are 18 or older, and needs your explicit consent on a separate screen. There are two separate choices:</p>
         <ul>
-          <li>Word-level stroke trajectories — the x/y position, timestamp, pressure, altitude, and azimuth recorded as you write</li>
-          <li>The recognized text label and language</li>
-          <li>Which recognition engine produced the label, and its confidence score</li>
-          <li>The canvas dimensions and pointer type (finger or Apple Pencil)</li>
-          <li>The app version and the version of the consent text you agreed to</li>
+          <li><strong>Dataset words</strong> — once you agree, the words you write on the dataset page are uploaded automatically.</li>
+          <li><strong>Words from your notes</strong> — only if you also switch this on, single words recognized from your notebooks from then on are uploaded too. You can see and delete them any time in Profile → Words from my notes.</li>
         </ul>
-        <p>Donated samples are identified only by a random ID generated on your device (a "writer ID") — never your name, email, or birthday. You can revoke consent at any time in your profile, which immediately stops any further capture. You can also request deletion of everything you've contributed — see <a href="#deletion">Data deletion requests</a> below.</p>
-        <p>Donated data is published for research use under a <strong>CC BY 4.0</strong> license.</p>
+        <p>A donated sample contains:</p>
+        <ul>
+          <li>word-level stroke trajectories — x/y position, time, pressure, altitude and azimuth as you write;</li>
+          <li>the word (prompted or recognized), its language, the recognition engine and its confidence, a dictionary flag and, if any, a translation;</li>
+          <li>the canvas size, pixel density, baseline and pointer type (finger or Apple Pencil);</li>
+          <li>the task (prompt, task number, word group), when the word was written and how long it took, whether it was a correction, and a session ID;</li>
+          <li>the app version and the version of the consent text you agreed to;</li>
+          <li>your optional answers about how you write (cursive, habitual script, finger or stylus), the language you collect in, and whether you chose "Training only".</li>
+        </ul>
+        <p><strong>What it is used for:</strong> an open research dataset published under a <strong>CC BY 4.0</strong> license — unless you choose "Training only", in which case your samples are never published; open models for handwriting <em>recognition</em> and handwriting <em>generation</em>; and, once you have written enough, a personal model of your handwriting that is delivered only to you. Before publication, samples are cleaned of anything personal or belonging to others.</p>
+        <p><strong>Legal basis:</strong> your consent (GDPR Art. 6(1)(a); Art. 9 of Russian Federal Law 152-FZ "On Personal Data"). Samples are identified only by the writer ID — never your name, email or birthday.</p>
+        <p><strong>Withdrawing:</strong> switch off "Donate handwriting samples" in Profile to stop all uploads immediately, or use "Withdraw consent / remove my data" (Profile → Read the details) to also delete your words from the device and erase them from the active dataset on the server. Dataset versions already frozen or published, and models already trained, cannot be changed.</p>
+        <p><strong>Personal models:</strong> while you take part, the app asks the server whether a personal model is ready for your writer ID; the model file is delivered only through a link tied to that ID.</p>
       </section>
 
       <section>
         <h2>Optional: in-app feedback</h2>
-        <p>If you use <strong>Settings → Send Feedback</strong>, Pencora sends your message, any screenshots you choose to attach, and an optional reply email address you provide. This is stored separately from the research donation data above, and is deliberately <strong>not</strong> linked to your writer ID.</p>
+        <p>If you use <strong>Profile → Send Feedback</strong>, Pencora sends your message, any screenshots you choose to attach, and an optional reply email. This is stored separately from the handwriting data and is deliberately <strong>not</strong> linked to your writer ID. It is used only to answer you and fix problems.</p>
       </section>
 
       <section>
-        <h2>Who processes this data</h2>
-        <p>The optional data described above (research donations and feedback) is sent over HTTPS to <strong>Supabase</strong>, which hosts the backend and database for Pencora. No other third party receives this data.</p>
+        <h2>Google ML Kit</h2>
+        <p>Handwriting recognition runs on your device, partly using Google ML Kit. To do that, the app downloads recognition models from Google's servers, and the ML Kit SDK sends Google its own diagnostic and usage data (Google declares it as not linked to you and not used for tracking). This happens whenever handwriting recognition is used and is governed by <a href="https://policies.google.com/privacy">Google's Privacy Policy</a>. Pencora cannot switch it off. Your notes and handwriting are not sent to Google by Pencora.</p>
+      </section>
+
+      <section>
+        <h2>Who processes this data and where</h2>
+        <!-- CONFIRM the Supabase project region (Project Settings → General) before publishing. -->
+        <p>Usage statistics, donated handwriting and feedback are sent over HTTPS to <strong>Supabase</strong> (Supabase, Inc.), which hosts Pencora's backend and database on servers in the European Union (Frankfurt, Germany). If you live elsewhere — for example in Russia — this is a cross-border transfer to a country that is a party to Council of Europe Convention 108 on data protection; by consenting to the handwriting donation you also consent to that transfer. No one else receives this data, apart from Google as described in the ML Kit section.</p>
+      </section>
+
+      <section>
+        <h2>How long data is kept</h2>
+        <ul>
+          <li>Usage statistics: at most 24 months, then deleted automatically.</li>
+          <li>Records of your consent decisions: as long as your samples are in the dataset and as long as needed to show what you agreed to.</li>
+          <li>Donated samples: until you withdraw or ask for deletion (published or frozen dataset versions and trained models excepted, as above).</li>
+          <li>Feedback: as long as needed to answer and fix the issue; ask any time to have it deleted.</li>
+        </ul>
       </section>
 
       <section>
         <h2>iCloud backup</h2>
-        <p>If you enable backup, Pencora copies your library into your own private iCloud Drive container — the iCloud account already signed into your device. This backup is yours; it lives in your iCloud storage, and I never see it.</p>
+        <p>If iCloud backup is available and you enable it, Pencora copies your library into your own private iCloud Drive container — the iCloud account already signed into your device. This backup is yours; it lives in your iCloud storage, and I never see it.</p>
+      </section>
+
+      <section>
+        <h2>Optional: Google Drive backup</h2>
+        <p>If you connect Google Drive, Pencora requests the narrow <code>drive.file</code> permission. Google limits this permission to the backup folder and files Pencora creates or that you explicitly open with Pencora; the app cannot browse the rest of your Drive.</p>
+        <p>Pencora uses this access only to create, list, download, restore, replace, and delete its own backup files. The five newest automatic backups are kept, and older Pencora backups are removed during cleanup. Your backup archives stay in your Google Drive and never pass through my servers.</p>
+        <p>Your Google email address is used only to show which account is connected. OAuth access and refresh tokens are stored in the iOS Keychain on your device. Pencora does not sell, share, transfer, or use Google user data for advertising, analytics, or training. Its use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+        <p>You can disconnect Google Drive in Pencora at any time; Pencora revokes its token and removes it from your device. You can also revoke access from your Google Account. Backup files already stored in Drive remain under your control and can be deleted there.</p>
       </section>
 
       <section id="deletion">
-        <h2>Data deletion requests</h2>
-        <p>To request deletion of any data you've sent, contact me on <a href="https://t.me/GNaum">Telegram</a> or by <a href="mailto:gnaumkin213@gmail.com">email</a>. If you're requesting deletion of research-donation data, please include your writer ID, which you can find in Settings.</p>
+        <h2>Your rights and deletion requests</h2>
+        <p>You can ask for a copy of your data, correction, deletion (including usage statistics), or restriction, withdraw consent at any time, and object to usage statistics (the Profile switch does that instantly). Write to <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a> or <a href="https://t.me/GNaum">Telegram</a> and include your writer ID — it is shown in Profile → Data &amp; privacy → Your anonymous ID. I answer within 30 days. You can also complain to your data-protection authority (in the EU, your national supervisory authority; in Russia, Roskomnadzor).</p>
       </section>
 
       <section>
         <h2>Children</h2>
-        <p>Pencora does not knowingly collect personal data from children. The handwriting research donation is restricted to users who confirm they are 18 or older, checked locally against the birthday you entered.</p>
+        <p>Pencora is a general-purpose notes app. The handwriting donation is only for people who are 18 or older, and no usage statistics are sent for anyone whose birthday shows they are under 18. If you believe a child has sent us data, contact me and it will be deleted.</p>
       </section>
 
       <section>
         <h2>Changes to this policy</h2>
-        <p>If this policy changes, the update will be posted on this page with a new effective date.</p>
+        <p>Updates are posted on this page with a new effective date. If a change affects what you agreed to for the handwriting donation, the app asks you again before anything more is uploaded under the new terms.</p>
       </section>
 
       <section>
         <h2>Contact</h2>
-        <p>Questions about this policy can go to the same places as support: <a href="https://t.me/GNaum">Telegram</a> or <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a>.</p>
+        <p>Gleb Naumkin — <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a>, <a href="https://t.me/GNaum">Telegram</a>.</p>
       </section>
     </div>
 
-    <div class="doc__body i18n-ru">
-      <div class="callout">
-        <p><strong>Кратко:</strong> Ваши заметки никогда не покидают устройство. Ничего не отправляется без вашего явного согласия.</p>
-      </div>
-
-      <section>
-        <h2>Что остаётся на вашем устройстве</h2>
-        <p>По умолчанию на устройстве остаётся <strong>всё</strong>: тетради, штрихи, изображения, поисковый индекс, построенный по вашему почерку, и настройки пера. В Pencora нет аккаунтов, слежки, рекламы и каких-либо сторонних аналитических SDK.</p>
-      </section>
-
-      <section>
-        <h2>Дата рождения</h2>
-        <p>Pencora один раз спрашивает дату рождения при онбординге. Она используется <strong>только локально на устройстве</strong> — чтобы подтвердить, что вам 18 или больше, прежде чем вы сможете включить исследовательский донат, описанный ниже. Дата рождения никогда никуда не отправляется.</p>
-      </section>
-
-      <section>
-        <h2>По желанию: донат почерка для исследований</h2>
-        <p>Вы можете передавать образцы своего почерка в открытый исследовательский датасет. По умолчанию это выключено и требует явного двухшагового согласия: вы включаете функцию, а затем просматриваете и одобряете каждый отдельный образец перед отправкой.</p>
-        <p>Если вы согласились, отправленный образец включает:</p>
-        <ul>
-          <li>Траектории штрихов на уровне слов — координаты x/y, время, нажим, наклон и азимут, записанные во время письма</li>
-          <li>Распознанный текст и язык</li>
-          <li>Какой движок распознавания дал результат и его уверенность</li>
-          <li>Размеры холста и тип указателя (палец или Apple Pencil)</li>
-          <li>Версию приложения и версию текста согласия, который вы приняли</li>
-        </ul>
-        <p>Образцы идентифицируются только случайным ID, созданным на вашем устройстве («writer ID») — никогда не именем, почтой или датой рождения. Согласие можно отозвать в любой момент в профиле — сбор новых образцов прекращается немедленно. Также можно запросить удаление всего отправленного — см. <a href="#deletion-ru">Запросы на удаление данных</a> ниже.</p>
-        <p>Переданные данные публикуются для исследовательских целей под лицензией <strong>CC BY 4.0</strong>.</p>
-      </section>
-
-      <section>
-        <h2>По желанию: обратная связь в приложении</h2>
-        <p>Если вы используете <strong>Настройки → Отправить отзыв</strong>, Pencora отправляет ваше сообщение, приложенные скриншоты и, по желанию, адрес почты для ответа. Эти данные хранятся отдельно от исследовательских донатов и намеренно <strong>не</strong> связываются с вашим writer ID.</p>
-      </section>
-
-      <section>
-        <h2>Кто обрабатывает эти данные</h2>
-        <p>Описанные выше необязательные данные (исследовательские донаты и обратная связь) передаются по HTTPS в <strong>Supabase</strong> — там размещены бэкенд и база данных Pencora. Никакая другая третья сторона эти данные не получает.</p>
-      </section>
-
-      <section>
-        <h2>Резервная копия в iCloud</h2>
-        <p>Если вы включите резервное копирование, Pencora скопирует библиотеку в ваш личный контейнер iCloud Drive — аккаунт iCloud, в который уже вошло ваше устройство. Эта копия принадлежит вам: она хранится в вашем iCloud, и я её никогда не вижу.</p>
-      </section>
-
-      <section id="deletion-ru">
-        <h2>Запросы на удаление данных</h2>
-        <p>Чтобы запросить удаление любых отправленных данных, напишите мне в <a href="https://t.me/GNaum">Telegram</a> или на <a href="mailto:gnaumkin213@gmail.com">почту</a>. Если речь об исследовательских донатах — укажите, пожалуйста, свой writer ID: он есть в настройках.</p>
-      </section>
-
-      <section>
-        <h2>Дети</h2>
-        <p>Pencora сознательно не собирает персональные данные детей. Исследовательский донат почерка доступен только пользователям, подтвердившим, что им 18 или больше — проверка выполняется локально по введённой дате рождения.</p>
-      </section>
-
-      <section>
-        <h2>Изменения этой политики</h2>
-        <p>Если политика изменится, обновление будет опубликовано на этой странице с новой датой вступления в силу.</p>
-      </section>
-
-      <section>
-        <h2>Контакты</h2>
-        <p>Вопросы по этой политике — туда же, куда и вопросы поддержки: <a href="https://t.me/GNaum">Telegram</a> или <a href="mailto:gnaumkin213@gmail.com">gnaumkin213@gmail.com</a>.</p>
-      </section>
-    </div>
+    
   </main>
 
   <footer class="foot">
@@ -189,13 +191,14 @@
         <picture class="nav-pill__icon"><source srcset="/images/pencora-icon-dark.jpg" media="(prefers-color-scheme: dark)"><img src="/images/pencora-icon-light.jpg" alt="" width="32" height="32"></picture><span class="logo-mark logo-mark--word" aria-hidden="true"></span>
       </a>
       <ul class="foot__links">
-        <li><a href="/community/"><span class="i18n-en">Community</span><span class="i18n-ru">Сообщество</span></a></li>
-        <li><a href="/support/"><span class="i18n-en">Support</span><span class="i18n-ru">Поддержка</span></a></li>
-        <li><a href="/privacy/"><span class="i18n-en">Privacy</span><span class="i18n-ru">Приватность</span></a></li>
-        <li><a href="/terms/"><span class="i18n-en">Terms</span><span class="i18n-ru">Условия</span></a></li>
+        <li><a href="/community/"><span class="i18n-en">Community</span></a></li>
+        <li><a href="/support/"><span class="i18n-en">Support</span></a></li>
+        <li><a href="/privacy/"><span class="i18n-en">Privacy</span></a></li>
+        <li><a href="/terms/"><span class="i18n-en">Terms</span></a></li>
+        <li><a href="/compare/"><span class="i18n-en">Compare</span></a></li>
         <li><a href="https://t.me/GNaum">Telegram</a></li>
       </ul>
-      <p class="foot__credit"><span class="i18n-en">© 2026 Pencora. Built by one developer.</span><span class="i18n-ru">© 2026 Pencora. Сделано одним разработчиком.</span></p>
+      <p class="foot__credit"><span class="i18n-en">© 2026 Pencora. Built by one developer.</span></p>
     </div>
   </footer>
 

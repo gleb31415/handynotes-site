@@ -17,12 +17,17 @@
 
   /* ---------------------------------------------------------------- language + chrome */
 
+  // swaps copy in place, or on a published one-language page opens its twin
+  // (?lang= carries the choice when storage is off)
   $$(".nav__lang").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var next = root.getAttribute("data-lang") === "ru" ? "en" : "ru";
+      var stored = true;
+      try { localStorage.setItem("hn-lang", next); } catch (e) { stored = false; /* private mode */ }
+      var twin = root.hasAttribute("data-lang-fixed") && root.getAttribute("data-alt-" + next);
+      if (twin) { location.href = twin + (stored ? "" : "?lang=" + next) + location.hash; return; }
       root.setAttribute("data-lang", next);
       root.lang = next;
-      try { localStorage.setItem("hn-lang", next); } catch (e) { /* private mode */ }
     });
   });
 
